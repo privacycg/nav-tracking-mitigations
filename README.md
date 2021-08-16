@@ -1,28 +1,28 @@
-# Navigation-based Tracking Mitigations
+# Navigational-Tracking Mitigations
 
 This is expected to become a [Work Item](https://privacycg.github.io/charter.html#work-items)
 of the [Privacy Community Group](https://privacycg.github.io/).
 
 This originates out of a [proposal](https://github.com/privacycg/proposals/issues/6)
 of the [Privacy Community Group](https://privacycg.github.io/); this work will have a
-broader focus on all navigation-based tracking mechanisms.
+broader focus on all navigational tracking mechanisms.
+
+The specification will eventually live in
+https://privacycg.github.io/nav-tracking-mitigations/.
 
 ## Authors:
 
-- [Author 1]
-- [Author 2]
-- [etc.]
+- Pete Snyder
+- Jeffrey Yasskin
 
 ## Participate
-- https://github.com/privacycg/deliverable/issues
-
-## Table of Contents [if the explainer is longer than one printed page]
+- https://github.com/privacycg/nav-tracking-mitigations/issues
 
 [You can generate a Table of Contents for markdown documents using a tool like [doctoc](https://github.com/thlorenz/doctoc).]
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Goals [or Motivating Use Cases, or Scenarios]](#goals-or-motivating-use-cases-or-scenarios)
@@ -45,10 +45,15 @@ broader focus on all navigation-based tracking mechanisms.
 
 ## Introduction
 
-[The "executive summary" or "abstract".
-Explain in a few sentences what the goals of the project are,
-and a brief overview of how the solution works.
-This should be no more than 1-2 paragraphs.]
+Browsers are working to prevent cross-site tracking, which threatens user
+privacy. In addition to third-party cookies and storage, other client-side
+methods exist that enable cross-site tracking. Navigational tracking correlates
+user identities across sites during navigations between those sites.
+Navigational tracking uses link decoration to convey information, but not all
+link decoration is tracking. This project attempts to distinguish tracking from
+non-tracking navigation and to prevent the tracking without damaging similar but
+benign navigations.
+
 
 ## Goals [or Motivating Use Cases, or Scenarios]
 
