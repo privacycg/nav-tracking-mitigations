@@ -15,6 +15,12 @@ Complain About: accidental-2119 yes, missing-example-ids yes
 Markup Shorthands: markdown yes, css no
 Assume Explicit For: yes
 </pre>
+<pre class="anchors">
+spec: HTTP; urlPrefix: https://httpwg.org/specs/rfc7231.html#
+    type: dfn; text: HTTP 3xx statuses; url: status.3xx
+spec: tracking-dnt; urlPrefix: https://www.w3.org/TR/tracking-dnt/#
+    type: dfn; text: tracking; url: dfn-tracking
+</pre>
 
 <section class="non-normative">
 <h2 id="intro">Introduction</h2>
@@ -27,6 +33,80 @@ Blah blah blah.
 <h2 id="infra">Infrastructure</h2>
 
 This specification depends on the Infra standard. [[!INFRA]]
+
+# Terminology # {#terminology}
+
+<dfn>Link decoration</dfn> is when the source of a [=hyperlink=] "decorates" its [=URL=]
+with extra information beyond what's necessary to identify the page a user wants
+to navigate to. This information can be placed almost anywhere inside the URL.
+
+<dfn>Navigational tracking</dfn> refers to the general use of a
+[[HTML#browsing-the-web|navigation]] to identify that a user on one site is the
+same person as a user on another site. Navigations are usually visible to users,
+but it's possible for a site to navigate away and redirect back fast enough that
+only attentive users would notice.
+
+<div class="example" id="example-link-decoration-tracking">
+<style>
+#example-link-decoration-tracking code em {background-color: cyan}
+</style>
+
+Examples and non-examples of [=link decoration=] and [=navigational tracking=],
+with the potential decoration or tracking element emphasized:
+
+: <code>https://publisher.example/page?userId=<em>5789rhkdsaf8urfnsd</em></code>
+
+:: [=Link decoration=], and also [=navigational tracking=].
+
+: <code>https://bookshop.org/a/<em>1122</em>/9780062252074</code>
+
+:: [=Link decoration=] but **not** [=navigational tracking=]: This number
+    identifies an affiliate to credit with a book sale. Replacing this with
+    another number gets to the same target page.
+
+: <code>https://bookshop.org/a/1122/<em>9780062252074</em></code>
+
+:: **Not** decoration: This number identifies a particular book. Changing it
+    yields a different target page.
+
+: <code>https://bugzilla.mozilla.org/show_bug.cgi?id=<em>1460058</em></code>
+
+:: **Not** decoration: changing the number changes which bug the user sees.
+
+: <code>https://www.google.com/maps/@<em>37.4220328,-122.0847584,17.12z</em></code>
+
+:: **Not** decoration: changing the numbers changes what map the user sees.
+
+</div>
+
+<dfn>Bounce tracking</dfn> refers to the use of redirects in a top-level context
+(including [=HTTP 3xx statuses=], <{meta}> elements with
+<{meta/http-equiv}>=<{meta/http-equiv/refresh}> attributes, and script-directed
+navigation that doesn't wait for user input) along with [=link decoration=] to
+join user identities between sites. [=Bounce tracking=] is a subset of
+[=navigational tracking=] and can include automated navigation through the same
+or different sites from the source or ultimate destination of a link.
+
+<div class="example" id="example-bounce-tracking-to-self">
+
+Tracking via a bounce through an aggregation domain:
+
+1. The content publisher's page (on `publisher.example`) embeds a third-party
+    script from `tracker.example`.
+1. The third-party script tries to read an already-stored identifier, for
+    example one it has set into `publisher.example`'s storage or one read from a
+    third-party `tracker.example` <{iframe}>.
+1. If it can't, it redirects the top level page to `tracker.example` using
+    {{Window/location|window.location}}.
+1. During this load `tracker.example` is the first party and can read and write
+    its cookie jar.
+1. `tracker.example` redirects back to the original page URL, with that URL
+    [=link decoration|decorated=] with its user ID in a query parameter.
+1. The `tracker.example` user ID is now available on `publisher.example` and can
+    be saved into its first-party storage so that future visits don't need to
+    bounce.
+
+</div>
 
 <section class="informative">
 
