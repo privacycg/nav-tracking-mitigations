@@ -22,6 +22,6 @@ publish: build/index.html
 update-explainer-toc: README.md Makefile
 	doctoc $< --title "## Table of Contents" > /dev/null
 
-build/index.html: work-item.bs Makefile
+build/index.html: index.bs Makefile
 	mkdir -p build
 	bikeshed --die-on=warning spec $< $@
