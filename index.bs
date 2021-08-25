@@ -27,7 +27,15 @@ spec: tracking-dnt; urlPrefix: https://www.w3.org/TR/tracking-dnt/#
 
 <em>This section is non-normative.</em>
 
-Blah blah blah.
+Browsers are working to prevent cross-site [=tracking=], which threatens user
+privacy. In addition to third-party cookies and storage, other client-side
+methods exist that enable cross-site tracking. [=Navigational tracking=]
+correlates user identities across sites during navigations between those sites.
+[=Navigational tracking=] uses [=link decoration=] to convey information, but
+not all [=link decoration=] is tracking. This project attempts to distinguish
+tracking from non-tracking navigation and to prevent the tracking without
+damaging similar but benign navigations.
+
 </section>
 
 <h2 id="infra">Infrastructure</h2>
