@@ -64,7 +64,7 @@ When the above criteria holds the following defenses are deployed:
 <ul>
   <li>The lifetime of client-side set cookies on the <em>destination page</em>
       is capped at 24 hours.</li>
-  <li>If the user does interact (i.e., register a user activation) on the
+  <li>If the user does not interact (i.e., register a user activation) on the
       site within seven days, all non-cookie storage is data is deleted.</li>
 </ul>
 
