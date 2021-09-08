@@ -24,6 +24,68 @@ Assume Explicit For: yes
 Blah blah blah.
 </section>
 
+<h2 id="deployed-mitigations">
+Some browsers have deployed and announced protections against
+navigational-tracking.  This section is a work in progress to detail what
+protections have been shipped and / or are planned. This section should not
+be understood to be comprehensive.
+
+<h3>Safari</h3>
+Safari uses a heuristic-based approach to combat navigational-tracking. Safari uses
+a client-side machine classifier to determine which sites (determined by
+eTLD+1) are participating in navigational-tracking. The main inputs to this
+classifier are "<a href="//webkit.org/blog/7675/intelligent-tracking-prevention/">
+subresource under number of unique domains, sub frame under number of unique
+domains, and number of unique domains redirected to</a>".
+
+Once a site is classified as a site with cross-site tracking capabilities, it
+can "taint" other sites it participates in redirection chains with.  For
+example, consider the case of a user clicks on a link on
+<code>start.example</code>, which redirects to <code>second.example</code>,
+which redirects to <code>third.example</code>, which redirects to
+<code>fourth.example</code>, which redirects to <code>end.example</code>. If
+Safari has classified <code>third.example</code> as having tracking
+capabilities, the above behavior may result in Safari also classifying
+<code>second.example</code> and <code>fourth.example</code> has having tracking
+capabilities.
+
+Safari deploys defenses against navigational-tracking if a navigation matches
+all of the following criteria:
+
+<ul>
+  <li>The site (determined by eTLD+1) of the user is navigating <em>from</em>
+      has been classified as having cross-site tracking capabilities</li>
+  <li>The URL the user is navigating <em>to</em> has either query parameters
+      or a URL fragment</li>
+</ul>
+
+When the above criteria holds the following defenses are deployed:
+
+<ul>
+  <li>The lifetime of client-side set cookies on the <em>destination page</em>
+      is capped at 24 hours.</li>
+  <li>If the user does interact (i.e., register a user activation) on the
+      site within seven days, all non-cookie storage is data is deleted.</li>
+</ul>
+
+<h3>Firefox</h3>
+Firefox uses a list-based approach to combat navigational-tracking. All storage
+for list-labeled sites is cleared after 24 hours, unless the user has interacted
+with the site in the first-party context in the last 45 days. Firefox uses
+the Disconnect list to determine which sites are tracking sites.
+
+<h3>Brave</h3>
+Brave uses two list-based approaches to combat navigational-tracking.
+
+First, Brave strips query parameters commonly used for navigational-tracking
+from URLs on navigation. This list is maintained by Brave.
+
+Second, in the non-default, "aggressive blocking" configuration, Brave uses
+popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
+to identify URLs that are used for bounce-tracking, and will preempt the
+navigation with with an interstitial (similar to Google SafeBrowsing), giving
+the user the option to continue the navigation or cancel it.
+
 <h2 id="infra">Infrastructure</h2>
 
 This specification depends on the Infra standard. [[!INFRA]]
