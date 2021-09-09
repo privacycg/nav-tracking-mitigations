@@ -26,28 +26,30 @@ Blah blah blah.
 
 <h2 id="deployed-mitigations">
 Some browsers have deployed and announced protections against
-navigational-tracking.  This section is a work in progress to detail what
+navigational-tracking. This section is a work in progress to detail what
 protections have been shipped and / or are planned. This section should not
 be understood to be comprehensive.
 
 <h3>Safari</h3>
-Safari uses a heuristic-based approach to combat navigational-tracking. Safari uses
-a client-side machine classifier to determine which sites (determined by
-eTLD+1) are participating in navigational-tracking. The main inputs to this
-classifier are "<a href="//webkit.org/blog/7675/intelligent-tracking-prevention/">
-subresource under number of unique domains, sub frame under number of unique
-domains, and number of unique domains redirected to</a>".
+Safari uses an algorithmic approach to combat navigational-tracking. Safari
+labels a site as having navigational-based cross-site tracking capability if
+the following criteria are met:
 
-Once a site is classified as a site with cross-site tracking capabilities, it
-can "taint" other sites it participates in redirection chains with.  For
-example, consider the case of a user clicks on a link on
+<ul>
+  <li>The site has not served content as a third-party.</li>
+  <li>The site automatically redirects the user to another site, immediately
+      or after a short delay.</li>
+  <li>The site has not received a user activation.</li>
+</ul>
+
+Sites can be "tainted" as having cross-site tracking capabilities if they
+redirect to sites already classified as having cross-site tracking capabilities.
+For example, consider the case of a user clicking on a link on
 <code>start.example</code>, which redirects to <code>second.example</code>,
 which redirects to <code>third.example</code>, which redirects to
-<code>fourth.example</code>, which redirects to <code>end.example</code>. If
-Safari has classified <code>third.example</code> as having tracking
-capabilities, the above behavior may result in Safari also classifying
-<code>second.example</code> and <code>fourth.example</code> has having tracking
-capabilities.
+<code>end.example</code>. If Safari has classified <code>third.example</code> as
+having tracking capabilities, the above behavior may result in Safari classifying
+<code>second.example</code> as having cross-site tracking capabilities.
 
 Safari deploys defenses against navigational-tracking if a navigation matches
 all of the following criteria:
@@ -64,8 +66,9 @@ When the above criteria holds the following defenses are deployed:
 <ul>
   <li>The lifetime of client-side set cookies on the <em>destination page</em>
       is capped at 24 hours.</li>
-  <li>If the user does not interact (i.e., register a user activation) on the
-      site within seven days, all non-cookie storage is data is deleted.</li>
+  <li>If the user does interact (i.e., register a user activation) on the
+      site within seven days of browser use, all non-cookie storage is data is
+      deleted.</li>
 </ul>
 
 <h3>Firefox</h3>
