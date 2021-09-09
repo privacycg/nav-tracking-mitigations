@@ -24,7 +24,12 @@ Assume Explicit For: yes
 Blah blah blah.
 </section>
 
-<h2 id="deployed-mitigations">
+<h2 id="infra">Infrastructure</h2>
+
+This specification depends on the Infra standard. [[!INFRA]]
+
+<h2 id="deployed-mitigations">Deployed Mitigations</h2>
+
 Some browsers have deployed and announced protections against
 navigational-tracking. This section is a work in progress to detail what
 protections have been shipped and / or are planned. This section should not
@@ -66,7 +71,7 @@ When the above criteria holds the following defenses are deployed:
 <ul>
   <li>The lifetime of client-side set cookies on the <em>destination page</em>
       is capped at 24 hours.</li>
-  <li>If the user does interact (i.e., register a user activation) on the
+  <li>If the user does not interact (i.e., register a user activation) on the
       site within seven days of browser use, all non-cookie storage is data is
       deleted.</li>
 </ul>
@@ -88,10 +93,6 @@ popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
 to identify URLs that are used for bounce-tracking, and will preempt the
 navigation with with an interstitial (similar to Google SafeBrowsing), giving
 the user the option to continue the navigation or cancel it.
-
-<h2 id="infra">Infrastructure</h2>
-
-This specification depends on the Infra standard. [[!INFRA]]
 
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
