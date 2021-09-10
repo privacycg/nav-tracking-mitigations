@@ -1,19 +1,17 @@
-name: deploy
-
+name: CI
 on:
+  pull_request: {}
   push:
     branches: [ main ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build, Validate and Deploy
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-    - run: pip install bikeshed
-    - run: bikeshed update
-    - run: make publish
-    - uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: build
+      - uses: actions/checkout@v2
+      - uses: w3c/spec-prod@v2
+        with:
+          TOOLCHAIN: bikeshed
+          SOURCE: index.bs
+          BUILD_FAIL_ON: warning
+          GH_PAGES_BRANCH: gh-pages
