@@ -98,6 +98,17 @@ to identify URLs that are used for bounce-tracking, and will preempt the
 navigation with with an interstitial (similar to Google SafeBrowsing), giving
 the user the option to continue the navigation or cancel it.
 
+Third, Brave uses a list-based approach for identifying bounce-tracking
+URLs where the destination URL is present in the URL of the intermediate
+tracking URL. In such cases, Brave will skip the intermediate navigation
+and request the destination URL instead. For example, if Brave
+Browser observes the user about to navigate to the URL
+<code>https://tracker.example/bounce?dest=https://destination.example/</code>,
+the browser may replace the navigation to <code>tracker.example/bounce</code>,
+with a navigation to <code>https://destination.example/</code>. This list
+is maintained by Brave, and is drawn from a mix of crowd-sourcing and
+existing open-source projects.
+
 </section>
 
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
