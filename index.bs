@@ -40,16 +40,14 @@ protections have been shipped and / or are planned. This section is not
 comprehensive.
 
 <h3 id="mitigations-safari">Safari</h3>
-Safari uses an algorithmic approach to combat navigational-tracking. Safari
+Safari uses an algorithmic approach to combat navigational tracking. Safari
 labels a site as having navigational-based cross-site tracking capability if
 the following criteria are met within a particular client:
 
-<ul>
-  <li>The site has not served content as a third-party.</li>
-  <li>The site automatically redirects the user to another site, immediately
-      or after a short delay.</li>
-  <li>The site has not received a user activation.</li>
-</ul>
+* The site has not served content as a third-party.
+* The site automatically redirects the user to another site, immediately
+    or after a short delay.
+* The site has not received a user activation.
 
 Sites can be "tainted" as having cross-site tracking capabilities if they
 redirect to sites already classified as having cross-site tracking capabilities.
@@ -60,45 +58,41 @@ which redirects to <code>third.example</code>, which redirects to
 having tracking capabilities, the above behavior can result in Safari classifying
 <code>second.example</code> as having cross-site tracking capabilities.
 
-Safari deploys defenses against navigational-tracking if a navigation matches
+Safari deploys defenses against navigational tracking if a navigation matches
 all of the following criteria:
 
-<ul>
-  <li>The [=host/registrable domain=] that the user is navigating <em>from</em>
-      has been classified as having cross-site tracking capabilities</li>
-  <li>The URL the user is navigating <em>to</em> has either query parameters
-      or a URL fragment</li>
-</ul>
+* The [=host/registrable domain=] that the user is navigating <em>from</em>
+    has been classified as having cross-site tracking capabilities
+* The URL the user is navigating <em>to</em> has either query parameters
+    or a URL fragment
 
 When the above criteria holds the following defenses are deployed:
 
-<ul>
-  <li>The lifetime of client-side set cookies on the <em>destination page</em>
-      is capped at 24 hours.</li>
-  <li>If the user does not interact (i.e., register a user activation) on the
-      destination site within seven days of browser use, all non-cookie storage
-      is deleted.</li>
-</ul>
+* The lifetime of client-side set cookies on the <em>destination page</em>
+    is capped at 24 hours.
+* If the user does not interact (i.e., register a user activation) on the
+    destination site within seven days of browser use, all non-cookie storage
+    is deleted.
 
 <h3 id="mitigations-firefox">Firefox</h3>
-Firefox uses a list-based approach to combat navigational-tracking. Sites on the
+Firefox uses a list-based approach to combat navigational tracking. Sites on the
 Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days.
 
 <h3 id="mitigations-brave">Brave</h3>
-Brave uses two list-based approaches to combat navigational-tracking.
+Brave uses three list-based approaches to combat navigational tracking.
 
-First, Brave strips query parameters commonly used for navigational-tracking
+First, Brave strips query parameters commonly used for navigational tracking
 from URLs on navigation. This list is maintained by Brave.
 
 Second, in the non-default, "aggressive blocking" configuration, Brave uses
 popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
-to identify URLs that are used for bounce-tracking, and will preempt the
-navigation with with an interstitial (similar to Google SafeBrowsing), giving
+to identify URLs that are used for bounce tracking, and will preempt the
+navigation with an interstitial (similar to Google SafeBrowsing), giving
 the user the option to continue the navigation or cancel it.
 
-Third, Brave uses a list-based approach for identifying bounce-tracking
+Third, Brave uses a list-based approach for identifying bounce tracking
 URLs where the destination URL is present in the URL of the intermediate
 tracking URL. In such cases, Brave will skip the intermediate navigation
 and request the destination URL instead. For example, if Brave
