@@ -42,7 +42,7 @@ damaging similar but benign navigations.
 
 This specification depends on the Infra standard. [[!INFRA]]
 
-# Terminology # {#terminology}
+<h2 id="terminology">Terminology</h2>
 
 <dfn>Link decoration</dfn> is when the source of a [=hyperlink=] "decorates" its [=URL=]
 with extra information beyond what's necessary to identify the page a user wants
