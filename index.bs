@@ -97,13 +97,13 @@ with the potential decoration or tracking element emphasized:
 
 : <code>https://example.com/auth/callback?token=<em>1234567</em></code>
 
-:: Issue: This is probably the same case as the unsubscribe link.
+:: Issue(5): This is probably the same case as the unsubscribe link.
 
 : <code>https://example.com/login?returnto=<em>item/12345</em></code>
 
-:: Issue: This parameter identifies the page a user wants to finish their
-    navigation to, but it also intuitively seems like a decoration on the
-    operation named by the URL.
+:: Assuming a request for this URL shows a login page instead of immediately
+    redirecting to `item/12345`, this is a [=link decoration=] but not
+    [=navigational tracking=].
 
 </div>
 
