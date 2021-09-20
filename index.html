@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version 4f053d00e, updated Tue Aug 10 14:13:32 2021 -0700" name="generator">
+  <meta content="Bikeshed version a210b7d86, updated Thu Sep 16 13:45:19 2021 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="48f79694855eacaf5bf510044ceef8b605a24bd9" name="document-revision">
+  <meta content="85894c80cf50252ae13d668f50171d09c98b01b1" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -207,6 +207,47 @@ figcaption {
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
 }</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -389,12 +430,18 @@ dfn > a.self-link::before      { content: "#"; }
         --selflink-hover-text: white;
     }
 }
-</style>
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}</style>
  <body>
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-08-25">25 August 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-09-20">20 September 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -431,6 +478,13 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
    <ol class="toc" role="directory">
     <li><a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
     <li><a href="#infra"><span class="secno">2</span> <span class="content">Infrastructure</span></a>
+    <li>
+     <a href="#deployed-mitigations"><span class="secno">3</span> <span class="content">Deployed Mitigations</span></a>
+     <ol class="toc">
+      <li><a href="#mitigations-safari"><span class="secno">3.1</span> <span class="content">Safari</span></a>
+      <li><a href="#mitigations-firefox"><span class="secno">3.2</span> <span class="content">Firefox</span></a>
+      <li><a href="#mitigations-brave"><span class="secno">3.3</span> <span class="content">Brave</span></a>
+     </ol>
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content">Acknowledgements</span></a>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -439,9 +493,15 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
       <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
      </ol>
     <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -453,6 +513,61 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
    </section>
    <h2 class="heading settled" data-level="2" id="infra"><span class="secno">2. </span><span class="content">Infrastructure</span><a class="self-link" href="#infra"></a></h2>
    <p>This specification depends on the Infra standard. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a></p>
+   <section class="informative">
+    <h2 class="heading settled" data-level="3" id="deployed-mitigations"><span class="secno">3. </span><span class="content">Deployed Mitigations</span><a class="self-link" href="#deployed-mitigations"></a></h2>
+    <p><em>This section is non-normative.</em></p>
+    <p>Some browsers have deployed and announced protections against
+navigational tracking. This section is a work in progress to detail what
+protections have been shipped and / or are planned. This section is not
+comprehensive.</p>
+    <h3 class="heading settled" data-level="3.1" id="mitigations-safari"><span class="secno">3.1. </span><span class="content">Safari</span><a class="self-link" href="#mitigations-safari"></a></h3>
+     Safari uses an algorithmic approach to combat navigational tracking. Safari
+labels a site as having navigational-based cross-site tracking capability if
+the following criteria are met within a particular client: 
+    <ul>
+     <li data-md>
+      <p>The site automatically redirects the user to other sites, immediately
+or after a short delay.</p>
+     <li data-md>
+      <p>The site has not received a user activation.</p>
+    </ul>
+    <p>Sites can be "tainted" as having cross-site tracking capabilities if they
+redirect to sites already classified as having cross-site tracking capabilities.
+For example, consider the case of a user clicking on a link on <code>start.example</code>, which redirects to <code>second.example</code>,
+which redirects to <code>third.example</code>, which redirects to <code>end.example</code>. If Safari has classified <code>third.example</code> as
+having tracking capabilities, the above behavior can result in Safari classifying <code>second.example</code> as having cross-site tracking capabilities.</p>
+    <p>If the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain" id="ref-for-host-registrable-domain">registrable domain</a> that the user is being automatically
+redirected <em>from</em> has been classified as having cross-site tracking
+capabilities, Safari will delete all non-cookie storage on the site
+the user is being redirected <em>to</em>, if the user does not interact (i.e., register
+a user activation) on the destination site within seven days of browser use.</p>
+    <p>Additionally, if the URL the user is navigating <em>to</em> has either query parameters
+or a URL fragment, the lifetime of client-side set cookies on
+the <em>destination</em> page is capped at 24 hours.</p>
+    <h3 class="heading settled" data-level="3.2" id="mitigations-firefox"><span class="secno">3.2. </span><span class="content">Firefox</span><a class="self-link" href="#mitigations-firefox"></a></h3>
+     Firefox uses a list-based approach to combat navigational tracking. Sites on the
+Disconnect list are considered tracking sites. All storage
+for tracking sites is cleared after 24 hours, unless the user has interacted
+with the site in the first-party context in the last 45 days. 
+    <h3 class="heading settled" data-level="3.3" id="mitigations-brave"><span class="secno">3.3. </span><span class="content">Brave</span><a class="self-link" href="#mitigations-brave"></a></h3>
+     Brave uses three list-based approaches to combat navigational tracking. 
+    <p>First, Brave strips query parameters commonly used for navigational tracking
+from URLs on navigation. This list is maintained by Brave.</p>
+    <p>Second, in the non-default, "aggressive blocking" configuration, Brave uses
+popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
+to identify URLs that are used for bounce tracking, and will preempt the
+navigation with an interstitial (similar to Google SafeBrowsing), giving
+the user the option to continue the navigation or cancel it.</p>
+    <p>Third, Brave uses a list-based approach for identifying bounce tracking
+URLs where the destination URL is present in the URL of the intermediate
+tracking URL. In such cases, Brave will skip the intermediate navigation
+and request the destination URL instead. For example, if Brave
+Browser observes the user about to navigate to the URL <code>https://tracker.example/bounce?dest=https://destination.example/</code>,
+the browser might replace the navigation to <code>tracker.example/bounce</code>,
+with a navigation to <code>https://destination.example/</code>. This list
+is maintained by Brave, and is drawn from a mix of crowd-sourcing and
+existing open-source projects.</p>
+   </section>
    <h2 class="no-num heading settled" id="acknowledgements"><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Many thanks to the Privacy Community Group for many good discussions about this proposal.</p>
   </main>
@@ -498,6 +613,21 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
     Implementers are encouraged to optimize. </p>
   </div>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <aside class="dfn-panel" data-for="term-for-host-registrable-domain">
+   <a href="https://url.spec.whatwg.org/#host-registrable-domain">https://url.spec.whatwg.org/#host-registrable-domain</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-host-registrable-domain">3.1. Safari</a>
+   </ul>
+  </aside>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[URL]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-host-registrable-domain">registrable domain</span>
+    </ul>
+  </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
@@ -506,3 +636,64 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
   </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-url">[URL]
+   <dd>Anne van Kesteren. <a href="https://url.spec.whatwg.org/"><cite>URL Standard</cite></a>. Living Standard. URL: <a href="https://url.spec.whatwg.org/">https://url.spec.whatwg.org/</a>
+  </dl>
+<script>/* script-dfn-panel */
+
+document.body.addEventListener("click", function(e) {
+    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
+    // Find the dfn element or panel, if any, that was clicked on.
+    var el = e.target;
+    var target;
+    var hitALink = false;
+    while(el.parentElement) {
+        if(el.tagName == "A") {
+            // Clicking on a link in a <dfn> shouldn't summon the panel
+            hitALink = true;
+        }
+        if(el.classList.contains("dfn-paneled")) {
+            target = "dfn";
+            break;
+        }
+        if(el.classList.contains("dfn-panel")) {
+            target = "dfn-panel";
+            break;
+        }
+        el = el.parentElement;
+    }
+    if(target != "dfn-panel") {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
+            el.classList.remove("on");
+            el.classList.remove("activated");
+        });
+    }
+    if(target == "dfn" && !hitALink) {
+        // open the panel
+        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
+        if(dfnPanel) {
+            dfnPanel.classList.add("on");
+            var rect = el.getBoundingClientRect();
+            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
+            dfnPanel.style.top = window.scrollY + rect.top + "px";
+            var panelRect = dfnPanel.getBoundingClientRect();
+            var panelWidth = panelRect.right - panelRect.left;
+            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
+                // Reposition, because the panel is overflowing
+                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+            }
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
+        }
+    } else if(target == "dfn-panel") {
+        // Switch it to "activated" state, which pins it.
+        el.classList.add("activated");
+        el.style.left = null;
+        el.style.top = null;
+    }
+
+});
+</script>
