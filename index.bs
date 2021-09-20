@@ -92,7 +92,7 @@ tracking URL. In such cases, Brave will skip the intermediate navigation
 and request the destination URL instead. For example, if Brave
 Browser observes the user about to navigate to the URL
 `https://tracker.example/bounce?dest=https://destination.example/`,
-the browser may replace the navigation to `tracker.example/bounce`,
+the browser might replace the navigation to `tracker.example/bounce`,
 with a navigation to `https://destination.example/`. This list
 is maintained by Brave, and is drawn from a mix of crowd-sourcing and
 existing open-source projects.
