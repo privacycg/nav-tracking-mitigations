@@ -28,6 +28,77 @@ Blah blah blah.
 
 This specification depends on the Infra standard. [[!INFRA]]
 
+<section class="informative">
+
+<h2 id="deployed-mitigations">Deployed Mitigations</h2>
+
+<em>This section is non-normative.</em>
+
+Some browsers have deployed and announced protections against
+navigational tracking. This section is a work in progress to detail what
+protections have been shipped and / or are planned. This section is not
+comprehensive.
+
+<h3 id="mitigations-safari">Safari</h3>
+Safari uses an algorithmic approach to combat navigational tracking. Safari
+labels a site as having navigational-based cross-site tracking capability if
+the following criteria are met within a particular client:
+
+* The site automatically redirects the user to other sites, immediately
+    or after a short delay.
+* The site has not received a user activation.
+
+Sites can be "tainted" as having cross-site tracking capabilities if they
+redirect to sites already classified as having cross-site tracking capabilities.
+For example, consider the case of a user clicking on a link on
+`start.example`, which redirects to `second.example`,
+which redirects to `third.example`, which redirects to
+`end.example`. If Safari has classified `third.example` as
+having tracking capabilities, the above behavior can result in Safari classifying
+`second.example` as having cross-site tracking capabilities.
+
+If the [=host/registrable domain=] that the user is being automatically
+redirected *from* has been classified as having cross-site tracking
+capabilities, Safari will delete all non-cookie storage on the site
+the user is being redirected *to*, if the user does not interact (i.e., register
+a user activation) on the destination site within seven days of browser use.
+
+Additionally, if the URL the user is navigating *to* has either query parameters
+or a URL fragment, the lifetime of client-side set cookies on
+the *destination* page is capped at 24 hours.
+
+
+<h3 id="mitigations-firefox">Firefox</h3>
+Firefox uses a list-based approach to combat navigational tracking. Sites on the
+Disconnect list are considered tracking sites. All storage
+for tracking sites is cleared after 24 hours, unless the user has interacted
+with the site in the first-party context in the last 45 days.
+
+<h3 id="mitigations-brave">Brave</h3>
+Brave uses three list-based approaches to combat navigational tracking.
+
+First, Brave strips query parameters commonly used for navigational tracking
+from URLs on navigation. This list is maintained by Brave.
+
+Second, in the non-default, "aggressive blocking" configuration, Brave uses
+popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
+to identify URLs that are used for bounce tracking, and will preempt the
+navigation with an interstitial (similar to Google SafeBrowsing), giving
+the user the option to continue the navigation or cancel it.
+
+Third, Brave uses a list-based approach for identifying bounce tracking
+URLs where the destination URL is present in the URL of the intermediate
+tracking URL. In such cases, Brave will skip the intermediate navigation
+and request the destination URL instead. For example, if Brave
+Browser observes the user about to navigate to the URL
+`https://tracker.example/bounce?dest=https://destination.example/`,
+the browser may replace the navigation to `tracker.example/bounce`,
+with a navigation to `https://destination.example/`. This list
+is maintained by Brave, and is drawn from a mix of crowd-sourcing and
+existing open-source projects.
+
+</section>
+
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
 Many thanks to the Privacy Community Group for many good discussions about this proposal.
