@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version a210b7d86, updated Thu Sep 16 13:45:19 2021 -0700" name="generator">
+  <meta content="Bikeshed version d7036035b, updated Fri Oct 8 17:07:11 2021 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="fefc3fdeb424f14c0822419b1bf8b52bd9ea4f36" name="document-revision">
+  <meta content="760bcf5c741214effc23fa3a808c811f90c49207" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -251,6 +251,16 @@ figcaption:not(.no-marker)::before {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-issues */
+
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -444,7 +454,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-09-21">21 September 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-10-20">20 October 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -556,16 +566,16 @@ yields a different target page.</p>
       <p class="issue" id="issue-9458c4e5"><a class="self-link" href="#issue-9458c4e5"></a> Changing the numbers changes what map the user sees, and embedding
 a user ID would not successfully transfer that user ID to the target site,
 but it’s hard for an automated system inside a browser to prove
-that, and even hard for humans reading the URL to be confident of it. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/4">&lt;https://github.com/privacycg/nav-tracking-mitigations/issues/4></a></p>
+that, and even hard for humans reading the URL to be confident of it. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/4">[Issue #4]</a></p>
      <dt data-md><code>https://publisher.example/unsubscribe?userId=<em>5789rhkdsaf8urfnsd</em></code>
      <dd data-md>
       <p class="issue" id="issue-fc2127e1"><a class="self-link" href="#issue-fc2127e1"></a> The URL identifies an action rather than a page, and the user ID
 might be essential for that action to happen. However, this is also clearly
 a user ID and sufficient to track a user if the source and target
-collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">&lt;https://github.com/privacycg/nav-tracking-mitigations/issues/5></a></p>
+collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a></p>
      <dt data-md><code>https://example.com/auth/callback?token=<em>1234567</em></code>
      <dd data-md>
-      <p class="issue" id="issue-0c501704"><a class="self-link" href="#issue-0c501704"></a> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">&lt;https://github.com/privacycg/nav-tracking-mitigations/issues/5></a></p>
+      <p class="issue" id="issue-0c501704"><a class="self-link" href="#issue-0c501704"></a> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a></p>
      <dt data-md><code>https://example.com/login?returnto=<em>item/12345</em></code>
      <dd data-md>
       <p>Assuming a request for this URL shows a login page instead of immediately
@@ -817,12 +827,12 @@ existing open-source projects.</p>
    <div class="issue"> Changing the numbers changes what map the user sees, and embedding
 a user ID would not successfully transfer that user ID to the target site,
 but it’s hard for an automated system inside a browser to prove
-that, and even hard for humans reading the URL to be confident of it. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/4">&lt;https://github.com/privacycg/nav-tracking-mitigations/issues/4></a><a href="#issue-9458c4e5"> ↵ </a></div>
+that, and even hard for humans reading the URL to be confident of it. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/4">[Issue #4]</a> <a class="issue-return" href="#issue-9458c4e5" title="Jump to section">↵</a></div>
    <div class="issue"> The URL identifies an action rather than a page, and the user ID
 might be essential for that action to happen. However, this is also clearly
 a user ID and sufficient to track a user if the source and target
-collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">&lt;https://github.com/privacycg/nav-tracking-mitigations/issues/5></a><a href="#issue-fc2127e1"> ↵ </a></div>
-   <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">&lt;https://github.com/privacycg/nav-tracking-mitigations/issues/5></a><a href="#issue-0c501704"> ↵ </a></div>
+collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-fc2127e1" title="Jump to section">↵</a></div>
+   <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-0c501704" title="Jump to section">↵</a></div>
   </div>
   <aside class="dfn-panel" data-for="link-decoration">
    <b><a href="#link-decoration">#link-decoration</a></b><b>Referenced in:</b>
