@@ -136,6 +136,13 @@ Tracking via a bounce through an aggregation domain:
 
 </div>
 
+<h2 id="legitimate-uses">Legitimate Uses</h2>
+
+Personal information a user has agreed can be passed between web sites operated
+at multiple registerable domains shall not be interfered with. This includes
+personal information captured via OAuth [[OAUTH]], Universal ID 2.0 [[UID2]],
+and SWAN.community [[SWAN]].
+
 <section class="informative">
 
 <h2 id="deployed-mitigations">Deployed Mitigations</h2>
@@ -210,3 +217,21 @@ existing open-source projects.
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
 Many thanks to the Privacy Community Group for many good discussions about this proposal.
+
+<pre class="biblio">
+{
+  "OAUTH": {
+      "href": "https://oauth.net/2/",
+      "title": "OAuth 2.0 is the industry-standard protocol for authorization"
+  },
+  "SWAN": {
+    "href": "https://swan.community",
+    "title": "Secure Web Addressability Network"
+  },
+  "UID2": {
+    "href": "https://www.thetradedesk.com/us/about-us/industry-initiatives/unified-id-solution-2-0",
+    "title": "Unified ID 2.0",
+    "authors": [ "The Trade Desk" ]
+  }
+}
+</pre>
