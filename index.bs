@@ -14,6 +14,10 @@ Level: None
 Complain About: accidental-2119 yes, missing-example-ids yes
 Markup Shorthands: markdown yes, css no
 Assume Explicit For: yes
+Metadata Order: !*, *, This version
+
+!Participate: <a href="https://github.com/[REPOSITORY]">Github Repository</a>
+!Participate: <a href="https://github.com/privacycg/meetings/">Privacy CG Meetings</a>
 </pre>
 <pre class="anchors">
 spec: HTTP; urlPrefix: https://httpwg.org/specs/rfc7231.html#
@@ -136,18 +140,34 @@ Tracking via a bounce through an aggregation domain:
 
 </div>
 
+<h2 id="threat-model">Threat model</h2>
+
+This section will precisely define the goals and non-goals of this
+specification's mitigations. It will define a few classes of actors with the
+ability to modify websites in particular ways. Then it will define what
+cross-site information each of these actors can or cannot learn.
+
+<h3 id="threat-actors">Threat actors</h2>
+
+TODO
+
 <section class="informative">
 
-<h2 id="deployed-mitigations">Deployed Mitigations</h2>
+<h2 id="alternatives">Considered Alternatives</h2>
 
 <em>This section is non-normative.</em>
+
+So far, the alternative designs consist of mitigations that various browsers
+have already deployed.
+
+<h3 id="deployed-mitigations">Deployed Mitigations</h3>
 
 Some browsers have deployed and announced protections against
 [=navigational tracking=]. This section is a work in progress to detail what
 protections have been shipped and / or are planned. This section is not
 comprehensive.
 
-<h3 id="mitigations-safari">Safari</h3>
+<h4 id="mitigations-safari">Safari</h4>
 Safari uses an algorithmic approach to combat [=navigational tracking=]. Safari
 labels a site as having navigational-based cross-site tracking capability if
 the following criteria are met within a particular client:
@@ -176,13 +196,13 @@ or a URL fragment, the lifetime of client-side set cookies on
 the *destination* page is capped at 24 hours.
 
 
-<h3 id="mitigations-firefox">Firefox</h3>
+<h4 id="mitigations-firefox">Firefox</h4>
 Firefox uses a list-based approach to combat [=navigational tracking=]. Sites on the
 Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days.
 
-<h3 id="mitigations-brave">Brave</h3>
+<h4 id="mitigations-brave">Brave</h4>
 Brave uses three list-based approaches to combat [=navigational tracking=].
 
 First, Brave strips query parameters commonly used for [=navigational tracking=]
