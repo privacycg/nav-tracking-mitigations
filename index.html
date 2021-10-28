@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version d7036035b, updated Fri Oct 8 17:07:11 2021 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="cc93c5444f8e719559b5c6b3ca90256b83d8a348" name="document-revision">
+  <meta content="f91e8c21c6f50ff03628007241e7034306793c39" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -454,17 +454,20 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-10-26">26 October 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-10-28">28 October 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
-     <dt>This version:
-     <dd><a class="u-url" href="https://privacycg.github.io/nav-tracking-mitigations/">https://privacycg.github.io/nav-tracking-mitigations/</a>
+     <dt>Participate:
+     <dd><a href="https://github.com/privacycg/nav-tracking-mitigations">Github Repository</a>
+     <dd><a href="https://github.com/privacycg/meetings/">Privacy CG Meetings</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/privacycg/nav-tracking-mitigations/issues/">GitHub</a>
      <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="109401"><a class="p-name fn u-email email" href="mailto:psnyder@brave.com">Pete Snyder</a> (<a class="p-org org" href="https://brave.com/">Brave</a>)
      <dd class="editor p-author h-card vcard" data-editor-id="72192"><a class="p-name fn u-email email" href="mailto:jyasskin@google.com">Jeffrey Yasskin</a> (<a class="p-org org" href="https://google.com/">Google</a>)
+     <dt>This version:
+     <dd><a class="u-url" href="https://privacycg.github.io/nav-tracking-mitigations/">https://privacycg.github.io/nav-tracking-mitigations/</a>
     </dl>
    </div>
    <div data-fill-with="warning"></div>
@@ -494,11 +497,20 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
     <li><a href="#infra"><span class="secno">2</span> <span class="content">Infrastructure</span></a>
     <li><a href="#terminology"><span class="secno">3</span> <span class="content">Terminology</span></a>
     <li>
-     <a href="#deployed-mitigations"><span class="secno">4</span> <span class="content">Deployed Mitigations</span></a>
+     <a href="#threat-model"><span class="secno">4</span> <span class="content">Threat model</span></a>
      <ol class="toc">
-      <li><a href="#mitigations-safari"><span class="secno">4.1</span> <span class="content">Safari</span></a>
-      <li><a href="#mitigations-firefox"><span class="secno">4.2</span> <span class="content">Firefox</span></a>
-      <li><a href="#mitigations-brave"><span class="secno">4.3</span> <span class="content">Brave</span></a>
+      <li><a href="#threat-actors"><span class="secno">4.1</span> <span class="content">Threat actors</span></a>
+     </ol>
+    <li>
+     <a href="#alternatives"><span class="secno">5</span> <span class="content">Considered Alternatives</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#deployed-mitigations"><span class="secno">5.1</span> <span class="content">Deployed Mitigations</span></a>
+       <ol class="toc">
+        <li><a href="#mitigations-safari"><span class="secno">5.1.1</span> <span class="content">Safari</span></a>
+        <li><a href="#mitigations-firefox"><span class="secno">5.1.2</span> <span class="content">Firefox</span></a>
+        <li><a href="#mitigations-brave"><span class="secno">5.1.3</span> <span class="content">Brave</span></a>
+       </ol>
      </ol>
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content">Acknowledgements</span></a>
     <li>
@@ -611,13 +623,23 @@ be saved into its first-party storage so that future visits don’t need to
 bounce.</p>
     </ol>
    </div>
+   <h2 class="heading settled" data-level="4" id="threat-model"><span class="secno">4. </span><span class="content">Threat model</span><a class="self-link" href="#threat-model"></a></h2>
+   <p>This section will precisely define the goals and non-goals of this
+specification’s mitigations. It will define a few classes of actors with the
+ability to modify websites in particular ways. Then it will define what
+cross-site information each of these actors can or cannot learn.</p>
+   <h3 class="heading settled" data-level="4.1" id="threat-actors"><span class="secno">4.1. </span><span class="content">Threat actors</span><a class="self-link" href="#threat-actors"></a></h3>
+   <p>TODO</p>
    <section class="informative">
-    <h2 class="heading settled" data-level="4" id="deployed-mitigations"><span class="secno">4. </span><span class="content">Deployed Mitigations</span><a class="self-link" href="#deployed-mitigations"></a></h2>
+    <h2 class="heading settled" data-level="5" id="alternatives"><span class="secno">5. </span><span class="content">Considered Alternatives</span><a class="self-link" href="#alternatives"></a></h2>
     <p><em>This section is non-normative.</em></p>
+    <p>So far, the alternative designs consist of mitigations that various browsers
+have already deployed.</p>
+    <h3 class="heading settled" data-level="5.1" id="deployed-mitigations"><span class="secno">5.1. </span><span class="content">Deployed Mitigations</span><a class="self-link" href="#deployed-mitigations"></a></h3>
     <p>Some browsers have deployed and announced protections against <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑦">navigational tracking</a>. This section is a work in progress to detail what
 protections have been shipped and / or are planned. This section is not
 comprehensive.</p>
-    <h3 class="heading settled" data-level="4.1" id="mitigations-safari"><span class="secno">4.1. </span><span class="content">Safari</span><a class="self-link" href="#mitigations-safari"></a></h3>
+    <h4 class="heading settled" data-level="5.1.1" id="mitigations-safari"><span class="secno">5.1.1. </span><span class="content">Safari</span><a class="self-link" href="#mitigations-safari"></a></h4>
      Safari uses an algorithmic approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑧">navigational tracking</a>. Safari
 labels a site as having navigational-based cross-site tracking capability if
 the following criteria are met within a particular client: 
@@ -641,12 +663,12 @@ a user activation) on the destination site within seven days of browser use.</p>
     <p>Additionally, if the URL the user is navigating <em>to</em> has either query parameters
 or a URL fragment, the lifetime of client-side set cookies on
 the <em>destination</em> page is capped at 24 hours.</p>
-    <h3 class="heading settled" data-level="4.2" id="mitigations-firefox"><span class="secno">4.2. </span><span class="content">Firefox</span><a class="self-link" href="#mitigations-firefox"></a></h3>
+    <h4 class="heading settled" data-level="5.1.2" id="mitigations-firefox"><span class="secno">5.1.2. </span><span class="content">Firefox</span><a class="self-link" href="#mitigations-firefox"></a></h4>
      Firefox uses a list-based approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑨">navigational tracking</a>. Sites on the
 Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days. 
-    <h3 class="heading settled" data-level="4.3" id="mitigations-brave"><span class="secno">4.3. </span><span class="content">Brave</span><a class="self-link" href="#mitigations-brave"></a></h3>
+    <h4 class="heading settled" data-level="5.1.3" id="mitigations-brave"><span class="secno">5.1.3. </span><span class="content">Brave</span><a class="self-link" href="#mitigations-brave"></a></h4>
      Brave uses three list-based approaches to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①⓪">navigational tracking</a>. 
     <p>First, Brave strips query parameters commonly used for <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①①">navigational tracking</a> from URLs on navigation. This list is maintained by Brave.</p>
     <p>Second, in the non-default, "aggressive blocking" configuration, Brave uses
@@ -767,7 +789,7 @@ existing open-source projects.</p>
   <aside class="dfn-panel" data-for="term-for-host-registrable-domain">
    <a href="https://url.spec.whatwg.org/#host-registrable-domain">https://url.spec.whatwg.org/#host-registrable-domain</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-host-registrable-domain">4.1. Safari</a>
+    <li><a href="#ref-for-host-registrable-domain">5.1.1. Safari</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-url">
@@ -846,10 +868,10 @@ collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issu
    <ul>
     <li><a href="#ref-for-navigational-tracking">1. Introduction</a> <a href="#ref-for-navigational-tracking①">(2)</a>
     <li><a href="#ref-for-navigational-tracking②">3. Terminology</a> <a href="#ref-for-navigational-tracking③">(2)</a> <a href="#ref-for-navigational-tracking④">(3)</a> <a href="#ref-for-navigational-tracking⑤">(4)</a> <a href="#ref-for-navigational-tracking⑥">(5)</a>
-    <li><a href="#ref-for-navigational-tracking⑦">4. Deployed Mitigations</a>
-    <li><a href="#ref-for-navigational-tracking⑧">4.1. Safari</a>
-    <li><a href="#ref-for-navigational-tracking⑨">4.2. Firefox</a>
-    <li><a href="#ref-for-navigational-tracking①⓪">4.3. Brave</a> <a href="#ref-for-navigational-tracking①①">(2)</a>
+    <li><a href="#ref-for-navigational-tracking⑦">5.1. Deployed Mitigations</a>
+    <li><a href="#ref-for-navigational-tracking⑧">5.1.1. Safari</a>
+    <li><a href="#ref-for-navigational-tracking⑨">5.1.2. Firefox</a>
+    <li><a href="#ref-for-navigational-tracking①⓪">5.1.3. Brave</a> <a href="#ref-for-navigational-tracking①①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="bounce-tracking">
