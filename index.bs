@@ -203,18 +203,26 @@ for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days.
 
 <h4 id="mitigations-brave">Brave</h4>
-Brave uses three list-based approaches to combat [=navigational tracking=].
+Brave uses four list-based approaches to combat [=navigational tracking=].
 
 First, Brave strips query parameters commonly used for [=navigational tracking=]
 from URLs on navigation. This list is maintained by Brave.
 
-Second, in the non-default, "aggressive blocking" configuration, Brave uses
+Second, by default, when i) the user is about to visit a list-identified
+bounce-tracking URL, and ii) the current profile does not contain any cookies
+or {{WindowLocalStorage/localStorage}} for that site, Brave will create a new, "ephemeral", empty storage
+area for the site. This storage area persists as long as the user has
+any top-level frames open for the site. As soon as the user has no
+top-level frames for the labeled bounce-tracking site, the ephemeral storage
+area is deleted.
+
+Third, in the non-default, "aggressive blocking" configuration, Brave uses
 popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
 to identify URLs that are used for bounce tracking, and will preempt the
 navigation with an interstitial (similar to Google SafeBrowsing), giving
 the user the option to continue the navigation or cancel it.
 
-Third, Brave uses a list-based approach for identifying bounce tracking
+Fourth, Brave uses a list-based approach for identifying bounce tracking
 URLs where the destination URL is present in the URL of the intermediate
 tracking URL. In such cases, Brave will skip the intermediate navigation
 and request the destination URL instead. For example, if Brave
