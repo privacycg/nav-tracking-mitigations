@@ -3,10 +3,10 @@
   <meta charset="utf-8">
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
-  <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version d7036035b, updated Fri Oct 8 17:07:11 2021 -0700" name="generator">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
+  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="f91e8c21c6f50ff03628007241e7034306793c39" name="document-revision">
+  <meta content="2a049eff2d6a87439f72781fc12cb73486d58f6c" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -452,9 +452,9 @@ dfn > a.self-link::before      { content: "#"; }
 }</style>
  <body>
   <header>
-   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2021-10-28">28 October 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-03-22">22 March 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -471,7 +471,7 @@ dfn > a.self-link::before      { content: "#"; }
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2021 the Contributors to “Navigational-Tracking Mitigations”, published by the <a href="http://www.w3.org/community/privacycg/">Privacy Community Group</a>.
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2022 the Contributors to “Navigational-Tracking Mitigations”, published by the <a href="http://www.w3.org/community/privacycg/">Privacy Community Group</a>.
 
 This document is licensed under the <a href="http://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">W3C Software and Document License</a>.
 
@@ -669,14 +669,21 @@ Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days. 
     <h4 class="heading settled" data-level="5.1.3" id="mitigations-brave"><span class="secno">5.1.3. </span><span class="content">Brave</span><a class="self-link" href="#mitigations-brave"></a></h4>
-     Brave uses three list-based approaches to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①⓪">navigational tracking</a>. 
+     Brave uses four list-based approaches to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①⓪">navigational tracking</a>. 
     <p>First, Brave strips query parameters commonly used for <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①①">navigational tracking</a> from URLs on navigation. This list is maintained by Brave.</p>
-    <p>Second, in the non-default, "aggressive blocking" configuration, Brave uses
+    <p>Second, by default, when i) the user is about to visit a list-identified
+bounce-tracking URL, and ii) the current profile does not contain any cookies
+or <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage" id="ref-for-dom-localstorage">localStorage</a></code> for that site, Brave will create a new, "ephemeral", empty storage
+area for the site. This storage area persists as long as the user has
+any top-level frames open for the site. As soon as the user has no
+top-level frames for the labeled bounce-tracking site, the ephemeral storage
+area is deleted.</p>
+    <p>Third, in the non-default, "aggressive blocking" configuration, Brave uses
 popular crowd-sourced filter lists (e.g., EasyList, EasyPrivacy, uBlock Origin)
 to identify URLs that are used for bounce tracking, and will preempt the
 navigation with an interstitial (similar to Google SafeBrowsing), giving
 the user the option to continue the navigation or cancel it.</p>
-    <p>Third, Brave uses a list-based approach for identifying bounce tracking
+    <p>Fourth, Brave uses a list-based approach for identifying bounce tracking
 URLs where the destination URL is present in the URL of the intermediate
 tracking URL. In such cases, Brave will skip the intermediate navigation
 and request the destination URL instead. For example, if Brave
@@ -730,7 +737,7 @@ existing open-source projects.</p>
     and are not intended to be performant.
     Implementers are encouraged to optimize. </p>
   </div>
-<script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
+<script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -754,6 +761,12 @@ existing open-source projects.</p>
    <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-iframe-element">3. Terminology</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-dom-localstorage">
+   <a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage">https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-localstorage">5.1.3. Brave</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-location">
@@ -806,6 +819,7 @@ existing open-source projects.</p>
      <li><span class="dfn-paneled" id="term-for-attr-meta-http-equiv">http-equiv</span>
      <li><span class="dfn-paneled" id="term-for-hyperlink">hyperlink</span>
      <li><span class="dfn-paneled" id="term-for-the-iframe-element">iframe</span>
+     <li><span class="dfn-paneled" id="term-for-dom-localstorage">localStorage</span>
      <li><span class="dfn-paneled" id="term-for-dom-location">location</span>
      <li><span class="dfn-paneled" id="term-for-meta">meta</span>
      <li><span class="dfn-paneled" id="term-for-attr-meta-http-equiv-keyword-refresh">refresh</span>
