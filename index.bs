@@ -29,6 +29,10 @@ Metadata Order: !*, *, This version
     "MOZILLA-TRACKING-POLICY": {
         "title": "Mozilla Anti Tracking Policy",
         "href": "https://wiki.mozilla.org/Security/Anti_tracking_policy"
+    },
+    "WEBKIT-TRACKING-PREVENTION": {
+        "href": "https://webkit.org/tracking-prevention/",
+        "title": "Tracking Prevention in WebKit"
     }
 }
 </pre>
@@ -181,32 +185,34 @@ protections have been shipped and / or are planned. This section is not
 comprehensive.
 
 <h4 id="mitigations-safari">Safari</h4>
+
 Safari uses an algorithmic approach to combat [=navigational tracking=]. Safari
-labels a site as having navigational-based cross-site tracking capability if
-the following criteria are met within a particular client:
+classifies a site as having cross-site tracking capabilities if the
+[[WEBKIT-TRACKING-PREVENTION#classification-as-having-cross-site-tracking-capabilities|following
+criteria]] are met within a particular client:
 
-* The site automatically redirects the user to other sites, immediately
+* The site appears as a third-party resource under enough different
+    [=host/registrable domains=].
+* The site automatically redirects the user to enough other sites, immediately
     or after a short delay.
-* The site has not received a user activation.
+* The site redirects to sites that are classified as trackers, recursively.
 
-Sites can be "tainted" as having cross-site tracking capabilities if they
-redirect to sites already classified as having cross-site tracking capabilities.
-For example, consider the case of a user clicking on a link on
-`start.example`, which redirects to `second.example`,
-which redirects to `third.example`, which redirects to
-`end.example`. If Safari has classified `third.example` as
-having tracking capabilities, the above behavior can result in Safari classifying
-`second.example` as having cross-site tracking capabilities.
+    <div class="example" id="example-safari-recursive-trackers">
 
-If the [=host/registrable domain=] that the user is being automatically
-redirected *from* has been classified as having cross-site tracking
-capabilities, Safari will delete all non-cookie storage on the site
-the user is being redirected *to*, if the user does not interact (i.e., register
-a user activation) on the destination site within seven days of browser use.
+    For example, consider the case of a user clicking on a link on
+    `start.example`, which redirects to `second.example`, which redirects to
+    `third.example`, which redirects to `end.example`. If Safari has classified
+    `third.example` as having tracking capabilities, the above behavior can
+    result in Safari classifying `second.example` as having cross-site tracking
+    capabilities.
 
-Additionally, if the URL the user is navigating *to* has either query parameters
-or a URL fragment, the lifetime of client-side set cookies on
-the *destination* page is capped at 24 hours.
+    </div>
+
+If a user navigates or is redirected from a classified tracker with a URL that
+includes either query parameters or a URL fragment, the lifetime of client-side
+set cookies on the *destination* page is capped at
+[[WEBKIT-TRACKING-PREVENTION#detection-of-cross-site-tracking-via-link-decoration|24
+hours]].
 
 
 <h4 id="mitigations-firefox">Firefox</h4>
