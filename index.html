@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="2a049eff2d6a87439f72781fc12cb73486d58f6c" name="document-revision">
+  <meta content="ea28bd1f8813a6c81f0eab4fcc42fe9c6106e512" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -454,7 +454,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-03-22">22 March 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-05-19">19 May 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -664,10 +664,34 @@ a user activation) on the destination site within seven days of browser use.</p>
 or a URL fragment, the lifetime of client-side set cookies on
 the <em>destination</em> page is capped at 24 hours.</p>
     <h4 class="heading settled" data-level="5.1.2" id="mitigations-firefox"><span class="secno">5.1.2. </span><span class="content">Firefox</span><a class="self-link" href="#mitigations-firefox"></a></h4>
-     Firefox uses a list-based approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑨">navigational tracking</a>. Sites on the
+    <p>Firefox uses a list-based approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑨">navigational tracking</a>. Sites on the
 Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
-with the site in the first-party context in the last 45 days. 
+with the site in the first-party context in the last 45 days.</p>
+    <p>Firefox is also starting to remove query parameters known to be used for
+cross-site tracking. (<a data-link-type="biblio" href="#biblio-fsn-2021-q4">[FSN-2021-Q4]</a>) The affected query parameters are chosen
+using the criteria on the <a data-biblio-display="inline" data-link-type="biblio" href="https://wiki.mozilla.org/Security/Anti_tracking_policy"><cite>Mozilla Anti Tracking Policy</cite></a>, which includes:</p>
+    <ul>
+     <li data-md>
+      <p>High-entropy parameters that might identify a user or encode user data,
+except:</p>
+      <ul>
+       <li data-md>
+        <p>Parameters exclusively identifying specific elements or actions on the
+navigating page (per-click or per-element identifiers), as long as those
+parameters assign a different value to each click or element they are
+identifying.</p>
+       <li data-md>
+        <p>Identifiers necessary to complete a user-initiated task such as logging in
+or submitting a form.</p>
+      </ul>
+     <li data-md>
+      <p>High-entropy parameters that are broadly included in nearly all outgoing
+navigations from a site, even if the parameters don’t uniquely identify a
+user.</p>
+    </ul>
+    <p>As of May 2022, this query-parameter stripping is applied by default in the
+Firefox Nightly build, and planned to be enabled in strict <abbr title="Enhanced Tracking Protection">ETP</abbr> mode and in private browsing.</p>
     <h4 class="heading settled" data-level="5.1.3" id="mitigations-brave"><span class="secno">5.1.3. </span><span class="content">Brave</span><a class="self-link" href="#mitigations-brave"></a></h4>
      Brave uses four list-based approaches to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①⓪">navigational tracking</a>. 
     <p>First, Brave strips query parameters commonly used for <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking①①">navigational tracking</a> from URLs on navigation. This list is maintained by Brave.</p>
@@ -855,6 +879,10 @@ existing open-source projects.</p>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
+   <dt id="biblio-fsn-2021-q4">[FSN-2021-Q4]
+   <dd><a href="https://wiki.mozilla.org/Firefox_Security_Newsletter/FSN-2021-Q4"><cite>Firefox Security Newsletter 2021 Q4</cite></a>. 2022-03-09. URL: <a href="https://wiki.mozilla.org/Firefox_Security_Newsletter/FSN-2021-Q4">https://wiki.mozilla.org/Firefox_Security_Newsletter/FSN-2021-Q4</a>
+   <dt id="biblio-mozilla-tracking-policy">[MOZILLA-TRACKING-POLICY]
+   <dd><a href="https://wiki.mozilla.org/Security/Anti_tracking_policy"><cite>Mozilla Anti Tracking Policy</cite></a>. URL: <a href="https://wiki.mozilla.org/Security/Anti_tracking_policy">https://wiki.mozilla.org/Security/Anti_tracking_policy</a>
    <dt id="biblio-tracking-dnt">[TRACKING-DNT]
    <dd>Roy Fielding; David Singer. <a href="https://www.w3.org/TR/tracking-dnt/"><cite>Tracking Preference Expression (DNT)</cite></a>. 17 January 2019. NOTE. URL: <a href="https://www.w3.org/TR/tracking-dnt/">https://www.w3.org/TR/tracking-dnt/</a>
   </dl>
