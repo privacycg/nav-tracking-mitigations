@@ -19,6 +19,19 @@ Metadata Order: !*, *, This version
 !Participate: <a href="https://github.com/[REPOSITORY]">Github Repository</a>
 !Participate: <a href="https://github.com/privacycg/meetings/">Privacy CG Meetings</a>
 </pre>
+<pre class="biblio">
+{
+    "FSN-2021-Q4": {
+        "title": "Firefox Security Newsletter 2021 Q4",
+        "href": "https://wiki.mozilla.org/Firefox_Security_Newsletter/FSN-2021-Q4",
+        "date": "2022-03-09"
+    },
+    "MOZILLA-TRACKING-POLICY": {
+        "title": "Mozilla Anti Tracking Policy",
+        "href": "https://wiki.mozilla.org/Security/Anti_tracking_policy"
+    }
+}
+</pre>
 <pre class="anchors">
 spec: HTTP; urlPrefix: https://httpwg.org/specs/rfc7231.html#
     type: dfn; text: HTTP 3xx statuses; url: status.3xx
@@ -197,10 +210,31 @@ the *destination* page is capped at 24 hours.
 
 
 <h4 id="mitigations-firefox">Firefox</h4>
+
 Firefox uses a list-based approach to combat [=navigational tracking=]. Sites on the
 Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days.
+
+Firefox is also starting to remove query parameters known to be used for
+cross-site tracking. ([[FSN-2021-Q4]]) The affected query parameters are chosen
+using the criteria on the [[MOZILLA-TRACKING-POLICY inline]], which includes:
+
+* High-entropy parameters that might identify a user or encode user data,
+    except:
+    * Parameters exclusively identifying specific elements or actions on the
+        navigating page (per-click or per-element identifiers), as long as those
+        parameters assign a different value to each click or element they are
+        identifying.
+    * Identifiers necessary to complete a user-initiated task such as logging in
+        or submitting a form.
+* High-entropy parameters that are broadly included in nearly all outgoing
+    navigations from a site, even if the parameters don't uniquely identify a
+    user.
+
+As of May 2022, this query-parameter stripping is applied by default in the
+Firefox Nightly build, and planned to be enabled in strict <abbr
+title="Enhanced Tracking Protection">ETP</abbr> mode and in private browsing.
 
 <h4 id="mitigations-brave">Brave</h4>
 Brave uses four list-based approaches to combat [=navigational tracking=].
