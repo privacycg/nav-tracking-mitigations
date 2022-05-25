@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
+  <meta content="Bikeshed version fdd5936bf, updated Tue May 24 14:57:39 2022 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="ea28bd1f8813a6c81f0eab4fcc42fe9c6106e512" name="document-revision">
+  <meta content="b184b4eeedb91935b78c4896be54ca5ac3e5fdc6" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -454,7 +454,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-05-19">19 May 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-05-25">25 May 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -640,29 +640,28 @@ have already deployed.</p>
 protections have been shipped and / or are planned. This section is not
 comprehensive.</p>
     <h4 class="heading settled" data-level="5.1.1" id="mitigations-safari"><span class="secno">5.1.1. </span><span class="content">Safari</span><a class="self-link" href="#mitigations-safari"></a></h4>
-     Safari uses an algorithmic approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑧">navigational tracking</a>. Safari
-labels a site as having navigational-based cross-site tracking capability if
-the following criteria are met within a particular client: 
+    <p>Safari uses an algorithmic approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑧">navigational tracking</a>. Safari
+classifies a site as having cross-site tracking capabilities if the <a href="https://webkit.org/tracking-prevention/#classification-as-having-cross-site-tracking-capabilities">following
+criteria</a> are met within a particular client:</p>
     <ul>
      <li data-md>
-      <p>The site automatically redirects the user to other sites, immediately
+      <p>The site appears as a third-party resource under enough different <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain" id="ref-for-host-registrable-domain">registrable domains</a>.</p>
+     <li data-md>
+      <p>The site automatically redirects the user to enough other sites, immediately
 or after a short delay.</p>
      <li data-md>
-      <p>The site has not received a user activation.</p>
+      <p>The site redirects to sites that are classified as trackers, recursively.</p>
+      <div class="example" id="example-safari-recursive-trackers">
+       <a class="self-link" href="#example-safari-recursive-trackers"></a> 
+       <p>For example, consider the case of a user clicking on a link on <code>start.example</code>, which redirects to <code>second.example</code>, which redirects to <code>third.example</code>, which redirects to <code>end.example</code>. If Safari has classified <code>third.example</code> as having tracking capabilities, the above behavior can
+result in Safari classifying <code>second.example</code> as having cross-site tracking
+capabilities.</p>
+      </div>
     </ul>
-    <p>Sites can be "tainted" as having cross-site tracking capabilities if they
-redirect to sites already classified as having cross-site tracking capabilities.
-For example, consider the case of a user clicking on a link on <code>start.example</code>, which redirects to <code>second.example</code>,
-which redirects to <code>third.example</code>, which redirects to <code>end.example</code>. If Safari has classified <code>third.example</code> as
-having tracking capabilities, the above behavior can result in Safari classifying <code>second.example</code> as having cross-site tracking capabilities.</p>
-    <p>If the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain" id="ref-for-host-registrable-domain">registrable domain</a> that the user is being automatically
-redirected <em>from</em> has been classified as having cross-site tracking
-capabilities, Safari will delete all non-cookie storage on the site
-the user is being redirected <em>to</em>, if the user does not interact (i.e., register
-a user activation) on the destination site within seven days of browser use.</p>
-    <p>Additionally, if the URL the user is navigating <em>to</em> has either query parameters
-or a URL fragment, the lifetime of client-side set cookies on
-the <em>destination</em> page is capped at 24 hours.</p>
+    <p>If a user navigates or is redirected from a classified tracker with a URL that
+includes either query parameters or a URL fragment, the lifetime of client-side
+set cookies on the <em>destination</em> page is capped at <a href="https://webkit.org/tracking-prevention/#detection-of-cross-site-tracking-via-link-decoration">24
+hours</a>.</p>
     <h4 class="heading settled" data-level="5.1.2" id="mitigations-firefox"><span class="secno">5.1.2. </span><span class="content">Firefox</span><a class="self-link" href="#mitigations-firefox"></a></h4>
     <p>Firefox uses a list-based approach to combat <a data-link-type="dfn" href="#navigational-tracking" id="ref-for-navigational-tracking⑨">navigational tracking</a>. Sites on the
 Disconnect list are considered tracking sites. All storage
@@ -849,7 +848,7 @@ existing open-source projects.</p>
      <li><span class="dfn-paneled" id="term-for-attr-meta-http-equiv-keyword-refresh">refresh</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[http]</a> defines the following terms:
+    <a data-link-type="biblio">[HTTP]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-status.3xx">http 3xx statuses</span>
     </ul>
@@ -885,6 +884,8 @@ existing open-source projects.</p>
    <dd><a href="https://wiki.mozilla.org/Security/Anti_tracking_policy"><cite>Mozilla Anti Tracking Policy</cite></a>. URL: <a href="https://wiki.mozilla.org/Security/Anti_tracking_policy">https://wiki.mozilla.org/Security/Anti_tracking_policy</a>
    <dt id="biblio-tracking-dnt">[TRACKING-DNT]
    <dd>Roy Fielding; David Singer. <a href="https://www.w3.org/TR/tracking-dnt/"><cite>Tracking Preference Expression (DNT)</cite></a>. 17 January 2019. NOTE. URL: <a href="https://www.w3.org/TR/tracking-dnt/">https://www.w3.org/TR/tracking-dnt/</a>
+   <dt id="biblio-webkit-tracking-prevention">[WEBKIT-TRACKING-PREVENTION]
+   <dd><a href="https://webkit.org/tracking-prevention/"><cite>Tracking Prevention in WebKit</cite></a>. URL: <a href="https://webkit.org/tracking-prevention/">https://webkit.org/tracking-prevention/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
