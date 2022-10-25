@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version fdd5936bf, updated Tue May 24 14:57:39 2022 -0700" name="generator">
+  <meta content="Bikeshed version afdea9b3f, updated Fri Oct 21 14:30:36 2022 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="b184b4eeedb91935b78c4896be54ca5ac3e5fdc6" name="document-revision">
+  <meta content="45acac2f04d222e4f8f8ae9ecaebfb543b0ca06b" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -298,6 +298,14 @@ a.self-link:hover {
 .heading > a.self-link {
     font-size: 83%;
 }
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
 li > a.self-link {
     left: calc(-1 * (3.5rem - 26px) - 2em);
 }
@@ -454,7 +462,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-05-25">25 May 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-10-25">25 October 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -744,7 +752,7 @@ existing open-source projects.</p>
     and are set apart from the normative text
     with <code>class="note"</code>,
     like this: </p>
-   <p class="note" role="note">Note, this is an informative note. </p>
+   <p class="note" role="note">Note, this is an informative note.</p>
    <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
    <p>Requirements phrased in the imperative as part of algorithms
     (such as "strip any leading space characters"
@@ -853,7 +861,7 @@ existing open-source projects.</p>
      <li><span class="dfn-paneled" id="term-for-status.3xx">http 3xx statuses</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[tracking-dnt]</a> defines the following terms:
+    <a data-link-type="biblio">[TRACKING-DNT]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-dfn-tracking">tracking</span>
     </ul>
@@ -883,7 +891,7 @@ existing open-source projects.</p>
    <dt id="biblio-mozilla-tracking-policy">[MOZILLA-TRACKING-POLICY]
    <dd><a href="https://wiki.mozilla.org/Security/Anti_tracking_policy"><cite>Mozilla Anti Tracking Policy</cite></a>. URL: <a href="https://wiki.mozilla.org/Security/Anti_tracking_policy">https://wiki.mozilla.org/Security/Anti_tracking_policy</a>
    <dt id="biblio-tracking-dnt">[TRACKING-DNT]
-   <dd>Roy Fielding; David Singer. <a href="https://www.w3.org/TR/tracking-dnt/"><cite>Tracking Preference Expression (DNT)</cite></a>. 17 January 2019. NOTE. URL: <a href="https://www.w3.org/TR/tracking-dnt/">https://www.w3.org/TR/tracking-dnt/</a>
+   <dd>Roy Fielding; David Singer. <a href="https://w3c.github.io/dnt/drafts/tracking-dnt.html"><cite>Tracking Preference Expression (DNT)</cite></a>. URL: <a href="https://w3c.github.io/dnt/drafts/tracking-dnt.html">https://w3c.github.io/dnt/drafts/tracking-dnt.html</a>
    <dt id="biblio-webkit-tracking-prevention">[WEBKIT-TRACKING-PREVENTION]
    <dd><a href="https://webkit.org/tracking-prevention/"><cite>Tracking Prevention in WebKit</cite></a>. URL: <a href="https://webkit.org/tracking-prevention/">https://webkit.org/tracking-prevention/</a>
   </dl>
