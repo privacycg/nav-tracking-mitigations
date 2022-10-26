@@ -10,7 +10,7 @@ This technique is technically similar to use cases like federated login.  They b
 
 This explainer outlines a proposal for mitigating the privacy impact of bounce trackers.
 
-Safari, Firefox, and Brave have already shipped various bounce tracking mitigations.  These are summarized in [navigational tracking mitigations draft report](https://privacycg.github.io/nav-tracking-mitigations/#deployed-mitigations).
+Safari, Firefox, and Brave have already shipped various bounce tracking mitigations.  These are summarized in the [navigational tracking mitigations draft report](https://privacycg.github.io/nav-tracking-mitigations/#deployed-mitigations).
 
 # Goals
 
@@ -167,7 +167,7 @@ Some issues that we’d like to discuss:
 
 # Stakeholder Feedback / Opposition
 
-This proposal was discussed at TPAC 2022 in [FedID CG](https://github.com/fedidcg/meetings/blob/main/2022/2022-09-12-TPAC-notes.md#bounce-tracking-mitigations), [Web Payments WG](https://www.w3.org/2022/09/13-wpwg-minutes.html#:~:text=running%20their%20businesses.-,Navigation%20tracking,-%5BBen%27s%20slides), and in informal settings.
+This proposal was discussed at TPAC 2022 in [FedID CG](https://github.com/fedidcg/meetings/blob/main/2022/2022-09-12-TPAC-notes.md#bounce-tracking-mitigations), [Web Payments WG](https://www.w3.org/2022/09/13-wpwg-minutes.html#t02), and in informal settings.
 
 Browser vendors signaled cautious interest in aligning in some kind of solution in this space.  In particular, user interaction was called out as being a suboptimal signal to use for this proposal in the long term, but was also acknowledged as the best one we have today.  We should be open to adjusting the algorithm to use other signals in the future.
 
