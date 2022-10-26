@@ -10,7 +10,7 @@ This technique is technically similar to use cases like federated login.  They b
 
 This explainer outlines a proposal for mitigating the privacy impact of bounce trackers.
 
-Safari, Firefox, and Brave have already shipped various bounce tracking mitigations.  These are summarized in a PrivacyCG [draft report](https://privacycg.github.io/nav-tracking-mitigations/#deployed-mitigations).
+Safari, Firefox, and Brave have already shipped various bounce tracking mitigations.  These are summarized in [navigational tracking mitigations draft report](https://privacycg.github.io/nav-tracking-mitigations/#deployed-mitigations).
 
 # Goals
 
@@ -127,7 +127,7 @@ Finally, both kinds of lists are susceptible to evasion by smaller operators who
 
 ## First-Party Sets
 
-Currently we plan to consider storage and activity at the site level, as defined by eTLD+1.  An alternative would be to use [first-party sets](https://github.com/privacycg/first-party-sets) instead of site, deleting storage and assessing activity across all related sites within a first-party set.
+Currently we plan to consider storage and activity at the site level, as defined by eTLD+1.  An alternative would be to use [first-party sets](https://github.com/WICG/first-party-sets) instead of site, deleting storage and assessing activity across all related sites within a first-party set.
 
 Right now there does not seem any significant benefit to using first-party sets when performing bounce tracking mitigations.  It would not protect any additional supported use cases.
 
@@ -147,7 +147,7 @@ This feature will likely need to store information about sites that have a user 
 
 In addition, there are potential scenarios where the existence of an interaction could be accessed through existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that causes an automatic redirect that triggers the bounce tracking mitigations.  An attacker could use existing XS leaks to determine if any logged-in state is present on a target site and then look to see if that state disappears after triggering the bounce.
 
-The information leak from tracker to site does not seem very significant.  It is not new information because this kind of data can be tracked and shared today.
+The information leak from tracker to site does not seem very significant.  At a minimum, the proposed mitigations do not make the situation worse and without the mitigations there is a greater potential for a tracker to communicate state to the target site.
 
 The cross-site adversarial information leak is more concerning.  Solutions designed for this effort should take this threat into account and attempt to mitigate it.  For example, delaying or fuzzing the timing of storage wiping could lessen the impact of the leak.  Ultimately, though, it may be necessary to weigh the cost of this 1 bit information leak against the gains in mitigating bounce tracking.
 
@@ -167,19 +167,23 @@ Some issues that we’d like to discuss:
 
 # Stakeholder Feedback / Opposition
 
-Pending feedback after publication.
+This proposal was discussed at TPAC 2022 in [FedID CG](https://github.com/fedidcg/meetings/blob/main/2022/2022-09-12-TPAC-notes.md#bounce-tracking-mitigations), [Web Payments WG](https://www.w3.org/2022/09/13-wpwg-minutes.html#:~:text=running%20their%20businesses.-,Navigation%20tracking,-%5BBen%27s%20slides), and in informal settings.
+
+Browser vendors signaled cautious interest in aligning in some kind of solution in this space.  In particular, user interaction was called out as being a suboptimal signal to use for this proposal in the long term, but was also acknowledged as the best one we have today.  We should be open to adjusting the algorithm to use other signals in the future.
+
+The identity community seemed satisfied that their use cases would not break.  The payment community was concerned that some flows could end up in higher friction states, but no broken flows were identified.
+
+We are tracking at-risk use cases in the [nav-tracking mitigations issues](https://github.com/privacycg/nav-tracking-mitigations/issues?q=is%3Aopen+label%3Abounce-tracking+label%3Aat-risk-use-case).
 
 # References and Acknowledgements
 
-Safari, Firefox, and Brave have all shipped some form of bounce tracking mitigation.  Each browser currently has a different approach to mitigation.  A description of these features are summarized in a PrivacyCG [draft report](https://privacycg.github.io/nav-tracking-mitigations/#deployed-mitigations).  Specifically, this explainer most closely aligns with the following shipped features:
+Safari, Firefox, and Brave have all shipped some form of bounce tracking mitigation.  Each browser currently has a different approach to mitigation.  A description of these features are summarized in the [nav-tracking mitigiations draft report](https://privacycg.github.io/nav-tracking-mitigations/#deployed-mitigations).  Specifically, this explainer most closely aligns with the following shipped features:
 
 *   Brave's [unlinkable bouncing](https://brave.com/privacy-updates/16-unlinkable-bouncing/) uses ephemeral storage for known bounce trackers if there is not already first-party storage for the site.
 *   Firefox’s [redirect tracking protection](https://developer.mozilla.org/en-US/docs/web/privacy/redirect_tracking_protection) deletes storage for sites on the disconnect.me list if there has not been a first-party interaction within the last 45 days.
 *   Safari expires or [deletes storage](https://webkit.org/blog/8311/intelligent-tracking-prevention-2-0/#:~:text=Protection%20Against%20First%20Party%20Bounce%20Trackers) on sites after client-detected bounce tracking if there is not an interaction within 1 to 7 days.
 
 We want to acknowledge and thank the other browser vendors for all the work they have done on this topic.
-
-In addition we are thankful for the work being done in the [PrivacyCG](https://privacycg.github.io/nav-tracking-mitigations/) on this topic.
 
 Thank you for design input, feedback, and review from:
 
