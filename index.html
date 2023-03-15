@@ -4,14 +4,13 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version 63e66730b, updated Tue Oct 25 12:35:05 2022 -0700" name="generator">
+  <meta content="Bikeshed version d9f9c3533, updated Fri Mar 10 11:31:29 2023 -0800" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="14754f6aa51d6441ce1cc0de52aa04fc89157aef" name="document-revision">
+  <meta content="91d7936e464719f7b2f18292b2cd0d3fb8774836" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
 <style>/* style-autolinks */
-
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
     font-size: inherit;
@@ -71,7 +70,8 @@ pre .property::before, pre .property::after {
 
 [data-link-type=biblio] {
     white-space: pre;
-}</style>
+}
+</style>
 <style>/* style-colors */
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
@@ -180,9 +180,9 @@ pre .property::before, pre .property::after {
     --outdated-shadow: red;
 
     --editedrec-bg: darkorange;
-}</style>
+}
+</style>
 <style>/* style-counters */
-
 body {
     counter-reset: example figure issue;
 }
@@ -209,9 +209,9 @@ figcaption {
 }
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
-}</style>
+}
+</style>
 <style>/* style-dfn-panel */
-
 :root {
     --dfnpanel-bg: #ddd;
     --dfnpanel-text: var(--text);
@@ -219,10 +219,10 @@ figcaption:not(.no-marker)::before {
 .dfn-panel {
     position: absolute;
     z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
+    width: 20em;
+    min-width: min-content;
     max-width: 300px;
+    height: auto;
     max-height: 500px;
     overflow: auto;
     padding: 0.5em 0.75em;
@@ -230,6 +230,7 @@ figcaption:not(.no-marker)::before {
     background: var(--dfnpanel-bg);
     color: var(--dfnpanel-text);
     border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
@@ -252,7 +253,6 @@ figcaption:not(.no-marker)::before {
 .dfn-paneled { cursor: pointer; }
 </style>
 <style>/* style-issues */
-
 a[href].issue-return {
     float: right;
     float: inline-end;
@@ -262,7 +262,6 @@ a[href].issue-return {
 }
 </style>
 <style>/* style-md-lists */
-
 /* This is a weird hack for me not yet following the commonmark spec
    regarding paragraph and lists. */
 [data-md] > :first-child {
@@ -270,7 +269,8 @@ a[href].issue-return {
 }
 [data-md] > :last-child {
     margin-bottom: 0;
-}</style>
+}
+</style>
 <style>/* style-selflinks */
 
 :root {
@@ -444,6 +444,7 @@ dfn > a.self-link::before      { content: "#"; }
        which is quite common in practice... */
     img { background: white; }
 }
+
 @media (prefers-color-scheme: dark) {
     :root {
         --selflink-text: black;
@@ -457,12 +458,13 @@ dfn > a.self-link::before      { content: "#"; }
         --dfnpanel-bg: #222;
         --dfnpanel-text: var(--text);
     }
-}</style>
+}
+</style>
  <body>
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2022-10-26">26 October 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-03-15">15 March 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -479,7 +481,7 @@ dfn > a.self-link::before      { content: "#"; }
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2022 the Contributors to “Navigational-Tracking Mitigations”, published by the <a href="http://www.w3.org/community/privacycg/">Privacy Community Group</a>.
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 the Contributors to “Navigational-Tracking Mitigations”, published by the <a href="http://www.w3.org/community/privacycg/">Privacy Community Group</a>.
 
 This document is licensed under the <a href="http://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">W3C Software and Document License</a>.
 
@@ -554,12 +556,12 @@ tracking from non-tracking navigation and to prevent the tracking without
 damaging similar but benign navigations.</p>
    </section>
    <h2 class="heading settled" data-level="2" id="infra"><span class="secno">2. </span><span class="content">Infrastructure</span><a class="self-link" href="#infra"></a></h2>
-   <p>This specification depends on the Infra standard. <a data-link-type="biblio" href="#biblio-infra">[INFRA]</a></p>
+   <p>This specification depends on the Infra standard. <a data-link-type="biblio" href="#biblio-infra" title="Infra Standard">[INFRA]</a></p>
    <h2 class="heading settled" data-level="3" id="terminology"><span class="secno">3. </span><span class="content">Terminology</span><a class="self-link" href="#terminology"></a></h2>
    <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="link-decoration">Link decoration</dfn> is when the source of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/links.html#hyperlink" id="ref-for-hyperlink">hyperlink</a> "decorates" its <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url">URL</a> with extra information beyond what’s necessary to identify the page a user wants
 to navigate to. This information can be placed almost anywhere inside the URL.</p>
-   <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="navigational-tracking">Navigational tracking</dfn> refers to the general use of one or more <a href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#browsing-the-web">navigations</a> to identify that a user on one site is the
-same person as a user on another site. Navigations transmit information
+   <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="navigational-tracking">Navigational tracking</dfn> refers to the general use of one or more <a href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigating-across-documents">navigations</a> to identify that a user on one
+site is the same person as a user on another site. Navigations transmit information
 cross-site in a few different ways, including in the target URL, which might be <a data-link-type="dfn" href="#link-decoration" id="ref-for-link-decoration②">decorated</a>, and in the timing of the request.</p>
    <div class="example" id="example-link-decoration-tracking">
     <a class="self-link" href="#example-link-decoration-tracking"></a> 
@@ -619,7 +621,7 @@ script from <code>tracker.example</code>.</p>
 example one it has set into <code>publisher.example</code>'s storage or one read from a
 third-party <code>tracker.example</code> <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element" id="ref-for-the-iframe-element">iframe</a></code>.</p>
      <li data-md>
-      <p>If it can’t, it redirects the top level page to <code>tracker.example</code> using <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/history.html#dom-location" id="ref-for-dom-location">window.location</a></code>.</p>
+      <p>If it can’t, it redirects the top level page to <code>tracker.example</code> using <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location" id="ref-for-dom-location">window.location</a></code>.</p>
      <li data-md>
       <p>During this load <code>tracker.example</code> is the first party and can read and write
 its cookie jar.</p>
@@ -676,7 +678,7 @@ Disconnect list are considered tracking sites. All storage
 for tracking sites is cleared after 24 hours, unless the user has interacted
 with the site in the first-party context in the last 45 days.</p>
     <p>Firefox is also starting to remove query parameters known to be used for
-cross-site tracking. (<a data-link-type="biblio" href="#biblio-fsn-2021-q4">[FSN-2021-Q4]</a>) The affected query parameters are chosen
+cross-site tracking. (<a data-link-type="biblio" href="#biblio-fsn-2021-q4" title="Firefox Security Newsletter 2021 Q4">[FSN-2021-Q4]</a>) The affected query parameters are chosen
 using the criteria on the <a data-biblio-display="inline" data-link-type="biblio" href="https://wiki.mozilla.org/Security/Anti_tracking_policy"><cite>Mozilla Anti Tracking Policy</cite></a>, which includes:</p>
     <ul>
      <li data-md>
@@ -739,7 +741,7 @@ existing open-source projects.</p>
     However, for readability,
     these words do not appear in all uppercase letters in this specification. </p>
    <p>All of the text of this specification is normative
-    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
    <p>Examples in this specification are introduced with the words “for example”
     or are set apart from the normative text
     with <code>class="example"</code>,
@@ -776,68 +778,68 @@ existing open-source projects.</p>
    <li><a href="#link-decoration">Link decoration</a><span>, in § 3</span>
    <li><a href="#navigational-tracking">Navigational tracking</a><span>, in § 3</span>
   </ul>
-  <aside class="dfn-panel" data-for="term-for-attr-meta-http-equiv">
-   <a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-657b68dd04b8bfc754a105d830248b2e" class="dfn-panel" data-for="657b68dd04b8bfc754a105d830248b2e" id="infopanel-for-657b68dd04b8bfc754a105d830248b2e">
+   <span id="infopaneltitle-for-657b68dd04b8bfc754a105d830248b2e" style="display:none">Info about the 'http-equiv' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-attr-meta-http-equiv">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-hyperlink">
-   <a href="https://html.spec.whatwg.org/multipage/links.html#hyperlink">https://html.spec.whatwg.org/multipage/links.html#hyperlink</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-d93a29703611c808a4eb9bcfac6ce8d8" class="dfn-panel" data-for="d93a29703611c808a4eb9bcfac6ce8d8" id="infopanel-for-d93a29703611c808a4eb9bcfac6ce8d8">
+   <span id="infopaneltitle-for-d93a29703611c808a4eb9bcfac6ce8d8" style="display:none">Info about the 'hyperlink' external reference.</span><a href="https://html.spec.whatwg.org/multipage/links.html#hyperlink">https://html.spec.whatwg.org/multipage/links.html#hyperlink</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-hyperlink">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-the-iframe-element">
-   <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-baf95ce8d0404079723db392663d355e" class="dfn-panel" data-for="baf95ce8d0404079723db392663d355e" id="infopanel-for-baf95ce8d0404079723db392663d355e">
+   <span id="infopaneltitle-for-baf95ce8d0404079723db392663d355e" style="display:none">Info about the 'iframe' external reference.</span><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-the-iframe-element">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-localstorage">
-   <a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage">https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-33f2faf55eb7920da6b293d065d66fa7" class="dfn-panel" data-for="33f2faf55eb7920da6b293d065d66fa7" id="infopanel-for-33f2faf55eb7920da6b293d065d66fa7">
+   <span id="infopaneltitle-for-33f2faf55eb7920da6b293d065d66fa7" style="display:none">Info about the 'localStorage' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage">https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-localstorage">5.1.3. Brave</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-location">
-   <a href="https://html.spec.whatwg.org/multipage/history.html#dom-location">https://html.spec.whatwg.org/multipage/history.html#dom-location</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-ac6a4c87bc25e7a7b8dbe4adc61268cb" class="dfn-panel" data-for="ac6a4c87bc25e7a7b8dbe4adc61268cb" id="infopanel-for-ac6a4c87bc25e7a7b8dbe4adc61268cb">
+   <span id="infopaneltitle-for-ac6a4c87bc25e7a7b8dbe4adc61268cb" style="display:none">Info about the 'location' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location">https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-location">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-meta">
-   <a href="https://html.spec.whatwg.org/multipage/semantics.html#meta">https://html.spec.whatwg.org/multipage/semantics.html#meta</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-a1de73f42319e83daae5aeb30180f409" class="dfn-panel" data-for="a1de73f42319e83daae5aeb30180f409" id="infopanel-for-a1de73f42319e83daae5aeb30180f409">
+   <span id="infopaneltitle-for-a1de73f42319e83daae5aeb30180f409" style="display:none">Info about the 'meta' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#meta">https://html.spec.whatwg.org/multipage/semantics.html#meta</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-meta">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-attr-meta-http-equiv-keyword-refresh">
-   <a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-d1b67c9ca7a1d4b007049bd481b80496" class="dfn-panel" data-for="d1b67c9ca7a1d4b007049bd481b80496" id="infopanel-for-d1b67c9ca7a1d4b007049bd481b80496">
+   <span id="infopaneltitle-for-d1b67c9ca7a1d4b007049bd481b80496" style="display:none">Info about the 'refresh' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-attr-meta-http-equiv-keyword-refresh">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-status.3xx">
-   <a href="https://httpwg.org/specs/rfc7231.html#status.3xx">https://httpwg.org/specs/rfc7231.html#status.3xx</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-ade31874a894f492a85fc5f10fb79982" class="dfn-panel" data-for="ade31874a894f492a85fc5f10fb79982" id="infopanel-for-ade31874a894f492a85fc5f10fb79982">
+   <span id="infopaneltitle-for-ade31874a894f492a85fc5f10fb79982" style="display:none">Info about the 'http 3xx statuses' external reference.</span><a href="https://httpwg.org/specs/rfc7231.html#status.3xx">https://httpwg.org/specs/rfc7231.html#status.3xx</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-status.3xx">3. Terminology</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dfn-tracking">
-   <a href="https://www.w3.org/TR/tracking-dnt/#dfn-tracking">https://www.w3.org/TR/tracking-dnt/#dfn-tracking</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-730bececc33143217cce1334c4d88f3f" class="dfn-panel" data-for="730bececc33143217cce1334c4d88f3f" id="infopanel-for-730bececc33143217cce1334c4d88f3f">
+   <span id="infopaneltitle-for-730bececc33143217cce1334c4d88f3f" style="display:none">Info about the 'tracking' external reference.</span><a href="https://www.w3.org/TR/tracking-dnt/#dfn-tracking">https://www.w3.org/TR/tracking-dnt/#dfn-tracking</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-tracking">1. Introduction</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-host-registrable-domain">
-   <a href="https://url.spec.whatwg.org/#host-registrable-domain">https://url.spec.whatwg.org/#host-registrable-domain</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-221981a2467fc7245c176c97d9002be7" class="dfn-panel" data-for="221981a2467fc7245c176c97d9002be7" id="infopanel-for-221981a2467fc7245c176c97d9002be7">
+   <span id="infopaneltitle-for-221981a2467fc7245c176c97d9002be7" style="display:none">Info about the 'registrable domain' external reference.</span><a href="https://url.spec.whatwg.org/#host-registrable-domain">https://url.spec.whatwg.org/#host-registrable-domain</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-host-registrable-domain">5.1.1. Safari</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-concept-url">
-   <a href="https://url.spec.whatwg.org/#concept-url">https://url.spec.whatwg.org/#concept-url</a><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-fc05c76e016d3aec6a25a91c066500c8" class="dfn-panel" data-for="fc05c76e016d3aec6a25a91c066500c8" id="infopanel-for-fc05c76e016d3aec6a25a91c066500c8">
+   <span id="infopaneltitle-for-fc05c76e016d3aec6a25a91c066500c8" style="display:none">Info about the 'url' external reference.</span><a href="https://url.spec.whatwg.org/#concept-url">https://url.spec.whatwg.org/#concept-url</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-url">3. Terminology</a>
    </ul>
@@ -847,29 +849,29 @@ existing open-source projects.</p>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-attr-meta-http-equiv">http-equiv</span>
-     <li><span class="dfn-paneled" id="term-for-hyperlink">hyperlink</span>
-     <li><span class="dfn-paneled" id="term-for-the-iframe-element">iframe</span>
-     <li><span class="dfn-paneled" id="term-for-dom-localstorage">localStorage</span>
-     <li><span class="dfn-paneled" id="term-for-dom-location">location</span>
-     <li><span class="dfn-paneled" id="term-for-meta">meta</span>
-     <li><span class="dfn-paneled" id="term-for-attr-meta-http-equiv-keyword-refresh">refresh</span>
+     <li><span class="dfn-paneled" id="657b68dd04b8bfc754a105d830248b2e">http-equiv</span>
+     <li><span class="dfn-paneled" id="d93a29703611c808a4eb9bcfac6ce8d8">hyperlink</span>
+     <li><span class="dfn-paneled" id="baf95ce8d0404079723db392663d355e">iframe</span>
+     <li><span class="dfn-paneled" id="33f2faf55eb7920da6b293d065d66fa7">localStorage</span>
+     <li><span class="dfn-paneled" id="ac6a4c87bc25e7a7b8dbe4adc61268cb">location</span>
+     <li><span class="dfn-paneled" id="a1de73f42319e83daae5aeb30180f409">meta</span>
+     <li><span class="dfn-paneled" id="d1b67c9ca7a1d4b007049bd481b80496">refresh</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTTP]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-status.3xx">http 3xx statuses</span>
+     <li><span class="dfn-paneled" id="ade31874a894f492a85fc5f10fb79982">http 3xx statuses</span>
     </ul>
    <li>
     <a data-link-type="biblio">[TRACKING-DNT]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dfn-tracking">tracking</span>
+     <li><span class="dfn-paneled" id="730bececc33143217cce1334c4d88f3f">tracking</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-host-registrable-domain">registrable domain</span>
-     <li><span class="dfn-paneled" id="term-for-concept-url">url</span>
+     <li><span class="dfn-paneled" id="221981a2467fc7245c176c97d9002be7">registrable domain</span>
+     <li><span class="dfn-paneled" id="fc05c76e016d3aec6a25a91c066500c8">url</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -907,15 +909,15 @@ a user ID and sufficient to track a user if the source and target
 collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-fc2127e1" title="Jump to section">↵</a></div>
    <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-0c501704" title="Jump to section">↵</a></div>
   </div>
-  <aside class="dfn-panel" data-for="link-decoration">
-   <b><a href="#link-decoration">#link-decoration</a></b><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-link-decoration" class="dfn-panel" data-for="link-decoration" id="infopanel-for-link-decoration">
+   <span id="infopaneltitle-for-link-decoration" style="display:none">Info about the 'Link decoration' definition.</span><b><a href="#link-decoration">#link-decoration</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-link-decoration">1. Introduction</a> <a href="#ref-for-link-decoration①">(2)</a>
     <li><a href="#ref-for-link-decoration②">3. Terminology</a> <a href="#ref-for-link-decoration③">(2)</a> <a href="#ref-for-link-decoration④">(3)</a> <a href="#ref-for-link-decoration⑤">(4)</a> <a href="#ref-for-link-decoration⑥">(5)</a> <a href="#ref-for-link-decoration⑦">(6)</a> <a href="#ref-for-link-decoration⑧">(7)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="navigational-tracking">
-   <b><a href="#navigational-tracking">#navigational-tracking</a></b><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-navigational-tracking" class="dfn-panel" data-for="navigational-tracking" id="infopanel-for-navigational-tracking">
+   <span id="infopaneltitle-for-navigational-tracking" style="display:none">Info about the 'Navigational tracking' definition.</span><b><a href="#navigational-tracking">#navigational-tracking</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-navigational-tracking">1. Introduction</a> <a href="#ref-for-navigational-tracking①">(2)</a>
     <li><a href="#ref-for-navigational-tracking②">3. Terminology</a> <a href="#ref-for-navigational-tracking③">(2)</a> <a href="#ref-for-navigational-tracking④">(3)</a> <a href="#ref-for-navigational-tracking⑤">(4)</a> <a href="#ref-for-navigational-tracking⑥">(5)</a>
@@ -925,65 +927,119 @@ collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issu
     <li><a href="#ref-for-navigational-tracking①⓪">5.1.3. Brave</a> <a href="#ref-for-navigational-tracking①①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="bounce-tracking">
-   <b><a href="#bounce-tracking">#bounce-tracking</a></b><b>Referenced in:</b>
+  <aside aria-labelledby="infopaneltitle-for-bounce-tracking" class="dfn-panel" data-for="bounce-tracking" id="infopanel-for-bounce-tracking">
+   <span id="infopaneltitle-for-bounce-tracking" style="display:none">Info about the 'Bounce tracking' definition.</span><b><a href="#bounce-tracking">#bounce-tracking</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-bounce-tracking">3. Terminology</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
-
-document.body.addEventListener("click", function(e) {
-    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
-    // Find the dfn element or panel, if any, that was clicked on.
-    var el = e.target;
-    var target;
-    var hitALink = false;
-    while(el.parentElement) {
-        if(el.tagName == "A") {
-            // Clicking on a link in a <dfn> shouldn't summon the panel
-            hitALink = true;
-        }
-        if(el.classList.contains("dfn-paneled")) {
-            target = "dfn";
-            break;
-        }
-        if(el.classList.contains("dfn-panel")) {
-            target = "dfn-panel";
-            break;
-        }
-        el = el.parentElement;
+"use strict";
+{
+    function queryAll(sel) {
+        return [].slice.call(document.querySelectorAll(sel));
     }
-    if(target != "dfn-panel") {
+
+    // Add popup behavior to all dfns to show the corresponding dfn-panel.
+    var dfns = document.querySelectorAll('.dfn-paneled');
+    for (let dfn of dfns) { insertDfnPopupAction(dfn); }
+
+    document.body.addEventListener("click", (e) => {
+        // If not handled already, just hide all dfn panels.
+        hideAllDfnPanels();
+    });
+
+    function hideAllDfnPanels() {
         // Turn off any currently "on" or "activated" panels.
-        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
-            el.classList.remove("on");
-            el.classList.remove("activated");
-        });
-    }
-    if(target == "dfn" && !hitALink) {
-        // open the panel
-        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
-        if(dfnPanel) {
-            dfnPanel.classList.add("on");
-            var rect = el.getBoundingClientRect();
-            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
-            dfnPanel.style.top = window.scrollY + rect.top + "px";
-            var panelRect = dfnPanel.getBoundingClientRect();
-            var panelWidth = panelRect.right - panelRect.left;
-            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
-                // Reposition, because the panel is overflowing
-                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
-            }
-        } else {
-            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
-        }
-    } else if(target == "dfn-panel") {
-        // Switch it to "activated" state, which pins it.
-        el.classList.add("activated");
-        el.style.left = null;
-        el.style.top = null;
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
     }
 
-});
+    function showDfnPanel(dfnPanel, dfn) {
+        hideAllDfnPanels(); // Only display one at this time.
+        dfn.setAttribute("aria-expanded", "true");
+        dfnPanel.classList.add("on");
+        dfnPanel.style.left = "5px";
+        dfnPanel.style.top = "0px";
+        const panelRect = dfnPanel.getBoundingClientRect();
+        const panelWidth = panelRect.right - panelRect.left;
+        if (panelRect.right > document.body.scrollWidth) {
+            // Panel's overflowing the screen.
+            // Just drop it below the dfn and flip it rightward instead.
+            // This still wont' fix things if the screen is *really* wide,
+            // but fixing that's a lot harder without 'anchor()'.
+            dfnPanel.style.top = "1.5em";
+            dfnPanel.style.left = "auto";
+            dfnPanel.style.right = "0px";
+        }
+    }
+
+    function pinDfnPanel(dfnPanel) {
+        // Switch it to "activated" state, which pins it.
+        dfnPanel.classList.add("activated");
+        dfnPanel.style.left = null;
+        dfnPanel.style.top = null;
+    }
+
+    function hideDfnPanel(dfnPanel, dfn) {
+        if(!dfn) {
+            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
+        }
+        dfn.setAttribute("aria-expanded", "false")
+        dfnPanel.classList.remove("on");
+        dfnPanel.classList.remove("activated");
+    }
+
+    function toggleDfnPanel(dfnPanel, dfn) {
+        if(dfnPanel.classList.contains("on")) {
+            hideDfnPanel(dfnPanel, dfn);
+        } else {
+            showDfnPanel(dfnPanel, dfn);
+        }
+    }
+
+    function insertDfnPopupAction(dfn) {
+        // Find dfn panel
+        const dfnPanel = document.querySelector(`.dfn-panel[data-for='${dfn.id}']`);
+        if (dfnPanel) {
+            const panelWrapper = document.createElement('span');
+            panelWrapper.appendChild(dfnPanel);
+            panelWrapper.style.position = "relative";
+            panelWrapper.style.height = "0px";
+            dfn.insertAdjacentElement("afterend", panelWrapper);
+            dfn.setAttribute('role', 'button');
+            dfn.setAttribute('aria-expanded', 'false')
+            dfn.tabIndex = 0;
+            dfn.classList.add('has-dfn-panel');
+            dfn.addEventListener('click', (event) => {
+                showDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+            });
+            dfn.addEventListener('keypress', (event) => {
+                const kc = event.keyCode;
+                // 32->Space, 13->Enter
+                if(kc == 32 || kc == 13) {
+                    toggleDfnPanel(dfnPanel, dfn);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            });
+
+            dfnPanel.addEventListener('click', (event) => {
+                pinDfnPanel(dfnPanel);
+                event.stopPropagation();
+            });
+
+            dfnPanel.addEventListener('keydown', (event) => {
+                if(event.keyCode == 27) { // Escape key
+                    hideDfnPanel(dfnPanel, dfn);
+                    event.stopPropagation();
+                    event.preventDefault();
+                }
+            })
+
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + dfn.id + "']");
+        }
+    }
+}
 </script>
