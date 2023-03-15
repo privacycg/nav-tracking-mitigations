@@ -9,7 +9,8 @@
 #
 #    npm install -g doctoc
 
-.PHONY: all publish clean update-explainer-toc
+SHELL=/bin/bash -o pipefail
+.PHONY: all publish clean update-explainer-toc remote
 .SUFFIXES: .bs .html
 
 all: publish update-explainer-toc
@@ -25,3 +26,17 @@ update-explainer-toc: README.md Makefile
 build/index.html: index.bs Makefile
 	mkdir -p build
 	bikeshed --die-on=warning spec $< $@
+
+remote: index.bs
+	mkdir -p build
+	@ (HTTP_STATUS=$$(curl https://api.csswg.org/bikeshed/ \
+	                       --output build/index.html \
+	                       --write-out "%{http_code}" \
+	                       --header "Accept: text/plain, text/html" \
+	                       -F die-on=warning \
+	                       -F file=@index.bs) && \
+	[[ "$$HTTP_STATUS" -eq "200" ]]) || ( \
+		echo ""; cat build/index.html; echo ""; \
+		rm -f build/index.html; \
+		exit 22 \
+	);

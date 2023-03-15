@@ -70,8 +70,8 @@ with extra information beyond what's necessary to identify the page a user wants
 to navigate to. This information can be placed almost anywhere inside the URL.
 
 <dfn>Navigational tracking</dfn> refers to the general use of one or more
-[[HTML#browsing-the-web|navigations]] to identify that a user on one site is the
-same person as a user on another site. Navigations transmit information
+[[HTML#navigating-across-documents|navigations]] to identify that a user on one
+site is the same person as a user on another site. Navigations transmit information
 cross-site in a few different ways, including in the target URL, which might be
 [=link decoration|decorated=], and in the timing of the request.
 
