@@ -28,6 +28,7 @@ build/index.html: index.bs Makefile
 	bikeshed --die-on=warning spec $< $@
 
 remote: index.bs
+	mkdir -p build
 	@ (HTTP_STATUS=$$(curl https://api.csswg.org/bikeshed/ \
 	                       --output build/index.html \
 	                       --write-out "%{http_code}" \
