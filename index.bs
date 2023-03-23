@@ -275,6 +275,33 @@ existing open-source projects.
 
 </section>
 
+<h2 id="bounce-tracking-mitigations">Bounce Tracking Mitigations</h2>
+
+The content of this section will provide a "monkey patch" specification for
+bounce tracking mitigations.  This work has been proposed in an
+<a href="https://github.com/privacycg/nav-tracking-mitigations/blob/main/bounce-tracking-explainer.md">explainer</a>
+but is not complete yet.  As the algorithm is developed it will be specified
+here and presented for review.
+
+<p class=note>
+The following is a work-in-progress and does not yet reflect any consensus in
+the PrivacyCG.
+</p>
+
+<h3 id="bounce-tracking-mitigations-data-model">Data Model</h3>
+
+* TODO: Define how bounce tracking information is stored; e.g. sites,
+        timestamps, etc.
+* TODO: Define how site interaction information is stored.
+* TODO: Define a recurring global timer to run the analyze and delete algorithm.
+
+<h3 id="bounce-tracking-mitigations-algorithms">Algorithms</h3>
+
+* TODO: Define the steps necessary to detect and store a "bounce".
+* TODO: Define the steps necessary to store user interactions.
+* TODO: Define the steps to analyze information in the data model and delete
+        appropriate sites.
+
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
 Many thanks to the Privacy Community Group for many good discussions about this proposal.
