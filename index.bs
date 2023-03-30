@@ -41,6 +41,13 @@ spec: HTTP; urlPrefix: https://httpwg.org/specs/rfc7231.html#
     type: dfn; text: HTTP 3xx statuses; url: status.3xx
 spec: tracking-dnt; urlPrefix: https://www.w3.org/TR/tracking-dnt/#
     type: dfn; text: tracking; url: dfn-tracking
+spec: RFC6265; urlPrefix: https://tools.ietf.org/html/rfc6265/
+    type: dfn
+        text: cookie store; url: section-5.3
+        text: domain-match; url: section-5.1.3
+spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234/
+    type: dfn
+        text: network cache; url: section-2
 </pre>
 
 <section class="non-normative">
@@ -293,12 +300,33 @@ the PrivacyCG.
 
 * TODO: Define how bounce tracking information is stored; e.g. sites,
         timestamps, etc.
-* TODO: Define a recurring global timer to run the analyze and delete algorithm.
 
 The user agent holds a <dfn>user activation map</dfn> which is a [=map=] of
 [=site=] [=hosts=] to [=moments=].  The [=moments=] represent the most recent
 [=wall clock=] time at which the user activated a top-level document on the
 associated [=host=].
+
+The user agent holds a <dfn>candidate bounce tracking map</dfn> which is a
+[=map=] of [=site=] [=hosts=] to [=moments=].  The [=moments=] represent the
+most recent [=wall clock=] time at which a page on the given [=host=] performed
+an action that could indicate bounce tracking took place.
+
+The <dfn>bounce tracking grace period</dfn> is an [=implementation-defined=]
+[=duration=] that represents the length of time after a possible bounce tracking
+event during which the user agent will wait for an interaction before deleting a
+[=host=]'s storage.
+
+The <dfn>bounce tracking activation lifetime</dfn> is an
+[=implementation-defined=] [=duration=] that represents how long user
+activations will protect a [=host=] from storage deletion.
+
+The <dfn>bounce tracking timer period</dfn> is an [=implementation-defined=]
+[=duration=] that represents how often to run the [=bounce tracking timer=]
+algorithm.
+
+<p class=issue>
+TODO: Provide reasonable example values for these constants.
+</p>
 
 <p class=note>
 Schemeless site is used as the data structure key because by default cookies
@@ -308,8 +336,6 @@ are sent to both `http://` and `https://` pages on the same domain.
 <h3 id="bounce-tracking-mitigations-algorithms">Algorithms</h3>
 
 * TODO: Define the steps necessary to detect and store a "bounce".
-* TODO: Define the steps to analyze information in the data model and delete
-        appropriate sites.
 
 <h4 id="bounce-tracking-mitigations-activation-monkey-patch">User Activation
 Monkey Patch</h4>
@@ -337,6 +363,84 @@ steps in the [[HTML#user-activation-processing-model|user activation processing
 model]]:
 
 1. Run [=record a user activation=] given <var ignore>document</var>.
+
+<h4 id="bounce-tracking-mitigations-timer">Timer</h4>
+
+<div algorithm>
+
+To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
+[=wall clock=] |now|,
+perform the following steps:
+
+1. [=map/For each=] |host| -> |bounceTime| of [=candidate bounce tracking map=]:
+    1. If |bounceTime| + [=bounce tracking grace period=] is after |now|, then
+        [=iteration/continue=].
+    1. Let |activationTime| be [=user activation map=][|host|].
+    1. If |activationTime| is not null and |activationTime| +
+        [=bounce tracking activation lifetime=] is after |now|, then
+        [=iteration/continue=].
+    1. If there is a [=top-level traversable=] whose
+        [=navigable/active document=]'s [=Document/origin=]'s
+        [=obtain a site|site=]'s [=host=] equals |host|,
+        then [=iteration/continue=].
+    1. [=Clear cookies for host=] given |host|.
+    1. [=Clear non-cookie storage for host=] given |host|.
+    1. [=Clear cache for host=] given |host|.
+
+<p class=issue>TODO: Do something to prevent repeated deletions, etc.</p>
+<p class=issue>TODO: Consider if we should do anything when the clock is moved
+    forward or backward.</p>
+
+</div>
+
+Every [=bounce tracking timer period=] the user agent should run the
+[=bounce tracking timer=] algorithm given the [=wall clock=]'s
+[=wall clock/unsafe current time=].
+
+<h4 id="bounce-tracking-mitigations-deletion">Deletion</h4>
+
+<p class=note>The cookie and cache clearing algorithms were largely copied from
+the <a href="https://w3c.github.io/webappsec-clear-site-data">Clear Site Data</a>
+spec.  It would be nice to unify these in the future.</p>
+
+<div algorithm>
+
+To <dfn>clear cookies for host</dfn> given a [=host=] |host|, perform the
+following steps:
+
+1. Let |cookieList| be the set of cookies from the [=cookie store=] whose
+    domain attribute is a [=domain-match=] with |host|.
+1. [=list/For each=] |cookie| in |cookieList|:
+    1. Remove |cookie| from the [=cookie store=].
+
+</div>
+
+<div algorithm>
+To <dfn>clear non-cookie storage for host</dfn> given a [=host=] |host|, perform
+the following steps:
+
+1. For each <a spec=storage>storage shed</a> |shed| held by the user agent or a
+    [=traversable navigable=]:
+    1. [=map/For each=] |storageKey| -> |storageShelf| of |shed|:
+        1. If |storageKey|'s <a spec=storage for="storage key">origin</a> is an
+            [=opaque origin=], then [=iteration/continue=].
+        1. If |storageKey|'s <a spec=storage for="storage key">origin</a>'s
+            [=origin/host=] does not equal |host|, then [=iteration/continue=].
+        1. Delete all data stored in |storageShelf|.
+        1. [=map/Remove=] |storageKey| from |shed|.
+
+</div>
+
+<div algorithm>
+To <dfn>clear cache for host</dfn> given a [=host=] |host|, perform the
+following steps:
+
+1. Let |cacheList| be the set of entries from the [=network cache=] whose
+    target URI [=host=] equals |host|.
+1. [=list/For each=] |entry| in |cacheList|:
+    1. Remove |entry| from the [=network cache=].
+
+</div>
 
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
