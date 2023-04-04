@@ -293,15 +293,50 @@ the PrivacyCG.
 
 * TODO: Define how bounce tracking information is stored; e.g. sites,
         timestamps, etc.
-* TODO: Define how site interaction information is stored.
 * TODO: Define a recurring global timer to run the analyze and delete algorithm.
+
+The user agent holds a <dfn>user activation map</dfn> which is a [=map=] of
+[=site=] [=hosts=] to [=moments=].  The [=moments=] represent the most recent
+[=wall clock=] time at which the user activated a top-level document on the
+associated [=host=].
+
+<p class=note>
+Schemeless site is used as the data structure key because by default cookies
+are sent to both `http://` and `https://` pages on the same domain.
+</p>
 
 <h3 id="bounce-tracking-mitigations-algorithms">Algorithms</h3>
 
 * TODO: Define the steps necessary to detect and store a "bounce".
-* TODO: Define the steps necessary to store user interactions.
 * TODO: Define the steps to analyze information in the data model and delete
         appropriate sites.
+
+<h4 id="bounce-tracking-mitigations-activation-monkey-patch">User Activation
+Monkey Patch</h4>
+
+<div algorithm>
+
+To <dfn>record a user activation</dfn> given a [=Document=] |document|, perform
+the following steps:
+
+1. Let |navigable| be |document|'s [=node navigable=].
+1. If |navigable| is null, then abort these steps.
+1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
+    [=navigable/active document=].
+1. Let |origin| be |topDocument|'s [=Document/origin=].
+1. If |origin| is an [=opaque origin=] then abort these steps.
+1. Let |site| be the result of running [=obtain a site=] given |origin|.
+1. Set [=user activation map=][|site|'s [=host=]] to |topDocument|'s
+    [=relevant settings object=]'s
+    [=environment settings object/current wall time=].
+
+</div>
+
+Append the following steps to the <a spec="html">activation notification</a>
+steps in the [[HTML#user-activation-processing-model|user activation processing
+model]]:
+
+1. Run [=record a user activation=] given <var ignore>document</var>.
 
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
