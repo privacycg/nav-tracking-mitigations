@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version d9bd89757, updated Thu Mar 23 10:06:53 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="d53d46ab8830144d08dd59dd6d473be42289eb78" name="document-revision">
+  <meta content="56f0d1400857b690a7713656e64443439cbe2a59" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -331,6 +331,17 @@ a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
+<style>/* style-var-click-highlighting */
+
+    var { cursor: pointer; }
+    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
+    </style>
 <style>/* style-darkmode */
 
 @media (prefers-color-scheme: dark) {
@@ -526,7 +537,12 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
      <a href="#bounce-tracking-mitigations"><span class="secno">6</span> <span class="content">Bounce Tracking Mitigations</span></a>
      <ol class="toc">
       <li><a href="#bounce-tracking-mitigations-data-model"><span class="secno">6.1</span> <span class="content">Data Model</span></a>
-      <li><a href="#bounce-tracking-mitigations-algorithms"><span class="secno">6.2</span> <span class="content">Algorithms</span></a>
+      <li>
+       <a href="#bounce-tracking-mitigations-algorithms"><span class="secno">6.2</span> <span class="content">Algorithms</span></a>
+       <ol class="toc">
+        <li><a href="#bounce-tracking-mitigations-activation-monkey-patch"><span class="secno">6.2.1</span> <span class="content">User Activation
+Monkey Patch</span></a>
+       </ol>
      </ol>
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content">Acknowledgements</span></a>
     <li>
@@ -746,20 +762,48 @@ the PrivacyCG. </p>
      <p>TODO: Define how bounce tracking information is stored; e.g. sites,
     timestamps, etc.</p>
     <li data-md>
-     <p>TODO: Define how site interaction information is stored.</p>
-    <li data-md>
      <p>TODO: Define a recurring global timer to run the analyze and delete algorithm.</p>
    </ul>
+   <p>The user agent holds a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="user-activation-map">user activation map</dfn> which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host">hosts</a> to <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment">moments</a>.  The <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment①">moments</a> represent the most recent <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock">wall clock</a> time at which the user activated a top-level document on the
+associated <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①">host</a>.</p>
+   <p class="note" role="note"> Schemeless site is used as the data structure key because by default cookies
+are sent to both <code>http://</code> and <code>https://</code> pages on the same domain. </p>
    <h3 class="heading settled" data-level="6.2" id="bounce-tracking-mitigations-algorithms"><span class="secno">6.2. </span><span class="content">Algorithms</span><a class="self-link" href="#bounce-tracking-mitigations-algorithms"></a></h3>
    <ul>
     <li data-md>
      <p>TODO: Define the steps necessary to detect and store a "bounce".</p>
     <li data-md>
-     <p>TODO: Define the steps necessary to store user interactions.</p>
-    <li data-md>
      <p>TODO: Define the steps to analyze information in the data model and delete
     appropriate sites.</p>
    </ul>
+   <h4 class="heading settled" data-level="6.2.1" id="bounce-tracking-mitigations-activation-monkey-patch"><span class="secno">6.2.1. </span><span class="content">User Activation
+Monkey Patch</span><a class="self-link" href="#bounce-tracking-mitigations-activation-monkey-patch"></a></h4>
+   <div class="algorithm" data-algorithm="record a user activation">
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="record-a-user-activation">record a user activation</dfn> given a <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document">Document</a> <var>document</var>, perform
+the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>Let <var>navigable</var> be <var>document</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable" id="ref-for-node-navigable">node navigable</a>.</p>
+     <li data-md>
+      <p>If <var>navigable</var> is null, then abort these steps.</p>
+     <li data-md>
+      <p>Let <var>topDocument</var> be <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable">top-level traversable</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document">active document</a>.</p>
+     <li data-md>
+      <p>Let <var>origin</var> be <var>topDocument</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-origin" id="ref-for-concept-document-origin">origin</a>.</p>
+     <li data-md>
+      <p>If <var>origin</var> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque">opaque origin</a> then abort these steps.</p>
+     <li data-md>
+      <p>Let <var>site</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site">obtain a site</a> given <var>origin</var>.</p>
+     <li data-md>
+      <p>Set <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map">user activation map</a>[<var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host②">host</a>] to <var>topDocument</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-current-wall-time" id="ref-for-dfn-current-wall-time">current wall time</a>.</p>
+    </ol>
+   </div>
+   <p>Append the following steps to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#activation-notification" id="ref-for-activation-notification">activation notification</a> steps in the <a href="https://html.spec.whatwg.org/multipage/interaction.html#user-activation-processing-model">user activation processing
+model</a>:</p>
+   <ol>
+    <li data-md>
+     <p>Run <a data-link-type="dfn" href="#record-a-user-activation" id="ref-for-record-a-user-activation">record a user activation</a> given <var>document</var>.</p>
+   </ol>
    <h2 class="no-num heading settled" id="acknowledgements"><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Many thanks to the Privacy Community Group for many good discussions about this proposal.</p>
   </main>
@@ -811,7 +855,56 @@ the PrivacyCG. </p>
    <li><a href="#bounce-tracking">Bounce tracking</a><span>, in § 3</span>
    <li><a href="#link-decoration">Link decoration</a><span>, in § 3</span>
    <li><a href="#navigational-tracking">Navigational tracking</a><span>, in § 3</span>
+   <li><a href="#record-a-user-activation">record a user activation</a><span>, in § 6.2.1</span>
+   <li><a href="#user-activation-map">user activation map</a><span>, in § 6.1</span>
   </ul>
+  <aside aria-labelledby="infopaneltitle-for-985c42e2af63b3e74bd3b70d55668fd4" class="dfn-panel" data-for="985c42e2af63b3e74bd3b70d55668fd4" id="infopanel-for-985c42e2af63b3e74bd3b70d55668fd4">
+   <span id="infopaneltitle-for-985c42e2af63b3e74bd3b70d55668fd4" style="display:none">Info about the 'document' external reference.</span><a href="https://dom.spec.whatwg.org/#concept-document">https://dom.spec.whatwg.org/#concept-document</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-document">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-9c5cdbb5c3dd225a70ea0af45a02c608" class="dfn-panel" data-for="9c5cdbb5c3dd225a70ea0af45a02c608" id="infopanel-for-9c5cdbb5c3dd225a70ea0af45a02c608">
+   <span id="infopaneltitle-for-9c5cdbb5c3dd225a70ea0af45a02c608" style="display:none">Info about the 'origin' external reference.</span><a href="https://dom.spec.whatwg.org/#concept-document-origin">https://dom.spec.whatwg.org/#concept-document-origin</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-document-origin">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-1f78bca61233b6a6957119204c181632" class="dfn-panel" data-for="1f78bca61233b6a6957119204c181632" id="infopanel-for-1f78bca61233b6a6957119204c181632">
+   <span id="infopaneltitle-for-1f78bca61233b6a6957119204c181632" style="display:none">Info about the 'current wall time' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-current-wall-time">https://w3c.github.io/hr-time/#dfn-current-wall-time</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-current-wall-time">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-a33f352de1a9eb5d29cfa3005d40d072" class="dfn-panel" data-for="a33f352de1a9eb5d29cfa3005d40d072" id="infopanel-for-a33f352de1a9eb5d29cfa3005d40d072">
+   <span id="infopaneltitle-for-a33f352de1a9eb5d29cfa3005d40d072" style="display:none">Info about the 'moment' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-moment">https://w3c.github.io/hr-time/#dfn-moment</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-moment">6.1. Data Model</a> <a href="#ref-for-dfn-moment①">(2)</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-9ce1d97c81991af84a4cfb8251a89c4e" class="dfn-panel" data-for="9ce1d97c81991af84a4cfb8251a89c4e" id="infopanel-for-9ce1d97c81991af84a4cfb8251a89c4e">
+   <span id="infopaneltitle-for-9ce1d97c81991af84a4cfb8251a89c4e" style="display:none">Info about the 'wall clock' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-wall-clock">https://w3c.github.io/hr-time/#dfn-wall-clock</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dfn-wall-clock">6.1. Data Model</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-25155e0c95bc63cc9d7eb438622b81d4" class="dfn-panel" data-for="25155e0c95bc63cc9d7eb438622b81d4" id="infopanel-for-25155e0c95bc63cc9d7eb438622b81d4">
+   <span id="infopaneltitle-for-25155e0c95bc63cc9d7eb438622b81d4" style="display:none">Info about the 'activation notification' external reference.</span><a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-notification">https://html.spec.whatwg.org/multipage/interaction.html#activation-notification</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-activation-notification">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-de11cdc07a64c79878f1c3074e81554a" class="dfn-panel" data-for="de11cdc07a64c79878f1c3074e81554a" id="infopanel-for-de11cdc07a64c79878f1c3074e81554a">
+   <span id="infopaneltitle-for-de11cdc07a64c79878f1c3074e81554a" style="display:none">Info about the 'active document' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document">https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-nav-document">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
   <aside aria-labelledby="infopaneltitle-for-657b68dd04b8bfc754a105d830248b2e" class="dfn-panel" data-for="657b68dd04b8bfc754a105d830248b2e" id="infopanel-for-657b68dd04b8bfc754a105d830248b2e">
    <span id="infopaneltitle-for-657b68dd04b8bfc754a105d830248b2e" style="display:none">Info about the 'http-equiv' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv</a><b>Referenced in:</b>
    <ul>
@@ -848,10 +941,51 @@ the PrivacyCG. </p>
     <li><a href="#ref-for-meta">3. Terminology</a>
    </ul>
   </aside>
+  <aside aria-labelledby="infopaneltitle-for-d5ad1e20f67eb03bd0608119efdd55f5" class="dfn-panel" data-for="d5ad1e20f67eb03bd0608119efdd55f5" id="infopanel-for-d5ad1e20f67eb03bd0608119efdd55f5">
+   <span id="infopaneltitle-for-d5ad1e20f67eb03bd0608119efdd55f5" style="display:none">Info about the 'node navigable' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable">https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-node-navigable">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-27e69640e8fd1e1522b5ace8391212ba" class="dfn-panel" data-for="27e69640e8fd1e1522b5ace8391212ba" id="infopanel-for-27e69640e8fd1e1522b5ace8391212ba">
+   <span id="infopaneltitle-for-27e69640e8fd1e1522b5ace8391212ba" style="display:none">Info about the 'obtain a site' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site">https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-obtain-a-site">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-23307d34220e7159f8e5d8c231db141f" class="dfn-panel" data-for="23307d34220e7159f8e5d8c231db141f" id="infopanel-for-23307d34220e7159f8e5d8c231db141f">
+   <span id="infopaneltitle-for-23307d34220e7159f8e5d8c231db141f" style="display:none">Info about the 'opaque origin' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque">https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-origin-opaque">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
   <aside aria-labelledby="infopaneltitle-for-d1b67c9ca7a1d4b007049bd481b80496" class="dfn-panel" data-for="d1b67c9ca7a1d4b007049bd481b80496" id="infopanel-for-d1b67c9ca7a1d4b007049bd481b80496">
    <span id="infopaneltitle-for-d1b67c9ca7a1d4b007049bd481b80496" style="display:none">Info about the 'refresh' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-attr-meta-http-equiv-keyword-refresh">3. Terminology</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-bfb9cb6617f81a424ab20212af73bae3" class="dfn-panel" data-for="bfb9cb6617f81a424ab20212af73bae3" id="infopanel-for-bfb9cb6617f81a424ab20212af73bae3">
+   <span id="infopaneltitle-for-bfb9cb6617f81a424ab20212af73bae3" style="display:none">Info about the 'relevant settings object' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-relevant-settings-object">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-f7e6800046257cc9fe726534da6b862b" class="dfn-panel" data-for="f7e6800046257cc9fe726534da6b862b" id="infopanel-for-f7e6800046257cc9fe726534da6b862b">
+   <span id="infopaneltitle-for-f7e6800046257cc9fe726534da6b862b" style="display:none">Info about the 'site' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#site">https://html.spec.whatwg.org/multipage/browsers.html#site</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-site">6.1. Data Model</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-6bb36d47a5f9a04109a4493b81f2720a" class="dfn-panel" data-for="6bb36d47a5f9a04109a4493b81f2720a" id="infopanel-for-6bb36d47a5f9a04109a4493b81f2720a">
+   <span id="infopaneltitle-for-6bb36d47a5f9a04109a4493b81f2720a" style="display:none">Info about the 'top-level traversable' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable">https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-top-level-traversable">6.2.1. User Activation
+Monkey Patch</a>
    </ul>
   </aside>
   <aside aria-labelledby="infopaneltitle-for-ade31874a894f492a85fc5f10fb79982" class="dfn-panel" data-for="ade31874a894f492a85fc5f10fb79982" id="infopanel-for-ade31874a894f492a85fc5f10fb79982">
@@ -860,10 +994,24 @@ the PrivacyCG. </p>
     <li><a href="#ref-for-status.3xx">3. Terminology</a>
    </ul>
   </aside>
+  <aside aria-labelledby="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" class="dfn-panel" data-for="4bf12d0cddf322a1e2a9fb52f4d85843" id="infopanel-for-4bf12d0cddf322a1e2a9fb52f4d85843">
+   <span id="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" style="display:none">Info about the 'map' external reference.</span><a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-ordered-map">6.1. Data Model</a>
+   </ul>
+  </aside>
   <aside aria-labelledby="infopaneltitle-for-730bececc33143217cce1334c4d88f3f" class="dfn-panel" data-for="730bececc33143217cce1334c4d88f3f" id="infopanel-for-730bececc33143217cce1334c4d88f3f">
    <span id="infopaneltitle-for-730bececc33143217cce1334c4d88f3f" style="display:none">Info about the 'tracking' external reference.</span><a href="https://www.w3.org/TR/tracking-dnt/#dfn-tracking">https://www.w3.org/TR/tracking-dnt/#dfn-tracking</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dfn-tracking">1. Introduction</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-34d5d2836179020a7cd44e6fef7f9e98" class="dfn-panel" data-for="34d5d2836179020a7cd44e6fef7f9e98" id="infopanel-for-34d5d2836179020a7cd44e6fef7f9e98">
+   <span id="infopaneltitle-for-34d5d2836179020a7cd44e6fef7f9e98" style="display:none">Info about the 'host' external reference.</span><a href="https://url.spec.whatwg.org/#concept-host">https://url.spec.whatwg.org/#concept-host</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-host">6.1. Data Model</a> <a href="#ref-for-concept-host①">(2)</a>
+    <li><a href="#ref-for-concept-host②">6.2.1. User Activation
+Monkey Patch</a>
    </ul>
   </aside>
   <aside aria-labelledby="infopaneltitle-for-221981a2467fc7245c176c97d9002be7" class="dfn-panel" data-for="221981a2467fc7245c176c97d9002be7" id="infopanel-for-221981a2467fc7245c176c97d9002be7">
@@ -881,20 +1029,46 @@ the PrivacyCG. </p>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
+    <a data-link-type="biblio">[DOM]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="985c42e2af63b3e74bd3b70d55668fd4">document</span>
+     <li><span class="dfn-paneled" id="9c5cdbb5c3dd225a70ea0af45a02c608">origin</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[HR-TIME-3]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="1f78bca61233b6a6957119204c181632">current wall time</span>
+     <li><span class="dfn-paneled" id="a33f352de1a9eb5d29cfa3005d40d072">moment</span>
+     <li><span class="dfn-paneled" id="9ce1d97c81991af84a4cfb8251a89c4e">wall clock</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="25155e0c95bc63cc9d7eb438622b81d4">activation notification</span>
+     <li><span class="dfn-paneled" id="de11cdc07a64c79878f1c3074e81554a">active document</span>
      <li><span class="dfn-paneled" id="657b68dd04b8bfc754a105d830248b2e">http-equiv</span>
      <li><span class="dfn-paneled" id="d93a29703611c808a4eb9bcfac6ce8d8">hyperlink</span>
      <li><span class="dfn-paneled" id="baf95ce8d0404079723db392663d355e">iframe</span>
      <li><span class="dfn-paneled" id="33f2faf55eb7920da6b293d065d66fa7">localStorage</span>
      <li><span class="dfn-paneled" id="ac6a4c87bc25e7a7b8dbe4adc61268cb">location</span>
      <li><span class="dfn-paneled" id="a1de73f42319e83daae5aeb30180f409">meta</span>
+     <li><span class="dfn-paneled" id="d5ad1e20f67eb03bd0608119efdd55f5">node navigable</span>
+     <li><span class="dfn-paneled" id="27e69640e8fd1e1522b5ace8391212ba">obtain a site</span>
+     <li><span class="dfn-paneled" id="23307d34220e7159f8e5d8c231db141f">opaque origin</span>
      <li><span class="dfn-paneled" id="d1b67c9ca7a1d4b007049bd481b80496">refresh</span>
+     <li><span class="dfn-paneled" id="bfb9cb6617f81a424ab20212af73bae3">relevant settings object</span>
+     <li><span class="dfn-paneled" id="f7e6800046257cc9fe726534da6b862b">site</span>
+     <li><span class="dfn-paneled" id="6bb36d47a5f9a04109a4493b81f2720a">top-level traversable</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTTP]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="ade31874a894f492a85fc5f10fb79982">http 3xx statuses</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="4bf12d0cddf322a1e2a9fb52f4d85843">map</span>
     </ul>
    <li>
     <a data-link-type="biblio">[TRACKING-DNT]</a> defines the following terms:
@@ -904,6 +1078,7 @@ the PrivacyCG. </p>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="34d5d2836179020a7cd44e6fef7f9e98">host</span>
      <li><span class="dfn-paneled" id="221981a2467fc7245c176c97d9002be7">registrable domain</span>
      <li><span class="dfn-paneled" id="fc05c76e016d3aec6a25a91c066500c8">url</span>
     </ul>
@@ -911,6 +1086,10 @@ the PrivacyCG. </p>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-dom">[DOM]
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dt id="biblio-hr-time-3">[HR-TIME-3]
+   <dd>Yoav Weiss. <a href="https://w3c.github.io/hr-time/"><cite>High Resolution Time</cite></a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-infra">[INFRA]
@@ -965,6 +1144,20 @@ collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issu
    <span id="infopaneltitle-for-bounce-tracking" style="display:none">Info about the 'Bounce tracking' definition.</span><b><a href="#bounce-tracking">#bounce-tracking</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-bounce-tracking">3. Terminology</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-user-activation-map" class="dfn-panel" data-for="user-activation-map" id="infopanel-for-user-activation-map">
+   <span id="infopaneltitle-for-user-activation-map" style="display:none">Info about the 'user activation map' definition.</span><b><a href="#user-activation-map">#user-activation-map</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-user-activation-map">6.2.1. User Activation
+Monkey Patch</a>
+   </ul>
+  </aside>
+  <aside aria-labelledby="infopaneltitle-for-record-a-user-activation" class="dfn-panel" data-for="record-a-user-activation" id="infopanel-for-record-a-user-activation">
+   <span id="infopaneltitle-for-record-a-user-activation" style="display:none">Info about the 'record a user activation' definition.</span><b><a href="#record-a-user-activation">#record-a-user-activation</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-record-a-user-activation">6.2.1. User Activation
+Monkey Patch</a>
    </ul>
   </aside>
 <script>/* script-dfn-panel */
@@ -1077,3 +1270,88 @@ collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issu
     }
 }
 </script>
+<script>/* script-var-click-highlighting */
+
+    "use strict";
+    {
+        document.addEventListener("click", e=>{
+            if(e.target.nodeName == "VAR") {
+                highlightSameAlgoVars(e.target);
+            }
+        });
+        const indexCounts = new Map();
+        const indexNames = new Map();
+        function highlightSameAlgoVars(v) {
+            // Find the algorithm container.
+            let algoContainer = null;
+            let searchEl = v;
+            while(algoContainer == null && searchEl != document.body) {
+                searchEl = searchEl.parentNode;
+                if(searchEl.hasAttribute("data-algorithm")) {
+                    algoContainer = searchEl;
+                }
+            }
+
+            // Not highlighting document-global vars,
+            // too likely to be unrelated.
+            if(algoContainer == null) return;
+
+            const algoName = algoContainer.getAttribute("data-algorithm");
+            const varName = getVarName(v);
+            const addClass = !v.classList.contains("selected");
+            let highlightClass = null;
+            if(addClass) {
+                const index = chooseHighlightIndex(algoName, varName);
+                indexCounts.get(algoName)[index] += 1;
+                indexNames.set(algoName+"///"+varName, index);
+                highlightClass = nameFromIndex(index);
+            } else {
+                const index = previousHighlightIndex(algoName, varName);
+                indexCounts.get(algoName)[index] -= 1;
+                highlightClass = nameFromIndex(index);
+            }
+
+            // Find all same-name vars, and toggle their class appropriately.
+            for(const el of algoContainer.querySelectorAll("var")) {
+                if(getVarName(el) == varName) {
+                    el.classList.toggle("selected", addClass);
+                    el.classList.toggle(highlightClass, addClass);
+                }
+            }
+        }
+        function getVarName(el) {
+            return el.textContent.replace(/(\s|\xa0)+/, " ").trim();
+        }
+        function chooseHighlightIndex(algoName, varName) {
+            let indexes = null;
+            if(indexCounts.has(algoName)) {
+                indexes = indexCounts.get(algoName);
+            } else {
+                // 7 classes right now
+                indexes = [0,0,0,0,0,0,0];
+                indexCounts.set(algoName, indexes);
+            }
+
+            // If the element was recently unclicked,
+            // *and* that color is still unclaimed,
+            // give it back the same color.
+            const lastIndex = previousHighlightIndex(algoName, varName);
+            if(indexes[lastIndex] === 0) return lastIndex;
+
+            // Find the earliest index with the lowest count.
+            const minCount = Math.min.apply(null, indexes);
+            let index = null;
+            for(var i = 0; i < indexes.length; i++) {
+                if(indexes[i] == minCount) {
+                    return i;
+                }
+            }
+        }
+        function previousHighlightIndex(algoName, varName) {
+            return indexNames.get(algoName+"///"+varName);
+        }
+        function nameFromIndex(index) {
+            return "selected" + index;
+        }
+    }
+    </script>
