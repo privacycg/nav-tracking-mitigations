@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version d9f9c3533, updated Fri Mar 10 11:31:29 2023 -0800" name="generator">
+  <meta content="Bikeshed version d9bd89757, updated Thu Mar 23 10:06:53 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="91d7936e464719f7b2f18292b2cd0d3fb8774836" name="document-revision">
+  <meta content="0c1ac2b90e1b6ec155b15e86fabf7f1c841a20ea" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -464,7 +464,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-03-15">15 March 2023</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-04-04">4 April 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -521,6 +521,12 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
         <li><a href="#mitigations-firefox"><span class="secno">5.1.2</span> <span class="content">Firefox</span></a>
         <li><a href="#mitigations-brave"><span class="secno">5.1.3</span> <span class="content">Brave</span></a>
        </ol>
+     </ol>
+    <li>
+     <a href="#bounce-tracking-mitigations"><span class="secno">6</span> <span class="content">Bounce Tracking Mitigations</span></a>
+     <ol class="toc">
+      <li><a href="#bounce-tracking-mitigations-data-model"><span class="secno">6.1</span> <span class="content">Data Model</span></a>
+      <li><a href="#bounce-tracking-mitigations-algorithms"><span class="secno">6.2</span> <span class="content">Algorithms</span></a>
      </ol>
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content">Acknowledgements</span></a>
     <li>
@@ -726,6 +732,35 @@ with a navigation to <code>https://destination.example/</code>. This list
 is maintained by Brave, and is drawn from a mix of crowd-sourcing and
 existing open-source projects.</p>
    </section>
+   <h2 class="heading settled" data-level="6" id="bounce-tracking-mitigations"><span class="secno">6. </span><span class="content">Bounce Tracking Mitigations</span><a class="self-link" href="#bounce-tracking-mitigations"></a></h2>
+   <p>The content of this section will provide a "monkey patch" specification for bounce tracking
+mitigations.  There is a <a href="https://github.com/privacycg/nav-tracking-mitigations/blob/main/bounce-tracking-explainer.md">Chromium-oriented
+explainer</a>)
+for this work, but the text in this section is intended for adoption across all browsers. This
+section is not complete yet, and as the algorithms are developed, they will be specified here and
+presented for review.</p>
+   <p class="note" role="note"> The following is a work-in-progress and does not yet reflect any consensus in
+the PrivacyCG. </p>
+   <h3 class="heading settled" data-level="6.1" id="bounce-tracking-mitigations-data-model"><span class="secno">6.1. </span><span class="content">Data Model</span><a class="self-link" href="#bounce-tracking-mitigations-data-model"></a></h3>
+   <ul>
+    <li data-md>
+     <p>TODO: Define how bounce tracking information is stored; e.g. sites,
+    timestamps, etc.</p>
+    <li data-md>
+     <p>TODO: Define how site interaction information is stored.</p>
+    <li data-md>
+     <p>TODO: Define a recurring global timer to run the analyze and delete algorithm.</p>
+   </ul>
+   <h3 class="heading settled" data-level="6.2" id="bounce-tracking-mitigations-algorithms"><span class="secno">6.2. </span><span class="content">Algorithms</span><a class="self-link" href="#bounce-tracking-mitigations-algorithms"></a></h3>
+   <ul>
+    <li data-md>
+     <p>TODO: Define the steps necessary to detect and store a "bounce".</p>
+    <li data-md>
+     <p>TODO: Define the steps necessary to store user interactions.</p>
+    <li data-md>
+     <p>TODO: Define the steps to analyze information in the data model and delete
+    appropriate sites.</p>
+   </ul>
    <h2 class="no-num heading settled" id="acknowledgements"><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Many thanks to the Privacy Community Group for many good discussions about this proposal.</p>
   </main>
