@@ -277,11 +277,12 @@ existing open-source projects.
 
 <h2 id="bounce-tracking-mitigations">Bounce Tracking Mitigations</h2>
 
-The content of this section will provide a "monkey patch" specification for
-bounce tracking mitigations.  This work has been proposed in an
-<a href="https://github.com/privacycg/nav-tracking-mitigations/blob/main/bounce-tracking-explainer.md">explainer</a>
-but is not complete yet.  As the algorithm is developed it will be specified
-here and presented for review.
+The content of this section will provide a "monkey patch" specification for bounce tracking
+mitigations.  There is a [Chromium-oriented
+explainer](https://github.com/privacycg/nav-tracking-mitigations/blob/main/bounce-tracking-explainer.md))
+for this work, but the text in this section is intended for adoption across all browsers. This
+section is not complete yet, and as the algorithms are developed, they will be specified here and
+presented for review.
 
 <p class=note>
 The following is a work-in-progress and does not yet reflect any consensus in
