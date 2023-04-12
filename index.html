@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version d9bd89757, updated Thu Mar 23 10:06:53 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="c5f4cb76f5876f5a328225b875da50856b381866" name="document-revision">
+  <meta content="fccad95cf6e5661f9380b3d6739b4a85424dd4ca" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -475,7 +475,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-04-06">6 April 2023</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-04-12">12 April 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -551,7 +551,6 @@ Monkey Patch</span></a>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
      <ol class="toc">
       <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
-      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -773,10 +772,12 @@ a user activation occurs.  This means that a given host can exist in either the 
 the same time.  The maps will have non-overlapping sets of keys.</p>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-grace-period">bounce tracking grace period</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration">duration</a> that represents the length of time after a possible bounce tracking
 event during which the user agent will wait for an interaction before deleting a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host④">host</a>'s storage.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> 1 hour is a reasonable <a data-link-type="dfn" href="#bounce-tracking-grace-period" id="ref-for-bounce-tracking-grace-period">bounce tracking grace period</a> value.</p>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-activation-lifetime">bounce tracking activation lifetime</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined①">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration①">duration</a> that represents how long user
 activations will protect a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑤">host</a> from storage deletion.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> 45 days is a reasonable <a data-link-type="dfn" href="#bounce-tracking-activation-lifetime" id="ref-for-bounce-tracking-activation-lifetime">bounce tracking activation lifetime</a> value.</p>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-timer-period">bounce tracking timer period</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined②">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration②">duration</a> that represents how often to run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer②">bounce tracking timer</a> algorithm.</p>
-   <p class="issue" id="issue-55679525"><a class="self-link" href="#issue-55679525"></a> TODO: Provide reasonable example values for these constants. </p>
+   <p class="note" role="note"><span class="marker">Note:</span> 1 hour is a reasonable <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period">bounce tracking timer period</a> value.</p>
    <h3 class="heading settled" data-level="6.2" id="bounce-tracking-mitigations-algorithms"><span class="secno">6.2. </span><span class="content">Algorithms</span><a class="self-link" href="#bounce-tracking-mitigations-algorithms"></a></h3>
    <ul>
     <li data-md>
@@ -825,7 +826,7 @@ perform the following steps:</p>
        <li data-md>
         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert">Assert</a> that <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map③">candidate bounce tracking map</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">contain</a> <var>host</var>.</p>
        <li data-md>
-        <p>If <var>activationTime</var> + <a data-link-type="dfn" href="#bounce-tracking-activation-lifetime" id="ref-for-bounce-tracking-activation-lifetime">bounce tracking activation lifetime</a> is before <var>now</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove①">remove</a> <var>host</var> from <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map③">user activation map</a>.</p>
+        <p>If <var>activationTime</var> + <a data-link-type="dfn" href="#bounce-tracking-activation-lifetime" id="ref-for-bounce-tracking-activation-lifetime①">bounce tracking activation lifetime</a> is before <var>now</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove①">remove</a> <var>host</var> from <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map③">user activation map</a>.</p>
       </ol>
      <li data-md>
       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate①">For each</a> <var>host</var> -> <var>bounceTime</var> of <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map④">candidate bounce tracking map</a>:</p>
@@ -833,7 +834,7 @@ perform the following steps:</p>
        <li data-md>
         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert①">Assert</a> that <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map④">user activation map</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists①">contain</a> <var>host</var>.</p>
        <li data-md>
-        <p>If <var>bounceTime</var> + <a data-link-type="dfn" href="#bounce-tracking-grace-period" id="ref-for-bounce-tracking-grace-period">bounce tracking grace period</a> is after <var>now</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
+        <p>If <var>bounceTime</var> + <a data-link-type="dfn" href="#bounce-tracking-grace-period" id="ref-for-bounce-tracking-grace-period①">bounce tracking grace period</a> is after <var>now</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
        <li data-md>
         <p>If there is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable①">top-level traversable</a> whose <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document①">active document</a>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-origin" id="ref-for-concept-document-origin①">origin</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site①">site</a>'s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑦">host</a> equals <var>host</var>,
 then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue①">continue</a>.</p>
@@ -850,7 +851,7 @@ then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-cont
     <p class="issue" id="issue-c8879d93"><a class="self-link" href="#issue-c8879d93"></a>TODO: Consider if we should do anything when the clock is moved
     forward or backward.</p>
    </div>
-   <p>Every <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period">bounce tracking timer period</a> the user agent should run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer③">bounce tracking timer</a> algorithm given the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock③">wall clock</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time" id="ref-for-wall-clock-unsafe-current-time">unsafe current time</a>.</p>
+   <p>Every <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period①">bounce tracking timer period</a> the user agent should run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer③">bounce tracking timer</a> algorithm given the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock③">wall clock</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time" id="ref-for-wall-clock-unsafe-current-time">unsafe current time</a>.</p>
    <h4 class="heading settled" data-level="6.2.3" id="bounce-tracking-mitigations-deletion"><span class="secno">6.2.3. </span><span class="content">Deletion</span><a class="self-link" href="#bounce-tracking-mitigations-deletion"></a></h4>
    <p class="note" role="note">The cookie and cache clearing algorithms were largely copied from
 the <a href="https://w3c.github.io/webappsec-clear-site-data">Clear Site Data</a> spec.  It would be nice to unify these in the future.</p>
@@ -935,20 +936,6 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
     with <code>class="note"</code>,
     like this: </p>
    <p class="note" role="note">Note, this is an informative note.</p>
-   <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
-   <p>Requirements phrased in the imperative as part of algorithms
-    (such as "strip any leading space characters"
-    or "return false and abort these steps")
-    are to be interpreted with the meaning of the key word
-    ("must", "should", "may", etc)
-    used in introducing the algorithm. </p>
-   <p>Conformance requirements phrased as algorithms or specific steps
-    can be implemented in any manner,
-    so long as the end result is equivalent.
-    In particular, the algorithms defined in this specification
-    are intended to be easy to understand
-    and are not intended to be performant.
-    Implementers are encouraged to optimize. </p>
   </div>
 <script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
@@ -1375,7 +1362,6 @@ might be essential for that action to happen. However, this is also clearly
 a user ID and sufficient to track a user if the source and target
 collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-fc2127e1" title="Jump to section">↵</a></div>
    <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-0c501704" title="Jump to section">↵</a></div>
-   <div class="issue"> TODO: Provide reasonable example values for these constants. <a class="issue-return" href="#issue-55679525" title="Jump to section">↵</a></div>
    <div class="issue">TODO: Consider if we should do anything when the clock is moved
     forward or backward. <a class="issue-return" href="#issue-c8879d93" title="Jump to section">↵</a></div>
   </div>
@@ -1424,19 +1410,22 @@ Monkey Patch</a>
   <aside aria-labelledby="infopaneltitle-for-bounce-tracking-grace-period" class="dfn-panel" data-for="bounce-tracking-grace-period" id="infopanel-for-bounce-tracking-grace-period">
    <span id="infopaneltitle-for-bounce-tracking-grace-period" style="display:none">Info about the 'bounce tracking grace period' definition.</span><b><a href="#bounce-tracking-grace-period">#bounce-tracking-grace-period</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-bounce-tracking-grace-period">6.2.2. Timer</a>
+    <li><a href="#ref-for-bounce-tracking-grace-period">6.1. Data Model</a>
+    <li><a href="#ref-for-bounce-tracking-grace-period①">6.2.2. Timer</a>
    </ul>
   </aside>
   <aside aria-labelledby="infopaneltitle-for-bounce-tracking-activation-lifetime" class="dfn-panel" data-for="bounce-tracking-activation-lifetime" id="infopanel-for-bounce-tracking-activation-lifetime">
    <span id="infopaneltitle-for-bounce-tracking-activation-lifetime" style="display:none">Info about the 'bounce tracking activation lifetime' definition.</span><b><a href="#bounce-tracking-activation-lifetime">#bounce-tracking-activation-lifetime</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-bounce-tracking-activation-lifetime">6.2.2. Timer</a>
+    <li><a href="#ref-for-bounce-tracking-activation-lifetime">6.1. Data Model</a>
+    <li><a href="#ref-for-bounce-tracking-activation-lifetime①">6.2.2. Timer</a>
    </ul>
   </aside>
   <aside aria-labelledby="infopaneltitle-for-bounce-tracking-timer-period" class="dfn-panel" data-for="bounce-tracking-timer-period" id="infopanel-for-bounce-tracking-timer-period">
    <span id="infopaneltitle-for-bounce-tracking-timer-period" style="display:none">Info about the 'bounce tracking timer period' definition.</span><b><a href="#bounce-tracking-timer-period">#bounce-tracking-timer-period</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-bounce-tracking-timer-period">6.2.2. Timer</a>
+    <li><a href="#ref-for-bounce-tracking-timer-period">6.1. Data Model</a>
+    <li><a href="#ref-for-bounce-tracking-timer-period①">6.2.2. Timer</a>
    </ul>
   </aside>
   <aside aria-labelledby="infopaneltitle-for-record-a-user-activation" class="dfn-panel" data-for="record-a-user-activation" id="infopanel-for-record-a-user-activation">
