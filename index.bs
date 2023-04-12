@@ -324,17 +324,19 @@ The <dfn>bounce tracking grace period</dfn> is an [=implementation-defined=]
 event during which the user agent will wait for an interaction before deleting a
 [=host=]'s storage.
 
+Note: 1 hour is a reasonable [=bounce tracking grace period=] value.
+
 The <dfn>bounce tracking activation lifetime</dfn> is an
 [=implementation-defined=] [=duration=] that represents how long user
 activations will protect a [=host=] from storage deletion.
+
+Note: 45 days is a reasonable [=bounce tracking activation lifetime=] value.
 
 The <dfn>bounce tracking timer period</dfn> is an [=implementation-defined=]
 [=duration=] that represents how often to run the [=bounce tracking timer=]
 algorithm.
 
-<p class=issue>
-TODO: Provide reasonable example values for these constants.
-</p>
+Note: 1 hour is a reasonable [=bounce tracking timer period=] value.
 
 <h3 id="bounce-tracking-mitigations-algorithms">Algorithms</h3>
 
