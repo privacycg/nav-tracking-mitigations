@@ -424,6 +424,9 @@ following steps:
 
 </div>
 
+Issue: TODO: Verify that using [=domain-match=] catches all cookies for the
+    [=host/registrable domain=].
+
 <div algorithm>
 To <dfn>clear non-cookie storage for host</dfn> given a [=host=] |host|, perform
 the following steps:
