@@ -424,8 +424,8 @@ following steps:
 
 </div>
 
-Isseue: TODO: Verify that [=domain-match=] clears all cookies for the etld+1
-    domain.
+Issue: TODO: Verify that using [=domain-match=] catches all cookies for the
+    [=host/registrable domain=].
 
 <div algorithm>
 To <dfn>clear non-cookie storage for host</dfn> given a [=host=] |host|, perform
