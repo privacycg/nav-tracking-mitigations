@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version d9bd89757, updated Thu Mar 23 10:06:53 2023 -0700" name="generator">
+  <meta content="Bikeshed version bf22245b8, updated Tue Apr 18 15:53:37 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="fccad95cf6e5661f9380b3d6739b4a85424dd4ca" name="document-revision">
+  <meta content="6c9918a570b9e3b2bc0ed86cc2107d20d1e8ba7c" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -220,8 +220,7 @@ figcaption:not(.no-marker)::before {
     position: absolute;
     z-index: 35;
     width: 20em;
-    min-width: min-content;
-    max-width: 300px;
+    width: 300px;
     height: auto;
     max-height: 500px;
     overflow: auto;
@@ -238,8 +237,15 @@ figcaption:not(.no-marker)::before {
 .dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    white-space: pre;
+    display: inline-block;
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .dfn-panel.activated {
     display: inline-block;
     position: fixed;
@@ -250,7 +256,7 @@ figcaption:not(.no-marker)::before {
     max-height: 30vh;
 }
 
-.dfn-paneled { cursor: pointer; }
+.dfn-paneled[role="button"] { cursor: pointer; }
 </style>
 <style>/* style-issues */
 a[href].issue-return {
@@ -332,16 +338,15 @@ a.self-link::before            { content: "¶"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
 <style>/* style-var-click-highlighting */
-
-    var { cursor: pointer; }
-    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
-    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
-    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
-    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
-    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
-    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
-    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
-    </style>
+var { cursor: pointer; }
+var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
+</style>
 <style>/* style-darkmode */
 
 @media (prefers-color-scheme: dark) {
@@ -475,7 +480,7 @@ dfn > a.self-link::before      { content: "#"; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-04-12">12 April 2023</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-04-24">24 April 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -870,6 +875,7 @@ domain attribute is a <a data-link-type="dfn" href="https://tools.ietf.org/html/
       </ol>
     </ol>
    </div>
+   <p class="issue" id="issue-a6c4e61d"><a class="self-link" href="#issue-a6c4e61d"></a> TODO: Verify that using <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.1.3" id="ref-for-section-5.1.3①">domain-match</a> catches all cookies for the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain" id="ref-for-host-registrable-domain①">registrable domain</a>.</p>
    <div class="algorithm" data-algorithm="clear non-cookie storage for host">
      To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-non-cookie-storage-for-host">clear non-cookie storage for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑨">host</a> <var>host</var>, perform
 the following steps: 
@@ -955,367 +961,89 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
    <li><a href="#record-a-user-activation">record a user activation</a><span>, in § 6.2.1</span>
    <li><a href="#user-activation-map">user activation map</a><span>, in § 6.1</span>
   </ul>
-  <aside aria-labelledby="infopaneltitle-for-985c42e2af63b3e74bd3b70d55668fd4" class="dfn-panel" data-for="985c42e2af63b3e74bd3b70d55668fd4" id="infopanel-for-985c42e2af63b3e74bd3b70d55668fd4">
-   <span id="infopaneltitle-for-985c42e2af63b3e74bd3b70d55668fd4" style="display:none">Info about the 'document' external reference.</span><a href="https://dom.spec.whatwg.org/#concept-document">https://dom.spec.whatwg.org/#concept-document</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-document">6.2.1. User Activation
-Monkey Patch</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-9c5cdbb5c3dd225a70ea0af45a02c608" class="dfn-panel" data-for="9c5cdbb5c3dd225a70ea0af45a02c608" id="infopanel-for-9c5cdbb5c3dd225a70ea0af45a02c608">
-   <span id="infopaneltitle-for-9c5cdbb5c3dd225a70ea0af45a02c608" style="display:none">Info about the 'origin' external reference.</span><a href="https://dom.spec.whatwg.org/#concept-document-origin">https://dom.spec.whatwg.org/#concept-document-origin</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-document-origin">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-concept-document-origin①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-1f78bca61233b6a6957119204c181632" class="dfn-panel" data-for="1f78bca61233b6a6957119204c181632" id="infopanel-for-1f78bca61233b6a6957119204c181632">
-   <span id="infopaneltitle-for-1f78bca61233b6a6957119204c181632" style="display:none">Info about the 'current wall time' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-current-wall-time">https://w3c.github.io/hr-time/#dfn-current-wall-time</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-current-wall-time">6.2.1. User Activation
-Monkey Patch</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-9213a3aff5ff1021ab4c2d780aa70cee" class="dfn-panel" data-for="9213a3aff5ff1021ab4c2d780aa70cee" id="infopanel-for-9213a3aff5ff1021ab4c2d780aa70cee">
-   <span id="infopaneltitle-for-9213a3aff5ff1021ab4c2d780aa70cee" style="display:none">Info about the 'duration' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-duration">https://w3c.github.io/hr-time/#dfn-duration</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-duration">6.1. Data Model</a> <a href="#ref-for-dfn-duration①">(2)</a> <a href="#ref-for-dfn-duration②">(3)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-a33f352de1a9eb5d29cfa3005d40d072" class="dfn-panel" data-for="a33f352de1a9eb5d29cfa3005d40d072" id="infopanel-for-a33f352de1a9eb5d29cfa3005d40d072">
-   <span id="infopaneltitle-for-a33f352de1a9eb5d29cfa3005d40d072" style="display:none">Info about the 'moment' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-moment">https://w3c.github.io/hr-time/#dfn-moment</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-moment">6.1. Data Model</a> <a href="#ref-for-dfn-moment①">(2)</a> <a href="#ref-for-dfn-moment②">(3)</a> <a href="#ref-for-dfn-moment③">(4)</a>
-    <li><a href="#ref-for-dfn-moment④">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-5c98f131e8c65f55555b9e0b89711bcd" class="dfn-panel" data-for="5c98f131e8c65f55555b9e0b89711bcd" id="infopanel-for-5c98f131e8c65f55555b9e0b89711bcd">
-   <span id="infopaneltitle-for-5c98f131e8c65f55555b9e0b89711bcd" style="display:none">Info about the 'unsafe current time' external reference.</span><a href="https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time">https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-wall-clock-unsafe-current-time">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-9ce1d97c81991af84a4cfb8251a89c4e" class="dfn-panel" data-for="9ce1d97c81991af84a4cfb8251a89c4e" id="infopanel-for-9ce1d97c81991af84a4cfb8251a89c4e">
-   <span id="infopaneltitle-for-9ce1d97c81991af84a4cfb8251a89c4e" style="display:none">Info about the 'wall clock' external reference.</span><a href="https://w3c.github.io/hr-time/#dfn-wall-clock">https://w3c.github.io/hr-time/#dfn-wall-clock</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-wall-clock">6.1. Data Model</a> <a href="#ref-for-dfn-wall-clock①">(2)</a>
-    <li><a href="#ref-for-dfn-wall-clock②">6.2.2. Timer</a> <a href="#ref-for-dfn-wall-clock③">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-25155e0c95bc63cc9d7eb438622b81d4" class="dfn-panel" data-for="25155e0c95bc63cc9d7eb438622b81d4" id="infopanel-for-25155e0c95bc63cc9d7eb438622b81d4">
-   <span id="infopaneltitle-for-25155e0c95bc63cc9d7eb438622b81d4" style="display:none">Info about the 'activation notification' external reference.</span><a href="https://html.spec.whatwg.org/multipage/interaction.html#activation-notification">https://html.spec.whatwg.org/multipage/interaction.html#activation-notification</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-activation-notification">6.2.1. User Activation
-Monkey Patch</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-de11cdc07a64c79878f1c3074e81554a" class="dfn-panel" data-for="de11cdc07a64c79878f1c3074e81554a" id="infopanel-for-de11cdc07a64c79878f1c3074e81554a">
-   <span id="infopaneltitle-for-de11cdc07a64c79878f1c3074e81554a" style="display:none">Info about the 'active document' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document">https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-nav-document">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-nav-document①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-0a8d192cb885d336f16ead79b570c196" class="dfn-panel" data-for="0a8d192cb885d336f16ead79b570c196" id="infopanel-for-0a8d192cb885d336f16ead79b570c196">
-   <span id="infopaneltitle-for-0a8d192cb885d336f16ead79b570c196" style="display:none">Info about the 'host' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host">https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-origin-host">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-657b68dd04b8bfc754a105d830248b2e" class="dfn-panel" data-for="657b68dd04b8bfc754a105d830248b2e" id="infopanel-for-657b68dd04b8bfc754a105d830248b2e">
-   <span id="infopaneltitle-for-657b68dd04b8bfc754a105d830248b2e" style="display:none">Info about the 'http-equiv' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-attr-meta-http-equiv">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-d93a29703611c808a4eb9bcfac6ce8d8" class="dfn-panel" data-for="d93a29703611c808a4eb9bcfac6ce8d8" id="infopanel-for-d93a29703611c808a4eb9bcfac6ce8d8">
-   <span id="infopaneltitle-for-d93a29703611c808a4eb9bcfac6ce8d8" style="display:none">Info about the 'hyperlink' external reference.</span><a href="https://html.spec.whatwg.org/multipage/links.html#hyperlink">https://html.spec.whatwg.org/multipage/links.html#hyperlink</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-hyperlink">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-baf95ce8d0404079723db392663d355e" class="dfn-panel" data-for="baf95ce8d0404079723db392663d355e" id="infopanel-for-baf95ce8d0404079723db392663d355e">
-   <span id="infopaneltitle-for-baf95ce8d0404079723db392663d355e" style="display:none">Info about the 'iframe' external reference.</span><a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-the-iframe-element">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-33f2faf55eb7920da6b293d065d66fa7" class="dfn-panel" data-for="33f2faf55eb7920da6b293d065d66fa7" id="infopanel-for-33f2faf55eb7920da6b293d065d66fa7">
-   <span id="infopaneltitle-for-33f2faf55eb7920da6b293d065d66fa7" style="display:none">Info about the 'localStorage' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage">https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-localstorage">5.1.3. Brave</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-ac6a4c87bc25e7a7b8dbe4adc61268cb" class="dfn-panel" data-for="ac6a4c87bc25e7a7b8dbe4adc61268cb" id="infopanel-for-ac6a4c87bc25e7a7b8dbe4adc61268cb">
-   <span id="infopaneltitle-for-ac6a4c87bc25e7a7b8dbe4adc61268cb" style="display:none">Info about the 'location' external reference.</span><a href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location">https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-location">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-a1de73f42319e83daae5aeb30180f409" class="dfn-panel" data-for="a1de73f42319e83daae5aeb30180f409" id="infopanel-for-a1de73f42319e83daae5aeb30180f409">
-   <span id="infopaneltitle-for-a1de73f42319e83daae5aeb30180f409" style="display:none">Info about the 'meta' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#meta">https://html.spec.whatwg.org/multipage/semantics.html#meta</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-meta">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-d5ad1e20f67eb03bd0608119efdd55f5" class="dfn-panel" data-for="d5ad1e20f67eb03bd0608119efdd55f5" id="infopanel-for-d5ad1e20f67eb03bd0608119efdd55f5">
-   <span id="infopaneltitle-for-d5ad1e20f67eb03bd0608119efdd55f5" style="display:none">Info about the 'node navigable' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable">https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-node-navigable">6.2.1. User Activation
-Monkey Patch</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-27e69640e8fd1e1522b5ace8391212ba" class="dfn-panel" data-for="27e69640e8fd1e1522b5ace8391212ba" id="infopanel-for-27e69640e8fd1e1522b5ace8391212ba">
-   <span id="infopaneltitle-for-27e69640e8fd1e1522b5ace8391212ba" style="display:none">Info about the 'obtain a site' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site">https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-obtain-a-site">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-obtain-a-site①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-23307d34220e7159f8e5d8c231db141f" class="dfn-panel" data-for="23307d34220e7159f8e5d8c231db141f" id="infopanel-for-23307d34220e7159f8e5d8c231db141f">
-   <span id="infopaneltitle-for-23307d34220e7159f8e5d8c231db141f" style="display:none">Info about the 'opaque origin' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque">https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-origin-opaque">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-concept-origin-opaque①">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-d1b67c9ca7a1d4b007049bd481b80496" class="dfn-panel" data-for="d1b67c9ca7a1d4b007049bd481b80496" id="infopanel-for-d1b67c9ca7a1d4b007049bd481b80496">
-   <span id="infopaneltitle-for-d1b67c9ca7a1d4b007049bd481b80496" style="display:none">Info about the 'refresh' external reference.</span><a href="https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh">https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-attr-meta-http-equiv-keyword-refresh">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-bfb9cb6617f81a424ab20212af73bae3" class="dfn-panel" data-for="bfb9cb6617f81a424ab20212af73bae3" id="infopanel-for-bfb9cb6617f81a424ab20212af73bae3">
-   <span id="infopaneltitle-for-bfb9cb6617f81a424ab20212af73bae3" style="display:none">Info about the 'relevant settings object' external reference.</span><a href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object">https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-relevant-settings-object">6.2.1. User Activation
-Monkey Patch</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-f7e6800046257cc9fe726534da6b862b" class="dfn-panel" data-for="f7e6800046257cc9fe726534da6b862b" id="infopanel-for-f7e6800046257cc9fe726534da6b862b">
-   <span id="infopaneltitle-for-f7e6800046257cc9fe726534da6b862b" style="display:none">Info about the 'site' external reference.</span><a href="https://html.spec.whatwg.org/multipage/browsers.html#site">https://html.spec.whatwg.org/multipage/browsers.html#site</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-site">6.1. Data Model</a> <a href="#ref-for-site①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-6bb36d47a5f9a04109a4493b81f2720a" class="dfn-panel" data-for="6bb36d47a5f9a04109a4493b81f2720a" id="infopanel-for-6bb36d47a5f9a04109a4493b81f2720a">
-   <span id="infopaneltitle-for-6bb36d47a5f9a04109a4493b81f2720a" style="display:none">Info about the 'top-level traversable' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable">https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-top-level-traversable">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-top-level-traversable①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-9df064b89e8130a9d4cee056b2fdeb2f" class="dfn-panel" data-for="9df064b89e8130a9d4cee056b2fdeb2f" id="infopanel-for-9df064b89e8130a9d4cee056b2fdeb2f">
-   <span id="infopaneltitle-for-9df064b89e8130a9d4cee056b2fdeb2f" style="display:none">Info about the 'traversable navigable' external reference.</span><a href="https://html.spec.whatwg.org/multipage/document-sequences.html#traversable-navigable">https://html.spec.whatwg.org/multipage/document-sequences.html#traversable-navigable</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-traversable-navigable">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-ade31874a894f492a85fc5f10fb79982" class="dfn-panel" data-for="ade31874a894f492a85fc5f10fb79982" id="infopanel-for-ade31874a894f492a85fc5f10fb79982">
-   <span id="infopaneltitle-for-ade31874a894f492a85fc5f10fb79982" style="display:none">Info about the 'http 3xx statuses' external reference.</span><a href="https://httpwg.org/specs/rfc7231.html#status.3xx">https://httpwg.org/specs/rfc7231.html#status.3xx</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-status.3xx">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-7618b9a6d44febb7e784c8f39faac140" class="dfn-panel" data-for="7618b9a6d44febb7e784c8f39faac140" id="infopanel-for-7618b9a6d44febb7e784c8f39faac140">
-   <span id="infopaneltitle-for-7618b9a6d44febb7e784c8f39faac140" style="display:none">Info about the 'assert' external reference.</span><a href="https://infra.spec.whatwg.org/#assert">https://infra.spec.whatwg.org/#assert</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-assert">6.2.2. Timer</a> <a href="#ref-for-assert①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-7aa70202d36f53e6295b249241561d26" class="dfn-panel" data-for="7aa70202d36f53e6295b249241561d26" id="infopanel-for-7aa70202d36f53e6295b249241561d26">
-   <span id="infopaneltitle-for-7aa70202d36f53e6295b249241561d26" style="display:none">Info about the 'contain' external reference.</span><a href="https://infra.spec.whatwg.org/#map-exists">https://infra.spec.whatwg.org/#map-exists</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-map-exists">6.2.2. Timer</a> <a href="#ref-for-map-exists①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-ce9efec0e74a2cbfe986593eb861ade6" class="dfn-panel" data-for="ce9efec0e74a2cbfe986593eb861ade6" id="infopanel-for-ce9efec0e74a2cbfe986593eb861ade6">
-   <span id="infopaneltitle-for-ce9efec0e74a2cbfe986593eb861ade6" style="display:none">Info about the 'continue' external reference.</span><a href="https://infra.spec.whatwg.org/#iteration-continue">https://infra.spec.whatwg.org/#iteration-continue</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-iteration-continue">6.2.2. Timer</a> <a href="#ref-for-iteration-continue①">(2)</a>
-    <li><a href="#ref-for-iteration-continue②">6.2.3. Deletion</a> <a href="#ref-for-iteration-continue③">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-8b9e78ceedde26e69095bd6f6cce47bf" class="dfn-panel" data-for="8b9e78ceedde26e69095bd6f6cce47bf" id="infopanel-for-8b9e78ceedde26e69095bd6f6cce47bf">
-   <span id="infopaneltitle-for-8b9e78ceedde26e69095bd6f6cce47bf" style="display:none">Info about the 'for each (for list)' external reference.</span><a href="https://infra.spec.whatwg.org/#list-iterate">https://infra.spec.whatwg.org/#list-iterate</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-list-iterate">6.2.3. Deletion</a> <a href="#ref-for-list-iterate①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-fa396dfe2ff99ebb3815418bc73c40fb" class="dfn-panel" data-for="fa396dfe2ff99ebb3815418bc73c40fb" id="infopanel-for-fa396dfe2ff99ebb3815418bc73c40fb">
-   <span id="infopaneltitle-for-fa396dfe2ff99ebb3815418bc73c40fb" style="display:none">Info about the 'for each (for map)' external reference.</span><a href="https://infra.spec.whatwg.org/#map-iterate">https://infra.spec.whatwg.org/#map-iterate</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-map-iterate">6.2.2. Timer</a> <a href="#ref-for-map-iterate①">(2)</a>
-    <li><a href="#ref-for-map-iterate②">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-fd74d8159933c4a74d0b23390bed43e3" class="dfn-panel" data-for="fd74d8159933c4a74d0b23390bed43e3" id="infopanel-for-fd74d8159933c4a74d0b23390bed43e3">
-   <span id="infopaneltitle-for-fd74d8159933c4a74d0b23390bed43e3" style="display:none">Info about the 'implementation-defined' external reference.</span><a href="https://infra.spec.whatwg.org/#implementation-defined">https://infra.spec.whatwg.org/#implementation-defined</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-implementation-defined">6.1. Data Model</a> <a href="#ref-for-implementation-defined①">(2)</a> <a href="#ref-for-implementation-defined②">(3)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" class="dfn-panel" data-for="4bf12d0cddf322a1e2a9fb52f4d85843" id="infopanel-for-4bf12d0cddf322a1e2a9fb52f4d85843">
-   <span id="infopaneltitle-for-4bf12d0cddf322a1e2a9fb52f4d85843" style="display:none">Info about the 'map' external reference.</span><a href="https://infra.spec.whatwg.org/#ordered-map">https://infra.spec.whatwg.org/#ordered-map</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-ordered-map">6.1. Data Model</a> <a href="#ref-for-ordered-map①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-5191a0c00b6ec5f93646e492ae7ec62c" class="dfn-panel" data-for="5191a0c00b6ec5f93646e492ae7ec62c" id="infopanel-for-5191a0c00b6ec5f93646e492ae7ec62c">
-   <span id="infopaneltitle-for-5191a0c00b6ec5f93646e492ae7ec62c" style="display:none">Info about the 'remove' external reference.</span><a href="https://infra.spec.whatwg.org/#map-remove">https://infra.spec.whatwg.org/#map-remove</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-map-remove">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-map-remove①">6.2.2. Timer</a> <a href="#ref-for-map-remove②">(2)</a>
-    <li><a href="#ref-for-map-remove③">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-2a82d6d293a764f4435a426a0ed3fe1a" class="dfn-panel" data-for="2a82d6d293a764f4435a426a0ed3fe1a" id="infopanel-for-2a82d6d293a764f4435a426a0ed3fe1a">
-   <span id="infopaneltitle-for-2a82d6d293a764f4435a426a0ed3fe1a" style="display:none">Info about the 'cookie store' external reference.</span><a href="https://tools.ietf.org/html/rfc6265/#section-5.3">https://tools.ietf.org/html/rfc6265/#section-5.3</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-5.3">6.2.3. Deletion</a> <a href="#ref-for-section-5.3①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-2c0db32a6de7f544c0fd1ec87e14de69" class="dfn-panel" data-for="2c0db32a6de7f544c0fd1ec87e14de69" id="infopanel-for-2c0db32a6de7f544c0fd1ec87e14de69">
-   <span id="infopaneltitle-for-2c0db32a6de7f544c0fd1ec87e14de69" style="display:none">Info about the 'domain-match' external reference.</span><a href="https://tools.ietf.org/html/rfc6265/#section-5.1.3">https://tools.ietf.org/html/rfc6265/#section-5.1.3</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-5.1.3">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-d8807fe48b1be2a4b4d117400c160bbc" class="dfn-panel" data-for="d8807fe48b1be2a4b4d117400c160bbc" id="infopanel-for-d8807fe48b1be2a4b4d117400c160bbc">
-   <span id="infopaneltitle-for-d8807fe48b1be2a4b4d117400c160bbc" style="display:none">Info about the 'network cache' external reference.</span><a href="https://tools.ietf.org/html/rfc7234/#section-2">https://tools.ietf.org/html/rfc7234/#section-2</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-section-2">6.2.3. Deletion</a> <a href="#ref-for-section-2①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-271f6f1a603ef38b8171fe03932d671f" class="dfn-panel" data-for="271f6f1a603ef38b8171fe03932d671f" id="infopanel-for-271f6f1a603ef38b8171fe03932d671f">
-   <span id="infopaneltitle-for-271f6f1a603ef38b8171fe03932d671f" style="display:none">Info about the 'origin' external reference.</span><a href="https://storage.spec.whatwg.org/#storage-key-origin">https://storage.spec.whatwg.org/#storage-key-origin</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-storage-key-origin">6.2.3. Deletion</a> <a href="#ref-for-storage-key-origin①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-de243662dafa6105374205e64111d467" class="dfn-panel" data-for="de243662dafa6105374205e64111d467" id="infopanel-for-de243662dafa6105374205e64111d467">
-   <span id="infopaneltitle-for-de243662dafa6105374205e64111d467" style="display:none">Info about the 'storage shed' external reference.</span><a href="https://storage.spec.whatwg.org/#storage-shed">https://storage.spec.whatwg.org/#storage-shed</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-storage-shed">6.2.3. Deletion</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-730bececc33143217cce1334c4d88f3f" class="dfn-panel" data-for="730bececc33143217cce1334c4d88f3f" id="infopanel-for-730bececc33143217cce1334c4d88f3f">
-   <span id="infopaneltitle-for-730bececc33143217cce1334c4d88f3f" style="display:none">Info about the 'tracking' external reference.</span><a href="https://www.w3.org/TR/tracking-dnt/#dfn-tracking">https://www.w3.org/TR/tracking-dnt/#dfn-tracking</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dfn-tracking">1. Introduction</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-34d5d2836179020a7cd44e6fef7f9e98" class="dfn-panel" data-for="34d5d2836179020a7cd44e6fef7f9e98" id="infopanel-for-34d5d2836179020a7cd44e6fef7f9e98">
-   <span id="infopaneltitle-for-34d5d2836179020a7cd44e6fef7f9e98" style="display:none">Info about the 'host' external reference.</span><a href="https://url.spec.whatwg.org/#concept-host">https://url.spec.whatwg.org/#concept-host</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-host">6.1. Data Model</a> <a href="#ref-for-concept-host①">(2)</a> <a href="#ref-for-concept-host②">(3)</a> <a href="#ref-for-concept-host③">(4)</a> <a href="#ref-for-concept-host④">(5)</a> <a href="#ref-for-concept-host⑤">(6)</a>
-    <li><a href="#ref-for-concept-host⑥">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-concept-host⑦">6.2.2. Timer</a>
-    <li><a href="#ref-for-concept-host⑧">6.2.3. Deletion</a> <a href="#ref-for-concept-host⑨">(2)</a> <a href="#ref-for-concept-host①⓪">(3)</a> <a href="#ref-for-concept-host①①">(4)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-221981a2467fc7245c176c97d9002be7" class="dfn-panel" data-for="221981a2467fc7245c176c97d9002be7" id="infopanel-for-221981a2467fc7245c176c97d9002be7">
-   <span id="infopaneltitle-for-221981a2467fc7245c176c97d9002be7" style="display:none">Info about the 'registrable domain' external reference.</span><a href="https://url.spec.whatwg.org/#host-registrable-domain">https://url.spec.whatwg.org/#host-registrable-domain</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-host-registrable-domain">5.1.1. Safari</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-fc05c76e016d3aec6a25a91c066500c8" class="dfn-panel" data-for="fc05c76e016d3aec6a25a91c066500c8" id="infopanel-for-fc05c76e016d3aec6a25a91c066500c8">
-   <span id="infopaneltitle-for-fc05c76e016d3aec6a25a91c066500c8" style="display:none">Info about the 'url' external reference.</span><a href="https://url.spec.whatwg.org/#concept-url">https://url.spec.whatwg.org/#concept-url</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-concept-url">3. Terminology</a>
-   </ul>
-  </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="985c42e2af63b3e74bd3b70d55668fd4">document</span>
-     <li><span class="dfn-paneled" id="9c5cdbb5c3dd225a70ea0af45a02c608">origin</span>
+     <li><span class="dfn-paneled" id="a973e0fe">document</span>
+     <li><span class="dfn-paneled" id="c62cd7cf">origin</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HR-TIME-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="1f78bca61233b6a6957119204c181632">current wall time</span>
-     <li><span class="dfn-paneled" id="9213a3aff5ff1021ab4c2d780aa70cee">duration</span>
-     <li><span class="dfn-paneled" id="a33f352de1a9eb5d29cfa3005d40d072">moment</span>
-     <li><span class="dfn-paneled" id="5c98f131e8c65f55555b9e0b89711bcd">unsafe current time</span>
-     <li><span class="dfn-paneled" id="9ce1d97c81991af84a4cfb8251a89c4e">wall clock</span>
+     <li><span class="dfn-paneled" id="a09bfce2">current wall time</span>
+     <li><span class="dfn-paneled" id="4b2c8c72">duration</span>
+     <li><span class="dfn-paneled" id="1e2edd5b">moment</span>
+     <li><span class="dfn-paneled" id="12938d07">unsafe current time</span>
+     <li><span class="dfn-paneled" id="05de5ae3">wall clock</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="25155e0c95bc63cc9d7eb438622b81d4">activation notification</span>
-     <li><span class="dfn-paneled" id="de11cdc07a64c79878f1c3074e81554a">active document</span>
-     <li><span class="dfn-paneled" id="0a8d192cb885d336f16ead79b570c196">host</span>
-     <li><span class="dfn-paneled" id="657b68dd04b8bfc754a105d830248b2e">http-equiv</span>
-     <li><span class="dfn-paneled" id="d93a29703611c808a4eb9bcfac6ce8d8">hyperlink</span>
-     <li><span class="dfn-paneled" id="baf95ce8d0404079723db392663d355e">iframe</span>
-     <li><span class="dfn-paneled" id="33f2faf55eb7920da6b293d065d66fa7">localStorage</span>
-     <li><span class="dfn-paneled" id="ac6a4c87bc25e7a7b8dbe4adc61268cb">location</span>
-     <li><span class="dfn-paneled" id="a1de73f42319e83daae5aeb30180f409">meta</span>
-     <li><span class="dfn-paneled" id="d5ad1e20f67eb03bd0608119efdd55f5">node navigable</span>
-     <li><span class="dfn-paneled" id="27e69640e8fd1e1522b5ace8391212ba">obtain a site</span>
-     <li><span class="dfn-paneled" id="23307d34220e7159f8e5d8c231db141f">opaque origin</span>
-     <li><span class="dfn-paneled" id="d1b67c9ca7a1d4b007049bd481b80496">refresh</span>
-     <li><span class="dfn-paneled" id="bfb9cb6617f81a424ab20212af73bae3">relevant settings object</span>
-     <li><span class="dfn-paneled" id="f7e6800046257cc9fe726534da6b862b">site</span>
-     <li><span class="dfn-paneled" id="6bb36d47a5f9a04109a4493b81f2720a">top-level traversable</span>
-     <li><span class="dfn-paneled" id="9df064b89e8130a9d4cee056b2fdeb2f">traversable navigable</span>
+     <li><span class="dfn-paneled" id="36d15a6d">activation notification</span>
+     <li><span class="dfn-paneled" id="35972864">active document</span>
+     <li><span class="dfn-paneled" id="77a2ee6e">host</span>
+     <li><span class="dfn-paneled" id="448c95f9">http-equiv</span>
+     <li><span class="dfn-paneled" id="5423e8ff">hyperlink</span>
+     <li><span class="dfn-paneled" id="87fcd40c">iframe</span>
+     <li><span class="dfn-paneled" id="3a2db83f">localStorage</span>
+     <li><span class="dfn-paneled" id="93ce1392">location</span>
+     <li><span class="dfn-paneled" id="64b89595">meta</span>
+     <li><span class="dfn-paneled" id="13dd6cae">node navigable</span>
+     <li><span class="dfn-paneled" id="602b1a68">obtain a site</span>
+     <li><span class="dfn-paneled" id="b01b1359">opaque origin</span>
+     <li><span class="dfn-paneled" id="e7b2fe41">refresh</span>
+     <li><span class="dfn-paneled" id="9c4c1e66">relevant settings object</span>
+     <li><span class="dfn-paneled" id="fb9bb722">site</span>
+     <li><span class="dfn-paneled" id="bd736ec6">top-level traversable</span>
+     <li><span class="dfn-paneled" id="d0c1b934">traversable navigable</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTTP]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="ade31874a894f492a85fc5f10fb79982">http 3xx statuses</span>
+     <li><span class="dfn-paneled" id="4a139803">http 3xx statuses</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="7618b9a6d44febb7e784c8f39faac140">assert</span>
-     <li><span class="dfn-paneled" id="7aa70202d36f53e6295b249241561d26">contain</span>
-     <li><span class="dfn-paneled" id="ce9efec0e74a2cbfe986593eb861ade6">continue</span>
-     <li><span class="dfn-paneled" id="8b9e78ceedde26e69095bd6f6cce47bf">for each <small>(for list)</small></span>
-     <li><span class="dfn-paneled" id="fa396dfe2ff99ebb3815418bc73c40fb">for each <small>(for map)</small></span>
-     <li><span class="dfn-paneled" id="fd74d8159933c4a74d0b23390bed43e3">implementation-defined</span>
-     <li><span class="dfn-paneled" id="4bf12d0cddf322a1e2a9fb52f4d85843">map</span>
-     <li><span class="dfn-paneled" id="5191a0c00b6ec5f93646e492ae7ec62c">remove</span>
+     <li><span class="dfn-paneled" id="77b4c09a">assert</span>
+     <li><span class="dfn-paneled" id="a326add7">contain</span>
+     <li><span class="dfn-paneled" id="f937b7b6">continue</span>
+     <li><span class="dfn-paneled" id="16d07e10">for each <small>(for list)</small></span>
+     <li><span class="dfn-paneled" id="45209803">for each <small>(for map)</small></span>
+     <li><span class="dfn-paneled" id="860300d4">implementation-defined</span>
+     <li><span class="dfn-paneled" id="3fca5a9e">map</span>
+     <li><span class="dfn-paneled" id="7d4424b2">remove</span>
     </ul>
    <li>
     <a data-link-type="biblio">[RFC6265]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="2a82d6d293a764f4435a426a0ed3fe1a">cookie store</span>
-     <li><span class="dfn-paneled" id="2c0db32a6de7f544c0fd1ec87e14de69">domain-match</span>
+     <li><span class="dfn-paneled" id="69ba1a02">cookie store</span>
+     <li><span class="dfn-paneled" id="5ac0e3d4">domain-match</span>
     </ul>
    <li>
     <a data-link-type="biblio">[RFC7234]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="d8807fe48b1be2a4b4d117400c160bbc">network cache</span>
+     <li><span class="dfn-paneled" id="4b7a6eea">network cache</span>
     </ul>
    <li>
     <a data-link-type="biblio">[STORAGE]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="271f6f1a603ef38b8171fe03932d671f">origin</span>
-     <li><span class="dfn-paneled" id="de243662dafa6105374205e64111d467">storage shed</span>
+     <li><span class="dfn-paneled" id="ef4a9b44">origin</span>
+     <li><span class="dfn-paneled" id="660191f0">storage shed</span>
     </ul>
    <li>
     <a data-link-type="biblio">[TRACKING-DNT]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="730bececc33143217cce1334c4d88f3f">tracking</span>
+     <li><span class="dfn-paneled" id="0d21247b">tracking</span>
     </ul>
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="34d5d2836179020a7cd44e6fef7f9e98">host</span>
-     <li><span class="dfn-paneled" id="221981a2467fc7245c176c97d9002be7">registrable domain</span>
-     <li><span class="dfn-paneled" id="fc05c76e016d3aec6a25a91c066500c8">url</span>
+     <li><span class="dfn-paneled" id="752d140b">host</span>
+     <li><span class="dfn-paneled" id="bc9d7803">registrable domain</span>
+     <li><span class="dfn-paneled" id="dcffbccd">url</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -1364,117 +1092,70 @@ collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issu
    <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-0c501704" title="Jump to section">↵</a></div>
    <div class="issue">TODO: Consider if we should do anything when the clock is moved
     forward or backward. <a class="issue-return" href="#issue-c8879d93" title="Jump to section">↵</a></div>
+   <div class="issue"> TODO: Verify that using <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.1.3">domain-match</a> catches all cookies for the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain">registrable domain</a>. <a class="issue-return" href="#issue-a6c4e61d" title="Jump to section">↵</a></div>
   </div>
-  <aside aria-labelledby="infopaneltitle-for-link-decoration" class="dfn-panel" data-for="link-decoration" id="infopanel-for-link-decoration">
-   <span id="infopaneltitle-for-link-decoration" style="display:none">Info about the 'Link decoration' definition.</span><b><a href="#link-decoration">#link-decoration</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-link-decoration">1. Introduction</a> <a href="#ref-for-link-decoration①">(2)</a>
-    <li><a href="#ref-for-link-decoration②">3. Terminology</a> <a href="#ref-for-link-decoration③">(2)</a> <a href="#ref-for-link-decoration④">(3)</a> <a href="#ref-for-link-decoration⑤">(4)</a> <a href="#ref-for-link-decoration⑥">(5)</a> <a href="#ref-for-link-decoration⑦">(6)</a> <a href="#ref-for-link-decoration⑧">(7)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-navigational-tracking" class="dfn-panel" data-for="navigational-tracking" id="infopanel-for-navigational-tracking">
-   <span id="infopaneltitle-for-navigational-tracking" style="display:none">Info about the 'Navigational tracking' definition.</span><b><a href="#navigational-tracking">#navigational-tracking</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-navigational-tracking">1. Introduction</a> <a href="#ref-for-navigational-tracking①">(2)</a>
-    <li><a href="#ref-for-navigational-tracking②">3. Terminology</a> <a href="#ref-for-navigational-tracking③">(2)</a> <a href="#ref-for-navigational-tracking④">(3)</a> <a href="#ref-for-navigational-tracking⑤">(4)</a> <a href="#ref-for-navigational-tracking⑥">(5)</a>
-    <li><a href="#ref-for-navigational-tracking⑦">5.1. Deployed Mitigations</a>
-    <li><a href="#ref-for-navigational-tracking⑧">5.1.1. Safari</a>
-    <li><a href="#ref-for-navigational-tracking⑨">5.1.2. Firefox</a>
-    <li><a href="#ref-for-navigational-tracking①⓪">5.1.3. Brave</a> <a href="#ref-for-navigational-tracking①①">(2)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-bounce-tracking" class="dfn-panel" data-for="bounce-tracking" id="infopanel-for-bounce-tracking">
-   <span id="infopaneltitle-for-bounce-tracking" style="display:none">Info about the 'Bounce tracking' definition.</span><b><a href="#bounce-tracking">#bounce-tracking</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-bounce-tracking">3. Terminology</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-user-activation-map" class="dfn-panel" data-for="user-activation-map" id="infopanel-for-user-activation-map">
-   <span id="infopaneltitle-for-user-activation-map" style="display:none">Info about the 'user activation map' definition.</span><b><a href="#user-activation-map">#user-activation-map</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-user-activation-map">6.1. Data Model</a>
-    <li><a href="#ref-for-user-activation-map①">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-user-activation-map②">6.2.2. Timer</a> <a href="#ref-for-user-activation-map③">(2)</a> <a href="#ref-for-user-activation-map④">(3)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-candidate-bounce-tracking-map" class="dfn-panel" data-for="candidate-bounce-tracking-map" id="infopanel-for-candidate-bounce-tracking-map">
-   <span id="infopaneltitle-for-candidate-bounce-tracking-map" style="display:none">Info about the 'candidate bounce tracking map' definition.</span><b><a href="#candidate-bounce-tracking-map">#candidate-bounce-tracking-map</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-candidate-bounce-tracking-map">6.1. Data Model</a> <a href="#ref-for-candidate-bounce-tracking-map①">(2)</a>
-    <li><a href="#ref-for-candidate-bounce-tracking-map②">6.2.1. User Activation
-Monkey Patch</a>
-    <li><a href="#ref-for-candidate-bounce-tracking-map③">6.2.2. Timer</a> <a href="#ref-for-candidate-bounce-tracking-map④">(2)</a> <a href="#ref-for-candidate-bounce-tracking-map⑤">(3)</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-bounce-tracking-grace-period" class="dfn-panel" data-for="bounce-tracking-grace-period" id="infopanel-for-bounce-tracking-grace-period">
-   <span id="infopaneltitle-for-bounce-tracking-grace-period" style="display:none">Info about the 'bounce tracking grace period' definition.</span><b><a href="#bounce-tracking-grace-period">#bounce-tracking-grace-period</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-bounce-tracking-grace-period">6.1. Data Model</a>
-    <li><a href="#ref-for-bounce-tracking-grace-period①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-bounce-tracking-activation-lifetime" class="dfn-panel" data-for="bounce-tracking-activation-lifetime" id="infopanel-for-bounce-tracking-activation-lifetime">
-   <span id="infopaneltitle-for-bounce-tracking-activation-lifetime" style="display:none">Info about the 'bounce tracking activation lifetime' definition.</span><b><a href="#bounce-tracking-activation-lifetime">#bounce-tracking-activation-lifetime</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-bounce-tracking-activation-lifetime">6.1. Data Model</a>
-    <li><a href="#ref-for-bounce-tracking-activation-lifetime①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-bounce-tracking-timer-period" class="dfn-panel" data-for="bounce-tracking-timer-period" id="infopanel-for-bounce-tracking-timer-period">
-   <span id="infopaneltitle-for-bounce-tracking-timer-period" style="display:none">Info about the 'bounce tracking timer period' definition.</span><b><a href="#bounce-tracking-timer-period">#bounce-tracking-timer-period</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-bounce-tracking-timer-period">6.1. Data Model</a>
-    <li><a href="#ref-for-bounce-tracking-timer-period①">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-record-a-user-activation" class="dfn-panel" data-for="record-a-user-activation" id="infopanel-for-record-a-user-activation">
-   <span id="infopaneltitle-for-record-a-user-activation" style="display:none">Info about the 'record a user activation' definition.</span><b><a href="#record-a-user-activation">#record-a-user-activation</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-record-a-user-activation">6.2.1. User Activation
-Monkey Patch</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-bounce-tracking-timer" class="dfn-panel" data-for="bounce-tracking-timer" id="infopanel-for-bounce-tracking-timer">
-   <span id="infopaneltitle-for-bounce-tracking-timer" style="display:none">Info about the 'bounce tracking timer' definition.</span><b><a href="#bounce-tracking-timer">#bounce-tracking-timer</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-bounce-tracking-timer">6.1. Data Model</a> <a href="#ref-for-bounce-tracking-timer①">(2)</a> <a href="#ref-for-bounce-tracking-timer②">(3)</a>
-    <li><a href="#ref-for-bounce-tracking-timer③">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-clear-cookies-for-host" class="dfn-panel" data-for="clear-cookies-for-host" id="infopanel-for-clear-cookies-for-host">
-   <span id="infopaneltitle-for-clear-cookies-for-host" style="display:none">Info about the 'clear cookies for host' definition.</span><b><a href="#clear-cookies-for-host">#clear-cookies-for-host</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-clear-cookies-for-host">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-clear-non-cookie-storage-for-host" class="dfn-panel" data-for="clear-non-cookie-storage-for-host" id="infopanel-for-clear-non-cookie-storage-for-host">
-   <span id="infopaneltitle-for-clear-non-cookie-storage-for-host" style="display:none">Info about the 'clear non-cookie storage for host' definition.</span><b><a href="#clear-non-cookie-storage-for-host">#clear-non-cookie-storage-for-host</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-clear-non-cookie-storage-for-host">6.2.2. Timer</a>
-   </ul>
-  </aside>
-  <aside aria-labelledby="infopaneltitle-for-clear-cache-for-host" class="dfn-panel" data-for="clear-cache-for-host" id="infopanel-for-clear-cache-for-host">
-   <span id="infopaneltitle-for-clear-cache-for-host" style="display:none">Info about the 'clear cache for host' definition.</span><b><a href="#clear-cache-for-host">#clear-cache-for-host</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-clear-cache-for-host">6.2.2. Timer</a>
-   </ul>
-  </aside>
 <script>/* script-dfn-panel */
 "use strict";
 {
-    function queryAll(sel) {
-        return [].slice.call(document.querySelectorAll(sel));
+    const dfnsJson = window.dfnsJson || {};
+
+    function genDfnPanel({dfnID, url, dfnText, refSections, external}) {
+        return mk.aside({
+            class: "dfn-panel",
+            id: `infopanel-for-${dfnID}`,
+            "data-for": dfnID,
+            "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+            },
+            mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
+                `Info about the '${dfnText}' ${external?"external":""} reference.`),
+            mk.a({href:url}, url),
+            mk.b({}, "Referenced in:"),
+            mk.ul({},
+                ...refSections.map(section=>
+                    mk.li({},
+                        ...section.refs.map((ref, refI)=>
+                            [
+                                mk.a({
+                                    href: `#${ref.id}`
+                                    },
+                                    (refI == 0) ? section.title : `(${refI + 1})`
+                                ),
+                                " ",
+                            ]
+                        ),
+                    ),
+                ),
+            ),
+        );
     }
 
-    // Add popup behavior to all dfns to show the corresponding dfn-panel.
-    var dfns = document.querySelectorAll('.dfn-paneled');
-    for (let dfn of dfns) { insertDfnPopupAction(dfn); }
+    function genAllDfnPanels() {
+        for(const panelData of Object.values(window.dfnpanelData)) {
+            const dfnID = panelData.dfnID;
+            const dfn = document.getElementById(dfnID);
+            if(!dfn) {
+                console.log(`Can't find dfn#${dfnID}.`, panelData);
+            } else {
+                const panel = genDfnPanel(panelData);
+                append(document.body, panel);
+                insertDfnPopupAction(dfn, panel)
+            }
+        }
+    }
 
-    document.body.addEventListener("click", (e) => {
-        // If not handled already, just hide all dfn panels.
-        hideAllDfnPanels();
-    });
+    document.addEventListener("DOMContentLoaded", ()=>{
+        genAllDfnPanels();
+
+        // Add popup behavior to all dfns to show the corresponding dfn-panel.
+        var dfns = queryAll('.dfn-paneled');
+        for(let dfn of dfns) { ; }
+
+        document.body.addEventListener("click", (e) => {
+            // If not handled already, just hide all dfn panels.
+            hideAllDfnPanels();
+        });
+    })
+
 
     function hideAllDfnPanels() {
         // Turn off any currently "on" or "activated" panels.
@@ -1524,52 +1205,300 @@ Monkey Patch</a>
         }
     }
 
-    function insertDfnPopupAction(dfn) {
+    function insertDfnPopupAction(dfn, dfnPanel) {
         // Find dfn panel
-        const dfnPanel = document.querySelector(`.dfn-panel[data-for='${dfn.id}']`);
-        if (dfnPanel) {
-            const panelWrapper = document.createElement('span');
-            panelWrapper.appendChild(dfnPanel);
-            panelWrapper.style.position = "relative";
-            panelWrapper.style.height = "0px";
-            dfn.insertAdjacentElement("afterend", panelWrapper);
-            dfn.setAttribute('role', 'button');
-            dfn.setAttribute('aria-expanded', 'false')
-            dfn.tabIndex = 0;
-            dfn.classList.add('has-dfn-panel');
-            dfn.addEventListener('click', (event) => {
-                showDfnPanel(dfnPanel, dfn);
+        const panelWrapper = document.createElement('span');
+        panelWrapper.appendChild(dfnPanel);
+        panelWrapper.style.position = "relative";
+        panelWrapper.style.height = "0px";
+        dfn.insertAdjacentElement("afterend", panelWrapper);
+        dfn.setAttribute('role', 'button');
+        dfn.setAttribute('aria-expanded', 'false')
+        dfn.tabIndex = 0;
+        dfn.classList.add('has-dfn-panel');
+        dfn.addEventListener('click', (event) => {
+            showDfnPanel(dfnPanel, dfn);
+            event.stopPropagation();
+        });
+        dfn.addEventListener('keypress', (event) => {
+            const kc = event.keyCode;
+            // 32->Space, 13->Enter
+            if(kc == 32 || kc == 13) {
+                toggleDfnPanel(dfnPanel, dfn);
                 event.stopPropagation();
-            });
-            dfn.addEventListener('keypress', (event) => {
-                const kc = event.keyCode;
-                // 32->Space, 13->Enter
-                if(kc == 32 || kc == 13) {
-                    toggleDfnPanel(dfnPanel, dfn);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            });
+                event.preventDefault();
+            }
+        });
 
-            dfnPanel.addEventListener('click', (event) => {
+        dfnPanel.addEventListener('click', (event) => {
+            if (event.target.nodeName == 'A') {
                 pinDfnPanel(dfnPanel);
+            }
+            event.stopPropagation();
+        });
+
+        dfnPanel.addEventListener('keydown', (event) => {
+            if(event.keyCode == 27) { // Escape key
+                hideDfnPanel(dfnPanel, dfn);
                 event.stopPropagation();
-            });
-
-            dfnPanel.addEventListener('keydown', (event) => {
-                if(event.keyCode == 27) { // Escape key
-                    hideDfnPanel(dfnPanel, dfn);
-                    event.stopPropagation();
-                    event.preventDefault();
-                }
-            })
-
-        } else {
-            console.log("Couldn't find .dfn-panel[data-for='" + dfn.id + "']");
-        }
+                event.preventDefault();
+            }
+        })
     }
 }
 </script>
+<script>/* script-dfn-panel-json */
+window.dfnpanelData = {};
+window.dfnpanelData['a973e0fe'] = {"dfnID": "a973e0fe", "url": "https://dom.spec.whatwg.org/#concept-document", "dfnText": "document", "refSections": [{"refs": [{"id": "ref-for-concept-document"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['c62cd7cf'] = {"dfnID": "c62cd7cf", "url": "https://dom.spec.whatwg.org/#concept-document-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-concept-document-origin"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-document-origin\u2460"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['a09bfce2'] = {"dfnID": "a09bfce2", "url": "https://w3c.github.io/hr-time/#dfn-current-wall-time", "dfnText": "current wall time", "refSections": [{"refs": [{"id": "ref-for-dfn-current-wall-time"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['4b2c8c72'] = {"dfnID": "4b2c8c72", "url": "https://w3c.github.io/hr-time/#dfn-duration", "dfnText": "duration", "refSections": [{"refs": [{"id": "ref-for-dfn-duration"}, {"id": "ref-for-dfn-duration\u2460"}, {"id": "ref-for-dfn-duration\u2461"}], "title": "6.1. Data Model"}], "external": true};
+window.dfnpanelData['1e2edd5b'] = {"dfnID": "1e2edd5b", "url": "https://w3c.github.io/hr-time/#dfn-moment", "dfnText": "moment", "refSections": [{"refs": [{"id": "ref-for-dfn-moment"}, {"id": "ref-for-dfn-moment\u2460"}, {"id": "ref-for-dfn-moment\u2461"}, {"id": "ref-for-dfn-moment\u2462"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-dfn-moment\u2463"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['12938d07'] = {"dfnID": "12938d07", "url": "https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time", "dfnText": "unsafe current time", "refSections": [{"refs": [{"id": "ref-for-wall-clock-unsafe-current-time"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['05de5ae3'] = {"dfnID": "05de5ae3", "url": "https://w3c.github.io/hr-time/#dfn-wall-clock", "dfnText": "wall clock", "refSections": [{"refs": [{"id": "ref-for-dfn-wall-clock"}, {"id": "ref-for-dfn-wall-clock\u2460"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-dfn-wall-clock\u2461"}, {"id": "ref-for-dfn-wall-clock\u2462"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['36d15a6d'] = {"dfnID": "36d15a6d", "url": "https://html.spec.whatwg.org/multipage/interaction.html#activation-notification", "dfnText": "activation notification", "refSections": [{"refs": [{"id": "ref-for-activation-notification"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['35972864'] = {"dfnID": "35972864", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document", "dfnText": "active document", "refSections": [{"refs": [{"id": "ref-for-nav-document"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-nav-document\u2460"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['77a2ee6e'] = {"dfnID": "77a2ee6e", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host", "dfnText": "host", "refSections": [{"refs": [{"id": "ref-for-concept-origin-host"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['448c95f9'] = {"dfnID": "448c95f9", "url": "https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv", "dfnText": "http-equiv", "refSections": [{"refs": [{"id": "ref-for-attr-meta-http-equiv"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['5423e8ff'] = {"dfnID": "5423e8ff", "url": "https://html.spec.whatwg.org/multipage/links.html#hyperlink", "dfnText": "hyperlink", "refSections": [{"refs": [{"id": "ref-for-hyperlink"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['87fcd40c'] = {"dfnID": "87fcd40c", "url": "https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element", "dfnText": "iframe", "refSections": [{"refs": [{"id": "ref-for-the-iframe-element"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['3a2db83f'] = {"dfnID": "3a2db83f", "url": "https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage", "dfnText": "localStorage", "refSections": [{"refs": [{"id": "ref-for-dom-localstorage"}], "title": "5.1.3. Brave"}], "external": true};
+window.dfnpanelData['93ce1392'] = {"dfnID": "93ce1392", "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location", "dfnText": "location", "refSections": [{"refs": [{"id": "ref-for-dom-location"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['64b89595'] = {"dfnID": "64b89595", "url": "https://html.spec.whatwg.org/multipage/semantics.html#meta", "dfnText": "meta", "refSections": [{"refs": [{"id": "ref-for-meta"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['13dd6cae'] = {"dfnID": "13dd6cae", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable", "dfnText": "node navigable", "refSections": [{"refs": [{"id": "ref-for-node-navigable"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['602b1a68'] = {"dfnID": "602b1a68", "url": "https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site", "dfnText": "obtain a site", "refSections": [{"refs": [{"id": "ref-for-obtain-a-site"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2460"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['b01b1359'] = {"dfnID": "b01b1359", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque", "dfnText": "opaque origin", "refSections": [{"refs": [{"id": "ref-for-concept-origin-opaque"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['e7b2fe41'] = {"dfnID": "e7b2fe41", "url": "https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh", "dfnText": "refresh", "refSections": [{"refs": [{"id": "ref-for-attr-meta-http-equiv-keyword-refresh"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['9c4c1e66'] = {"dfnID": "9c4c1e66", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object", "dfnText": "relevant settings object", "refSections": [{"refs": [{"id": "ref-for-relevant-settings-object"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['fb9bb722'] = {"dfnID": "fb9bb722", "url": "https://html.spec.whatwg.org/multipage/browsers.html#site", "dfnText": "site", "refSections": [{"refs": [{"id": "ref-for-site"}, {"id": "ref-for-site\u2460"}], "title": "6.1. Data Model"}], "external": true};
+window.dfnpanelData['bd736ec6'] = {"dfnID": "bd736ec6", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable", "dfnText": "top-level traversable", "refSections": [{"refs": [{"id": "ref-for-top-level-traversable"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2460"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['d0c1b934'] = {"dfnID": "d0c1b934", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#traversable-navigable", "dfnText": "traversable navigable", "refSections": [{"refs": [{"id": "ref-for-traversable-navigable"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['4a139803'] = {"dfnID": "4a139803", "url": "https://httpwg.org/specs/rfc7231.html#status.3xx", "dfnText": "http 3xx statuses", "refSections": [{"refs": [{"id": "ref-for-status.3xx"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['77b4c09a'] = {"dfnID": "77b4c09a", "url": "https://infra.spec.whatwg.org/#assert", "dfnText": "assert", "refSections": [{"refs": [{"id": "ref-for-assert"}, {"id": "ref-for-assert\u2460"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['a326add7'] = {"dfnID": "a326add7", "url": "https://infra.spec.whatwg.org/#map-exists", "dfnText": "contain", "refSections": [{"refs": [{"id": "ref-for-map-exists"}, {"id": "ref-for-map-exists\u2460"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['f937b7b6'] = {"dfnID": "f937b7b6", "url": "https://infra.spec.whatwg.org/#iteration-continue", "dfnText": "continue", "refSections": [{"refs": [{"id": "ref-for-iteration-continue"}, {"id": "ref-for-iteration-continue\u2460"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-iteration-continue\u2461"}, {"id": "ref-for-iteration-continue\u2462"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['16d07e10'] = {"dfnID": "16d07e10", "url": "https://infra.spec.whatwg.org/#list-iterate", "dfnText": "for each (for list)", "refSections": [{"refs": [{"id": "ref-for-list-iterate"}, {"id": "ref-for-list-iterate\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['45209803'] = {"dfnID": "45209803", "url": "https://infra.spec.whatwg.org/#map-iterate", "dfnText": "for each (for map)", "refSections": [{"refs": [{"id": "ref-for-map-iterate"}, {"id": "ref-for-map-iterate\u2460"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-map-iterate\u2461"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['860300d4'] = {"dfnID": "860300d4", "url": "https://infra.spec.whatwg.org/#implementation-defined", "dfnText": "implementation-defined", "refSections": [{"refs": [{"id": "ref-for-implementation-defined"}, {"id": "ref-for-implementation-defined\u2460"}, {"id": "ref-for-implementation-defined\u2461"}], "title": "6.1. Data Model"}], "external": true};
+window.dfnpanelData['3fca5a9e'] = {"dfnID": "3fca5a9e", "url": "https://infra.spec.whatwg.org/#ordered-map", "dfnText": "map", "refSections": [{"refs": [{"id": "ref-for-ordered-map"}, {"id": "ref-for-ordered-map\u2460"}], "title": "6.1. Data Model"}], "external": true};
+window.dfnpanelData['7d4424b2'] = {"dfnID": "7d4424b2", "url": "https://infra.spec.whatwg.org/#map-remove", "dfnText": "remove", "refSections": [{"refs": [{"id": "ref-for-map-remove"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-map-remove\u2460"}, {"id": "ref-for-map-remove\u2461"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-map-remove\u2462"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['69ba1a02'] = {"dfnID": "69ba1a02", "url": "https://tools.ietf.org/html/rfc6265/#section-5.3", "dfnText": "cookie store", "refSections": [{"refs": [{"id": "ref-for-section-5.3"}, {"id": "ref-for-section-5.3\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['5ac0e3d4'] = {"dfnID": "5ac0e3d4", "url": "https://tools.ietf.org/html/rfc6265/#section-5.1.3", "dfnText": "domain-match", "refSections": [{"refs": [{"id": "ref-for-section-5.1.3"}, {"id": "ref-for-section-5.1.3\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['4b7a6eea'] = {"dfnID": "4b7a6eea", "url": "https://tools.ietf.org/html/rfc7234/#section-2", "dfnText": "network cache", "refSections": [{"refs": [{"id": "ref-for-section-2"}, {"id": "ref-for-section-2\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['ef4a9b44'] = {"dfnID": "ef4a9b44", "url": "https://storage.spec.whatwg.org/#storage-key-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-storage-key-origin"}, {"id": "ref-for-storage-key-origin\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['660191f0'] = {"dfnID": "660191f0", "url": "https://storage.spec.whatwg.org/#storage-shed", "dfnText": "storage shed", "refSections": [{"refs": [{"id": "ref-for-storage-shed"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['0d21247b'] = {"dfnID": "0d21247b", "url": "https://www.w3.org/TR/tracking-dnt/#dfn-tracking", "dfnText": "tracking", "refSections": [{"refs": [{"id": "ref-for-dfn-tracking"}], "title": "1. Introduction"}], "external": true};
+window.dfnpanelData['752d140b'] = {"dfnID": "752d140b", "url": "https://url.spec.whatwg.org/#concept-host", "dfnText": "host", "refSections": [{"refs": [{"id": "ref-for-concept-host"}, {"id": "ref-for-concept-host\u2460"}, {"id": "ref-for-concept-host\u2461"}, {"id": "ref-for-concept-host\u2462"}, {"id": "ref-for-concept-host\u2463"}, {"id": "ref-for-concept-host\u2464"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-concept-host\u2465"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-host\u2466"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-concept-host\u2467"}, {"id": "ref-for-concept-host\u2468"}, {"id": "ref-for-concept-host\u2460\u24ea"}, {"id": "ref-for-concept-host\u2460\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['bc9d7803'] = {"dfnID": "bc9d7803", "url": "https://url.spec.whatwg.org/#host-registrable-domain", "dfnText": "registrable domain", "refSections": [{"refs": [{"id": "ref-for-host-registrable-domain"}], "title": "5.1.1. Safari"}, {"refs": [{"id": "ref-for-host-registrable-domain\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['dcffbccd'] = {"dfnID": "dcffbccd", "url": "https://url.spec.whatwg.org/#concept-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-concept-url"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['link-decoration'] = {"dfnID": "link-decoration", "url": "#link-decoration", "dfnText": "Link decoration", "refSections": [{"refs": [{"id": "ref-for-link-decoration"}, {"id": "ref-for-link-decoration\u2460"}], "title": "1. Introduction"}, {"refs": [{"id": "ref-for-link-decoration\u2461"}, {"id": "ref-for-link-decoration\u2462"}, {"id": "ref-for-link-decoration\u2463"}, {"id": "ref-for-link-decoration\u2464"}, {"id": "ref-for-link-decoration\u2465"}, {"id": "ref-for-link-decoration\u2466"}, {"id": "ref-for-link-decoration\u2467"}], "title": "3. Terminology"}], "external": false};
+window.dfnpanelData['navigational-tracking'] = {"dfnID": "navigational-tracking", "url": "#navigational-tracking", "dfnText": "Navigational tracking", "refSections": [{"refs": [{"id": "ref-for-navigational-tracking"}, {"id": "ref-for-navigational-tracking\u2460"}], "title": "1. Introduction"}, {"refs": [{"id": "ref-for-navigational-tracking\u2461"}, {"id": "ref-for-navigational-tracking\u2462"}, {"id": "ref-for-navigational-tracking\u2463"}, {"id": "ref-for-navigational-tracking\u2464"}, {"id": "ref-for-navigational-tracking\u2465"}], "title": "3. Terminology"}, {"refs": [{"id": "ref-for-navigational-tracking\u2466"}], "title": "5.1. Deployed Mitigations"}, {"refs": [{"id": "ref-for-navigational-tracking\u2467"}], "title": "5.1.1. Safari"}, {"refs": [{"id": "ref-for-navigational-tracking\u2468"}], "title": "5.1.2. Firefox"}, {"refs": [{"id": "ref-for-navigational-tracking\u2460\u24ea"}, {"id": "ref-for-navigational-tracking\u2460\u2460"}], "title": "5.1.3. Brave"}], "external": false};
+window.dfnpanelData['bounce-tracking'] = {"dfnID": "bounce-tracking", "url": "#bounce-tracking", "dfnText": "Bounce tracking", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking"}], "title": "3. Terminology"}], "external": false};
+window.dfnpanelData['user-activation-map'] = {"dfnID": "user-activation-map", "url": "#user-activation-map", "dfnText": "user activation map", "refSections": [{"refs": [{"id": "ref-for-user-activation-map"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-user-activation-map\u2460"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-user-activation-map\u2461"}, {"id": "ref-for-user-activation-map\u2462"}, {"id": "ref-for-user-activation-map\u2463"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['candidate-bounce-tracking-map'] = {"dfnID": "candidate-bounce-tracking-map", "url": "#candidate-bounce-tracking-map", "dfnText": "candidate bounce tracking map", "refSections": [{"refs": [{"id": "ref-for-candidate-bounce-tracking-map"}, {"id": "ref-for-candidate-bounce-tracking-map\u2460"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-candidate-bounce-tracking-map\u2461"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-candidate-bounce-tracking-map\u2462"}, {"id": "ref-for-candidate-bounce-tracking-map\u2463"}, {"id": "ref-for-candidate-bounce-tracking-map\u2464"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['bounce-tracking-grace-period'] = {"dfnID": "bounce-tracking-grace-period", "url": "#bounce-tracking-grace-period", "dfnText": "bounce tracking grace period", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-grace-period"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-grace-period\u2460"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['bounce-tracking-activation-lifetime'] = {"dfnID": "bounce-tracking-activation-lifetime", "url": "#bounce-tracking-activation-lifetime", "dfnText": "bounce tracking activation lifetime", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-activation-lifetime"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-activation-lifetime\u2460"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['bounce-tracking-timer-period'] = {"dfnID": "bounce-tracking-timer-period", "url": "#bounce-tracking-timer-period", "dfnText": "bounce tracking timer period", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-timer-period"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-timer-period\u2460"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['record-a-user-activation'] = {"dfnID": "record-a-user-activation", "url": "#record-a-user-activation", "dfnText": "record a user activation", "refSections": [{"refs": [{"id": "ref-for-record-a-user-activation"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": false};
+window.dfnpanelData['bounce-tracking-timer'] = {"dfnID": "bounce-tracking-timer", "url": "#bounce-tracking-timer", "dfnText": "bounce tracking timer", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-timer"}, {"id": "ref-for-bounce-tracking-timer\u2460"}, {"id": "ref-for-bounce-tracking-timer\u2461"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-timer\u2462"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['clear-cookies-for-host'] = {"dfnID": "clear-cookies-for-host", "url": "#clear-cookies-for-host", "dfnText": "clear cookies for host", "refSections": [{"refs": [{"id": "ref-for-clear-cookies-for-host"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['clear-non-cookie-storage-for-host'] = {"dfnID": "clear-non-cookie-storage-for-host", "url": "#clear-non-cookie-storage-for-host", "dfnText": "clear non-cookie storage for host", "refSections": [{"refs": [{"id": "ref-for-clear-non-cookie-storage-for-host"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['clear-cache-for-host'] = {"dfnID": "clear-cache-for-host", "url": "#clear-cache-for-host", "dfnText": "clear cache for host", "refSections": [{"refs": [{"id": "ref-for-clear-cache-for-host"}], "title": "6.2.2. Timer"}], "external": false};</script>
+<script>/* script-dom-helper */
+function query(sel) { return document.querySelector(sel); }
+
+function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
+
+function iter(obj) {
+	if(!obj) return [];
+	var it = obj[Symbol.iterator];
+	if(it) return it;
+	return Object.entries(obj);
+}
+
+function mk(tagname, attrs, ...children) {
+	const el = document.createElement(tagname);
+	for(const [k,v] of iter(attrs)) {
+		if(k.slice(0,3) == "_on") {
+			const eventName = k.slice(3);
+			el.addEventListener(eventName, v);
+		} else if(k[0] == "_") {
+			// property, not attribute
+			el[k.slice(1)] = v;
+		} else {
+			if(v === false || v == null) {
+        continue;
+      } else if(v === true) {
+        el.setAttribute(k, "");
+        continue;
+      } else {
+  			el.setAttribute(k, v);
+      }
+		}
+	}
+	append(el, children);
+	return el;
+}
+
+/* Create shortcuts for every known HTML element */
+[
+  "a",
+  "abbr",
+  "acronym",
+  "address",
+  "applet",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "basefont",
+  "bdo",
+  "big",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "center",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "div",
+  "dl",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "font",
+  "footer",
+  "form",
+  "frame",
+  "frameset",
+  "head",
+  "header",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "meta",
+  "meter",
+  "nav",
+  "nobr",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "pre",
+  "progress",
+  "q",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strike",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr",
+  "xmp",
+].forEach(tagname=>{
+	mk[tagname] = (...args) => mk(tagname, ...args);
+});
+
+function* nodesFromChildList(children) {
+	for(const child of children.flat(Infinity)) {
+		if(child instanceof Node) {
+			yield child;
+		} else {
+			yield new Text(child);
+		}
+	}
+}
+function append(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		if(el instanceof Node) el.appendChild(child);
+		else el.push(child);
+	}
+	return el;
+}
+
+function insertAfter(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		el.parentNode.insertBefore(child, el.nextSibling);
+	}
+	return el;
+}
+
+function clearContents(el) {
+	el.innerHTML = "";
+	return el;
+}
+
+function parseHTML(markup) {
+	if(markup.toLowerCase().trim().indexOf('<!doctype') === 0) {
+		const doc = document.implementation.createHTMLDocument("");
+		doc.documentElement.innerHTML = markup;
+		return doc;
+	} else {
+		const el = mk.template({});
+		el.innerHTML = markup;
+		return el.content;
+	}
+}</script>
 <script>/* script-var-click-highlighting */
 
     "use strict";
@@ -1654,4 +1583,4 @@ Monkey Patch</a>
             return "selected" + index;
         }
     }
-    </script>
+</script>
