@@ -15,7 +15,6 @@ Complain About: accidental-2119 yes, missing-example-ids yes
 Markup Shorthands: markdown yes, css no
 Assume Explicit For: yes
 Metadata Order: !*, *, This version
-
 !Participate: <a href="https://github.com/[REPOSITORY]">Github Repository</a>
 !Participate: <a href="https://github.com/privacycg/meetings/">Privacy CG Meetings</a>
 </pre>
@@ -39,6 +38,7 @@ Metadata Order: !*, *, This version
 <pre class="anchors">
 spec: HTTP; urlPrefix: https://httpwg.org/specs/rfc7231.html#
     type: dfn; text: HTTP 3xx statuses; url: status.3xx
+    type: dfn; text: bc-traversable; url: bc-traversable
 spec: tracking-dnt; urlPrefix: https://www.w3.org/TR/tracking-dnt/#
     type: dfn; text: tracking; url: dfn-tracking
 spec: RFC6265; urlPrefix: https://tools.ietf.org/html/rfc6265/
@@ -298,6 +298,8 @@ the PrivacyCG.
 
 <h3 id="bounce-tracking-mitigations-data-model">Data Model</h3>
 
+<h4 id="bounce-tracking-mitigations-data-model-global">Global Data</h4>
+
 The user agent holds a <dfn>user activation map</dfn> which is a [=map=] of
 [=site=] [=hosts=] to [=moments=].  The [=moments=] represent the most recent
 [=wall clock=] time at which the user activated a top-level document on the
@@ -319,6 +321,24 @@ a user activation occurs.  This means that a given host can exist in either the
 [=user activation map=] or [=candidate bounce tracking map=], but not both at
 the same time.  The maps will have non-overlapping sets of keys.
 
+<h4 id="bounce-tracking-mitigations-data-model-per-tab">Per-Tab Data</h4>
+
+Each [=top-level traversable=] has an associated
+<dfn for="top-level traversable">bounce tracking record</dfn> which is a
+[=bounce tracking record=] or null.  Initially it is null.
+
+A <dfn>bounce tracking record</dfn> is a [=struct=].
+
+A [=bounce tracking record=] has an associated
+<dfn for="bounce tracking record">initial host</dfn>, a [=host=].
+
+A [=bounce tracking record=] has an associated
+<dfn for="bounce tracking record">storage access set</dfn> which is [=set=]
+of [=hosts=].
+
+
+<h4 id="bounce-tracking-mitigations-data-model-constants">Constants</h4>
+
 The <dfn>bounce tracking grace period</dfn> is an [=implementation-defined=]
 [=duration=] that represents the length of time after a possible bounce tracking
 event during which the user agent will wait for an interaction before deleting a
@@ -339,8 +359,6 @@ algorithm.
 Note: 1 hour is a reasonable [=bounce tracking timer period=] value.
 
 <h3 id="bounce-tracking-mitigations-algorithms">Algorithms</h3>
-
-* TODO: Define the steps necessary to detect and store a "bounce".
 
 <h4 id="bounce-tracking-mitigations-activation-monkey-patch">User Activation
 Monkey Patch</h4>
@@ -371,13 +389,113 @@ model]]:
 
 1. Run [=record a user activation=] given <var ignore>document</var>.
 
+<h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
+Detection</h4>
+
+<div algorithm>
+
+To <dfn>process a network cookie access for bounce tracking mitigations</dfn>
+given a [=request=] |request|, perform the following steps:
+
+1. Let |origin| be |request|'s [=request/origin=].
+1. If |origin| is an [=opaque origin=], then abort these steps.
+1. If |request|'s [=request/destination=] is "`document`", then:
+    1. Let |topLevelTraversable| be |request|'s [=request/client=]'s
+        [=environment/target browsing context=]'s
+        [=bc-traversable|top-level traversable=].
+    1. [=Assert=]: |topLevelTraversable|'s
+        [=top-level traversable/bounce tracking record=] is not null.
+    1. [=set/Append=] |origin|'s [=host=] to |topLevelTraversable|'s
+        [=top-level traversable/bounce tracking record=]'s
+        [=bounce tracking record/storage access set=].
+
+Issue: TODO: Handle subresource requests and iframes for client-side redirects.
+
+</div>
+
+<h5 id="bounce-tracking-mitigations-network-cookie-write-monkey-patch">Network
+Cookie Write Monkey Patch</h5>
+
+Insert the following steps in the <a spec="fetch">HTTP-network fetch</a>
+algorithm after step 15 where cookies are parsed and saved in the cookie store:
+
+1. If cookies were stored in the cookie store in the previous step, then
+    run [=process a network cookie access for bounce tracking mitigations=]
+    given <var ignore>request</var>.
+
+<h5 id="bounce-tracking-mitigations-network-cookie-read-monkey-patch">Network
+Cookie Read Monkey Patch</h5>
+
+Insert the following steps in the <a spec="fetch">HTTP-network-or-cache fetch</a>
+algorithm after step 8.21.1.2 where cookies are added to the request headers:
+
+1. If cookies were attached to the request in the previous step, then run
+    [=process a network cookie access for bounce tracking mitigations=] given
+    <var ignore>httpRequest</var>.
+
+<h5 id="bounce-tracking-mitigations-nav-start-monkey-patch">Start Navigation
+Monkey Patch</h5>
+
+<div algorithm>
+
+To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
+|navigable| and [=Document=] |sourceDocument|, perform the following steps:
+
+1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+1. Set |initialHost| to |sourceDocument|'s [=Document/origin=]'s [=host=] if
+    |sourceDocument|'s [=Document/origin=] is not an [=opaque origin=], and
+    empty string otherwise.
+1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new
+    [=bounce tracking record=] with [=bounce tracking record/initial host=]
+    set to |initialHost|.
+
+Issue: TODO: Handle programmatic navigations within a particular time frame as
+    client-side redirects.
+
+</div>
+
+Insert the following steps in the <a spec="html">navigate</a> algorithm before
+step 8 where navigation to fragments is handled.
+
+1. Run [=process navigation start for bounce tracking=] given
+    <var ignore>navigable</var> and <var ignore>sourceDocument</var>.
+
+<h5 id="bounce-tracking-mitigations-nav-end-monkey-patch">End Navigation Monkey
+Patch</h5>
+
+<div algorithm>
+
+To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
+|navigable| and [=response/url list=] |URLs|, perform the following steps:
+
+1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+1. If |URLs| is empty, then abort these steps.
+1. Set |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s
+    [=bounce tracking record/initial host=].
+1. Set |finalHost| to the [=host=] of the last entry in |URLs|.
+1. [=map/For each=] |URL| in |URLs|:
+    1. Let |host| be the |URL|'s [=host=].
+    1. If |host| matches |initialHost| or |finalHost|, skip this |URL|.
+    1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
+        [=navigable/active document=].
+    1. Set [=candidate bounce tracking map=][|host|] to |topDocument|'s
+        [=relevant settings object=]'s [=environment settings object/current wall time=].
+
+Issue: TODO: Include potential client-side redirects, and detection timer logic.
+
+</div>
+
+Insert the following steps in the <a spec="html">navigate</a> algorithm after Ending Navigation.
+
+1. Run [=process navigation end for bounce tracking=] given
+    <var ignore>navigable</var> and <var ignore>URLs</var>.
+
 <h4 id="bounce-tracking-mitigations-timer">Timer</h4>
 
 <div algorithm>
 
 To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
-[=wall clock=] |now|,
-perform the following steps:
+[=wall clock=] |now|, perform the following steps:
 
 1. [=map/For each=] |host| -> |activationTime| of [=user activation map=]:
     1. [=Assert=] that [=candidate bounce tracking map=] does not
@@ -423,9 +541,6 @@ following steps:
     1. Remove |cookie| from the [=cookie store=].
 
 </div>
-
-Issue: TODO: Verify that using [=domain-match=] catches all cookies for the
-    [=host/registrable domain=].
 
 <div algorithm>
 To <dfn>clear non-cookie storage for host</dfn> given a [=host=] |host|, perform
