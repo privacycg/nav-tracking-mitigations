@@ -392,6 +392,9 @@ model]]:
 <h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
 Detection</h4>
 
+<h5 id="bounce-tracking-mitigations-network-cookie-write-monkey-patch">Network
+Cookie Write Monkey Patch</h5>
+
 <div algorithm>
 
 To <dfn>process a network cookie access for bounce tracking mitigations</dfn>
@@ -413,9 +416,6 @@ Issue: TODO: Handle subresource requests and iframes for client-side redirects.
 
 </div>
 
-<h5 id="bounce-tracking-mitigations-network-cookie-write-monkey-patch">Network
-Cookie Write Monkey Patch</h5>
-
 Insert the following steps in the <a spec="fetch">HTTP-network fetch</a>
 algorithm after step 15 where cookies are parsed and saved in the cookie store:
 
@@ -423,15 +423,10 @@ algorithm after step 15 where cookies are parsed and saved in the cookie store:
     run [=process a network cookie access for bounce tracking mitigations=]
     given <var ignore>request</var>.
 
-<h5 id="bounce-tracking-mitigations-network-cookie-read-monkey-patch">Network
-Cookie Read Monkey Patch</h5>
-
-Insert the following steps in the <a spec="fetch">HTTP-network-or-cache fetch</a>
-algorithm after step 8.21.1.2 where cookies are added to the request headers:
-
-1. If cookies were attached to the request in the previous step, then run
-    [=process a network cookie access for bounce tracking mitigations=] given
-    <var ignore>httpRequest</var>.
+Note: We currently don't treat cookie reads as stateful, but this would be a
+reasonable future change.We could run [=process a network cookie access for bounce tracking mitigations=]
+in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2 where cookies are
+added to the request headers.
 
 <h5 id="bounce-tracking-mitigations-nav-start-monkey-patch">Start Navigation
 Monkey Patch</h5>
@@ -476,6 +471,7 @@ To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
 1. [=map/For each=] |URL| in |URLs|:
     1. Let |host| be the |URL|'s [=host=].
     1. If |host| matches |initialHost| or |finalHost|, skip this |URL|.
+    1. If [=user activation map=] [=map/contains=] |host|, skip this |URL|.
     1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
         [=navigable/active document=].
     1. Set [=candidate bounce tracking map=][|host|] to |topDocument|'s
