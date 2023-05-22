@@ -408,7 +408,8 @@ given a [=request=] |request|, perform the following steps:
         [=bc-traversable|top-level traversable=].
     1. [=Assert=]: |topLevelTraversable|'s
         [=top-level traversable/bounce tracking record=] is not null.
-    1. [=set/Append=] |origin|'s [=host=] to |topLevelTraversable|'s
+    1. Let |site| be the result of running [=obtain a site=] given |origin|.
+    1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
         [=top-level traversable/bounce tracking record=]'s
         [=bounce tracking record/storage access set=].
 
@@ -437,9 +438,11 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 |navigable| and [=Document=] |sourceDocument|, perform the following steps:
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
-1. Set |initialHost| to |sourceDocument|'s [=Document/origin=]'s [=host=] if
-    |sourceDocument|'s [=Document/origin=] is not an [=opaque origin=], and
-    empty string otherwise.
+1. Let |origin| be |sourceDocument|'s [=Document/origin=].
+1. If |origin| is an [=opaque origin=], set |initialHost| to empty string.
+1. Otherwise,
+    1. Let |site| be the result of running [=obtain a site=] given |origin|.
+    1. Set |initialHost| to |site|'s [=host=].
 1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new
     [=bounce tracking record=] with [=bounce tracking record/initial host=]
     set to |initialHost|.
@@ -467,9 +470,11 @@ To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
 1. If |URLs| is empty, then abort these steps.
 1. Set |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s
     [=bounce tracking record/initial host=].
-1. Set |finalHost| to the [=host=] of the last entry in |URLs|.
+1. Let |finalSite| be the result of running [=obtain a site=] given the last entry in |URLs|.
+1. Set |finalHost| to the [=host=] of |finalSite|.
 1. [=map/For each=] |URL| in |URLs|:
-    1. Let |host| be the |URL|'s [=host=].
+    1. Let |site| be the result of running [=obtain a site=] given |URL|.
+    1. Let |host| be the |site|'s [=host=].
     1. If |host| matches |initialHost| or |finalHost|, skip this |URL|.
     1. If [=user activation map=] [=map/contains=] |host|, skip this |URL|.
     1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
