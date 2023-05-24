@@ -395,6 +395,8 @@ Detection</h4>
 <h5 id="bounce-tracking-mitigations-network-cookie-write-monkey-patch">Network
 Cookie Write Monkey Patch</h5>
 
+Each [=top-level traversable=] maintains a record of which sites it has saved cookies for.
+
 <div algorithm>
 
 To <dfn>process a network cookie access for bounce tracking mitigations</dfn>
