@@ -493,7 +493,7 @@ To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
     1. If |host| [=host/equals=] |initialHost| or |finalHost|, [=iteration/continue=].
     1. If [=user activation map=] [=map/contains=] |host|, [=iteration/continue=].
     1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s
-        [=bounce tracking record/storage access set=] [=set/contains=] |host|, [=iteration/continue=].
+        [=bounce tracking record/storage access set=] does not [=set/contain=] |host|, [=iteration/continue=].
     1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
         [=navigable/active document=].
     1. Set [=stateful bounce tracking map=][|host|] to |topDocument|'s
