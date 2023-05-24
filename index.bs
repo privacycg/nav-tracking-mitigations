@@ -305,20 +305,20 @@ The user agent holds a <dfn>user activation map</dfn> which is a [=map=] of
 [=wall clock=] time at which the user activated a top-level document on the
 associated [=site=] [=host=].
 
-The user agent holds a <dfn>candidate bounce tracking map</dfn> which is a
+The user agent holds a <dfn>stateful bounce tracking map</dfn> which is a
 [=map=] of [=site=] [=hosts=] to [=moments=].  The [=moments=] represent the
 first [=wall clock=] time since the last execution of the
 [=bounce tracking timer=] at which a page on the given [=site=] [=host=] performed
-an action that could indicate bounce tracking took place.  For example,
+an action that could indicate stateful bounce tracking took place.  For example,
 if [=bounce tracking timer=] ran at time X and bounces occurred at times X-1,
 X+1, and X+2, then the map value would be X+1.
 
 Note: Schemeless site is used as the data structure key because by default cookies
 are sent to both `http://` and `https://` pages on the same domain.
 
-Note: Hosts are eagerly removed from the [=candidate bounce tracking map=] when
+Note: Hosts are eagerly removed from the [=stateful bounce tracking map=] when
 a user activation occurs.  This means that a given host can exist in either the
-[=user activation map=] or [=candidate bounce tracking map=], but not both at
+[=user activation map=] or [=stateful bounce tracking map=], but not both at
 the same time.  The maps will have non-overlapping sets of keys.
 
 <h4 id="bounce-tracking-mitigations-data-model-per-tab">Per-Tab Data</h4>
@@ -377,7 +377,7 @@ the following steps:
 1. If |origin| is an [=opaque origin=] then abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
 1. Let |host| be |site|'s [=host=].
-1. [=map/Remove=] |host| from the [=candidate bounce tracking map=].
+1. [=map/Remove=] |host| from the [=stateful bounce tracking map=].
 1. Set [=user activation map=][|host|] to |topDocument|'s
     [=relevant settings object=]'s
     [=environment settings object/current wall time=].
@@ -469,7 +469,7 @@ Issue: TODO: Handle programmatic navigations within a particular time frame as
 <h5 id="bounce-tracking-mitigations-nav-end-monkey-patch">End Navigation Monkey
 Patch</h5>
 
-At the end of a navigation, fill the [=candidate bounce tracking map=].
+At the end of a navigation, fill the [=stateful bounce tracking map=].
 
 Insert the following steps in the <a spec="html">navigate</a> algorithm after Ending Navigation.
 
@@ -492,9 +492,11 @@ To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
     1. Let |host| be the |site|'s [=host=].
     1. If |host| [=host/equals=] |initialHost| or |finalHost|, [=iteration/continue=].
     1. If [=user activation map=] [=map/contains=] |host|, [=iteration/continue=].
+    1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s
+        [=bounce tracking record/storage access set=] [=set/contains=] |host|, [=iteration/continue=].
     1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
         [=navigable/active document=].
-    1. Set [=candidate bounce tracking map=][|host|] to |topDocument|'s
+    1. Set [=stateful bounce tracking map=][|host|] to |topDocument|'s
         [=relevant settings object=]'s [=environment settings object/current wall time=].
 
 Issue: TODO: Include potential client-side redirects, and detection timer logic.
@@ -509,11 +511,11 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
 [=wall clock=] |now|, perform the following steps:
 
 1. [=map/For each=] |host| -> |activationTime| of [=user activation map=]:
-    1. [=Assert=] that [=candidate bounce tracking map=] does not
+    1. [=Assert=] that [=stateful bounce tracking map=] does not
         [=map/contain=] |host|.
     1. If |activationTime| + [=bounce tracking activation lifetime=] is before
         |now|, then [=map/remove=] |host| from [=user activation map=].
-1. [=map/For each=] |host| -> |bounceTime| of [=candidate bounce tracking map=]:
+1. [=map/For each=] |host| -> |bounceTime| of [=stateful bounce tracking map=]:
     1. [=Assert=] that [=user activation map=] does not [=map/contain=] |host|.
     1. If |bounceTime| + [=bounce tracking grace period=] is after |now|, then
         [=iteration/continue=].
@@ -521,7 +523,7 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
         [=navigable/active document=]'s [=Document/origin=]'s
         [=obtain a site|site=]'s [=host=] equals |host|,
         then [=iteration/continue=].
-    1. [=map/Remove=] |host| from [=candidate bounce tracking map=].
+    1. [=map/Remove=] |host| from [=stateful bounce tracking map=].
     1. [=Clear cookies for host=] given |host|.
     1. [=Clear non-cookie storage for host=] given |host|.
     1. [=Clear cache for host=] given |host|.
