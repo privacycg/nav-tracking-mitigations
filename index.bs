@@ -437,8 +437,6 @@ Monkey Patch</h5>
 
 At the start of a navigation, initialize the [=bounce tracking record=].
 
-Each [=top-level traversable=] maintains a record of which sites it has saved cookies for.
-
 Insert the following steps in the <a spec="html">navigate</a> algorithm before
 step 8,
 "[Navigate to a fragment](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate-fragid) given navigable, url, historyHandling, and navigationId."
