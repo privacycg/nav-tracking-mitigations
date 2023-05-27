@@ -451,17 +451,16 @@ Monkey Patch</h5>
 At the start of a navigation, either initialize a new [=bounce tracking record=],
 or append a client-side redirect to the current [=bounce tracking record=].
 
-Insert the following steps in the <a spec="html">navigate</a> algorithm before
-step 8,
+Insert the following steps in the <a spec="html">navigate</a> algorithm before step 8,
 "[Navigate to a fragment](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate-fragid) given navigable, url, historyHandling, and navigationId."
 
 1. Run [=process navigation start for bounce tracking=] given
-    <var ignore>navigable</var> and <var ignore>sourceDocument</var>.
+    <var ignore>navigable</var>, <var ignore>sourceDocument</var>, and <var ignore>sourceSnapshotParams</var>.
 
 <div algorithm>
 
 To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
-|navigable| and [=Document=] |sourceDocument|, perform the following steps:
+|navigable|, [=Document=] |sourceDocument|, and <a spec="html">source snapshot params</a> |sourceSnapshotParams|, perform the following steps:
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
 1. Let |origin| be |sourceDocument|'s [=Document/origin=].
@@ -474,15 +473,12 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
         [=bounce tracking record=] with [=bounce tracking record/initial host=]
         set to |initialHost|.
 1. Otherwise,
-    1. Let |isUserInitiated| denote whether this navigation was initiated by the user.
-    1. If |isUserInitiated|:
+    1. If |sourceSnapshotParams|'s <a spec="html">has transient activation</a> is true:
         1. Run [=record stateful bounces for bounce tracking=].
         1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new [=bounce tracking record=] with
             [=bounce tracking record/initial host=] set to |initialHost|.
     1. Otherwise, add |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
 1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] to false.
-
-Issue: TODO: Use a concrete spec signal to determine |isUserInitiated|.
 
 </div>
 
@@ -495,7 +491,7 @@ Insert the following steps in the <a spec="html">navigate</a> algorithm, under "
 "Wait until either response is non-null...", or as soon as [=response/url list=] becomes available.
 
 1. Run [=process navigation end for bounce tracking=] given
-    <var ignore>navigable</var> and <var ignore>URLs</var>.
+    <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
 
 <div algorithm>
 
@@ -504,10 +500,9 @@ To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
 
 1. [=Assert=] that |navigable|'s [=top-level traversable/bounce tracking record=]'s
     [=bounce tracking record/client bounce detection running=] is false.
+1. If |navigable| is not a [=top-level traversable=], then abort these steps.
 1. Run [=run steps after a timeout=] given <var ignore>milliseconds</var> [=client bounce detection timer period=]
     and <var ignore>completionSteps</var> [=record stateful bounces for bounce tracking=] given |navigable|.
-1. If |navigable| is not a [=top-level traversable=], then abort these steps.
-1. If |URLs| is empty, then abort these steps.
 1. [=map/For each=] |URL| in |URLs|:
     1. Let |site| be the result of running [=obtain a site=] given |URL|.
     1. Let |host| be the |site|'s [=host=].
@@ -523,7 +518,7 @@ When the navigation is finalized on a new document, update the [=bounce tracking
 Insert the following steps at the end of the <a spec="html">navigate</a> algorithm.
 
 1. Run [=process navigation commit for bounce tracking=] given
-    <var ignore>navigable</var> and <var ignore>URLs</var>.
+    <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
 
 <div algorithm>
 
