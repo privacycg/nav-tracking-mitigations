@@ -482,20 +482,20 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 
 </div>
 
-<h5 id="bounce-tracking-mitigations-nav-end-monkey-patch">End Navigation Monkey
+<h5 id="bounce-tracking-mitigations-response-received-monkey-patch">Response Received Monkey
 Patch</h5>
 
-At the end of a navigation, fill the [=bounce tracking record/bounce set=].
+When the response is received at the end of a navigation, fill the [=bounce tracking record/bounce set=].
 
 Insert the following steps in the <a spec="html">navigate</a> algorithm, under "Create navigation params by fetching", after Step 19.7,
 "Wait until either response is non-null...", or as soon as [=response/url list=] becomes available.
 
-1. Run [=process navigation end for bounce tracking=] given
+1. Run [=process response received for bounce tracking=] given
     <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
 
 <div algorithm>
 
-To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
+To <dfn>process response received for bounce tracking</dfn> given a [=navigable=]
 |navigable| and a [=response/url list=] |URLs|, perform the following steps:
 
 1. [=Assert=] that |navigable|'s [=top-level traversable/bounce tracking record=]'s
@@ -510,19 +510,19 @@ To <dfn>process navigation end for bounce tracking</dfn> given a [=navigable=]
 
 </div>
 
-<h5 id="bounce-tracking-mitigations-nav-commit-monkey-patch">Commit Navigation Monkey
+<h5 id="bounce-tracking-mitigations-document-load-monkey-patch">Document Loaded Monkey
 Patch</h5>
 
-When the navigation is finalized on a new document, update the [=bounce tracking record/final host=].
+When the document is loaded at the end of a navigation, update the [=bounce tracking record/final host=].
 
 Insert the following steps at the end of the <a spec="html">navigate</a> algorithm.
 
-1. Run [=process navigation commit for bounce tracking=] given
+1. Run [=process document load for bounce tracking=] given
     <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
 
 <div algorithm>
 
-To <dfn>process navigation commit for bounce tracking</dfn> given a [=navigable=]
+To <dfn>process document load for bounce tracking</dfn> given a [=navigable=]
 |navigable| and a [=response/url list=] |URLs|, perform the following steps:
 
 1. If |URLs| is empty, then abort these steps.
@@ -565,7 +565,7 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
 
 </div>
 
-This algorithm is called from [=process navigation end for bounce tracking=],
+This algorithm is called from [=process response received for bounce tracking=],
 after a timeout of [=client bounce detection timer period=], unless it is cancelled
 by toggling [=bounce tracking record/client bounce detection running=].
 
