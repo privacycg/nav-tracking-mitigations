@@ -505,8 +505,10 @@ To <dfn>process response received for bounce tracking</dfn> given a [=navigable=
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
 1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
-1. Run [=run steps after a timeout=] given <var ignore>milliseconds</var> [=client bounce detection timer period=]
-    and <var ignore>completionSteps</var> [=record stateful bounces for bounce tracking=] given |navigable|.
+1. Run [=run steps after a timeout=] given:
+    1. <var ignore>global</var> = |navigable|'s [=navigable/active document=]'s [=relevant global object=]
+    1. <var ignore>milliseconds</var> = [=client bounce detection timer period=]
+    1. <var ignore>completionSteps</var> = [=record stateful bounces for bounce tracking=] given |navigable|.
 1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s
     [=bounce tracking record/client bounce detection running=] to true.
 1. [=map/For each=] |URL| in |URLs|:
