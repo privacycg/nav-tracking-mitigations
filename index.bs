@@ -323,7 +323,8 @@ the same time.  The maps will have non-overlapping sets of keys.
 
 <h4 id="bounce-tracking-mitigations-data-model-per-tab">Per-Tab Data</h4>
 
-Define <dfn>extended navigation</dfn> as a sequence of navigations joined by client-side redirects.
+An <dfn>extended navigation</dfn> is a contiguous sequence of navigations joined by client-side redirects,
+which the user agent expects its user to perceive as a single operation.
 
 Each [=top-level traversable=] has an associated
 <dfn for="top-level traversable">bounce tracking record</dfn> which is a
@@ -368,7 +369,8 @@ Note: 1 hour is a reasonable [=bounce tracking timer period=] value.
 
 The <dfn>client bounce detection timer period</dfn> is an [=implementation-defined=]
 [=duration=] that represents how long to wait for a client redirect after a navigation ends.
-The purpose is to catch all automated page-triggered redirects with high probability.
+The purpose is to catch all automated page-triggered redirects, which should be appended to
+the current [=extended navigation=], with high probability.
 
 Note: 10 seconds is a reasonable [=client bounce detection timer period=] value.
 
@@ -426,6 +428,9 @@ given a [=request=] |request|, perform the following steps:
 1. Let |origin| be |request|'s [=request/origin=].
 1. If |origin| is an [=opaque origin=], then abort these steps.
 1. If |request|'s [=request/destination=] is "`document`", then:
+    1. [=Assert=]: |request|'s [=request/client=] is not null, and
+        |request|'s [=request/client=]'s [=environment/target browsing context=]
+        is not null.
     1. Let |topLevelTraversable| be |request|'s [=request/client=]'s
         [=environment/target browsing context=]'s
         [=browsing context/top-level traversable=].
@@ -464,7 +469,7 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
 1. Let |origin| be |sourceDocument|'s [=Document/origin=].
-1. If |origin| is an [=opaque origin=], set |initialHost| to empty string.
+1. If |origin| is an [=opaque origin=], set |initialHost| to [=empty host=].
 1. Otherwise,
     1. Let |site| be the result of running [=obtain a site=] given |origin|.
     1. Set |initialHost| to |site|'s [=host=].
@@ -488,7 +493,7 @@ Patch</h5>
 When the response is received at the end of a navigation, fill the [=bounce tracking record/bounce set=].
 
 Insert the following steps in the <a spec="html">navigate</a> algorithm, under "Create navigation params by fetching", after Step 19.7,
-"Wait until either response is non-null...", or as soon as [=response/url list=] becomes available.
+"Wait until either response is non-null...", as soon as [=response/url list=] becomes available.
 
 1. Run [=process response received for bounce tracking=] given
     <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
@@ -496,11 +501,10 @@ Insert the following steps in the <a spec="html">navigate</a> algorithm, under "
 <div algorithm>
 
 To <dfn>process response received for bounce tracking</dfn> given a [=navigable=]
-|navigable| and a [=response/url list=] |URLs|, perform the following steps:
+|navigable| and a [=list=] of [=URLs=] |URLs|, perform the following steps:
 
-1. [=Assert=] that |navigable|'s [=top-level traversable/bounce tracking record=]'s
-    [=bounce tracking record/client bounce detection running=] is false.
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
 1. Run [=run steps after a timeout=] given <var ignore>milliseconds</var> [=client bounce detection timer period=]
     and <var ignore>completionSteps</var> [=record stateful bounces for bounce tracking=] given |navigable|.
 1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s
@@ -525,8 +529,10 @@ Insert the following steps at the end of the <a spec="html">navigate</a> algorit
 <div algorithm>
 
 To <dfn>process document load for bounce tracking</dfn> given a [=navigable=]
-|navigable| and a [=response/url list=] |URLs|, perform the following steps:
+|navigable| and a [=list=] of [=URLs=] |URLs|, perform the following steps:
 
+1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
 1. If |URLs| is empty, then abort these steps.
 1. Let |finalSite| be the result of running [=obtain a site=] given the last entry in |URLs|.
 1. Set the |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/final host=] to the [=host=] of |finalSite|.
@@ -567,15 +573,17 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
 
 </div>
 
-This algorithm is called from [=process response received for bounce tracking=],
-after a timeout of [=client bounce detection timer period=], unless it is cancelled
-by toggling [=bounce tracking record/client bounce detection running=].
+This algorithm is called when detecting the end of an [=extended navigation=]. This could happen
+if a user-initiated navigation is detected in [=process navigation start for bounce tracking=],
+or if the client bounce detection timer expires after [=process response received for bounce tracking=]
+without observing a client redirect.
 
 <div algorithm>
 
 To run the <dfn>record stateful bounces for bounce tracking</dfn> algorithm
 given a [=navigable=] |navigable|, perform the following steps:
 
+1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
 1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] is false, abort these steps.
 1. [=map/For each=] |host| in |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=]:
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/initial host=], [=iteration/continue=].
@@ -583,11 +591,10 @@ given a [=navigable=] |navigable|, perform the following steps:
     1. If [=user activation map=] [=map/contains=] |host|, [=iteration/continue=].
     1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s
         [=bounce tracking record/storage access set=] does not [=set/contain=] |host|, [=iteration/continue=].
-    1. Let |topDocument| be |navigable|'s [=top-level traversable=]'s
-        [=navigable/active document=].
+    1. Let |topDocument| be |navigable|'s [=navigable/active document=].
     1. Set [=stateful bounce tracking map=][|host|] to |topDocument|'s
         [=relevant settings object=]'s [=environment settings object/current wall time=].
-1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] to false.
+1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to null.
 
 </div>
 
