@@ -323,14 +323,15 @@ the same time.  The maps will have non-overlapping sets of keys.
 
 <h4 id="bounce-tracking-mitigations-data-model-per-tab">Per-Tab Data</h4>
 
-An <dfn>extended navigation</dfn> is a contiguous sequence of navigations joined by client-side redirects,
-which the user agent expects its user to perceive as a single operation.
+An <dfn>extended navigation</dfn> is a contiguous sequence of navigations within a single [=top-level traversable=],
+joined by client-side redirects, which the user agent expects its user to perceive as a single operation.
 
 Each [=top-level traversable=] has an associated
 <dfn for="top-level traversable">bounce tracking record</dfn> which is a
 [=bounce tracking record=] or null. This stores the data relevant
-to bounce tracking enforcement for every [=extended navigation=]. Initially it is null, and it becomes
-non-null when an [=bounce tracking record/initial host=] is detected.
+to bounce tracking enforcement for every [=extended navigation=].
+It is non-null during an [=extended navigation=] and returns to null when the UA stops waiting for further
+client-side redirects that might extend the current [=extended navigation=].
 
 A <dfn>bounce tracking record</dfn> is a [=struct=] whose items are:
 <dl dfn-for="bounce tracking record">
@@ -342,8 +343,6 @@ A <dfn>bounce tracking record</dfn> is a [=struct=] whose items are:
 <dd>A [=set=] of [=sites=]' [=hosts=]. All server-side and client-side redirects hit during this [=extended navigation=].</dd>
 <dt><dfn>storage access set</dfn></dt>
 <dd>A [=set=] of [=sites=]' [=hosts=]. All sites which accessed storage during this [=extended navigation=].</dd>
-<dt><dfn>client bounce detection running</dfn></dt>
-<dd>A [=boolean=] flag. Tracks whether the user agent is still expecting a client-side navigation to append to the [=extended navigation=].</dd>
 </dl>
 
 <h4 id="bounce-tracking-mitigations-data-model-constants">Constants</h4>
@@ -408,6 +407,42 @@ model]]:
 <h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
 Detection</h4>
 
+<h5 id="bounce-tracking-mitigations-nav-start-monkey-patch">Start Navigation
+Monkey Patch</h5>
+
+At the start of a navigation, either initialize a new [=bounce tracking record=],
+or append a client-side redirect to the current [=bounce tracking record=].
+
+Insert the following steps in the <a spec="html">navigate</a> algorithm before step 8,
+"[Navigate to a fragment](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate-fragid) given navigable, url, historyHandling, and navigationId."
+
+1. Run [=process navigation start for bounce tracking=] given
+    <var ignore>navigable</var>, <var ignore>sourceDocument</var>, and <var ignore>sourceSnapshotParams</var>.
+
+<div algorithm>
+
+To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
+|navigable|, [=Document=] |sourceDocument|, and <a spec="html">source snapshot params</a> |sourceSnapshotParams|, perform the following steps:
+
+1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+1. Let |origin| be |sourceDocument|'s [=Document/origin=].
+1. If |origin| is an [=opaque origin=], set |initialHost| to [=empty host=].
+1. Otherwise,
+    1. Let |site| be the result of running [=obtain a site=] given |origin|.
+    1. Set |initialHost| to |site|'s [=host=].
+1. If |navigable|'s [=top-level traversable/bounce tracking record=] is null:
+    1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new
+        [=bounce tracking record=] with [=bounce tracking record/initial host=]
+        set to |initialHost|.
+1. Otherwise,
+    1. If |sourceSnapshotParams|'s <a spec="html">has transient activation</a> is true:
+        1. Run [=record stateful bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
+        1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new [=bounce tracking record=] with
+            [=bounce tracking record/initial host=] set to |initialHost|.
+    1. Otherwise, add |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
+
+</div>
+
 <h5 id="bounce-tracking-mitigations-network-cookie-write-monkey-patch">Network
 Cookie Write Monkey Patch</h5>
 
@@ -450,49 +485,12 @@ reasonable future change. We could run [=process a network cookie access for bou
 in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2,
 "... [=append=] (`Cookie`, cookies) to httpRequest’s [=header list=]. ..."
 
-<h5 id="bounce-tracking-mitigations-nav-start-monkey-patch">Start Navigation
-Monkey Patch</h5>
-
-At the start of a navigation, either initialize a new [=bounce tracking record=],
-or append a client-side redirect to the current [=bounce tracking record=].
-
-Insert the following steps in the <a spec="html">navigate</a> algorithm before step 8,
-"[Navigate to a fragment](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate-fragid) given navigable, url, historyHandling, and navigationId."
-
-1. Run [=process navigation start for bounce tracking=] given
-    <var ignore>navigable</var>, <var ignore>sourceDocument</var>, and <var ignore>sourceSnapshotParams</var>.
-
-<div algorithm>
-
-To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
-|navigable|, [=Document=] |sourceDocument|, and <a spec="html">source snapshot params</a> |sourceSnapshotParams|, perform the following steps:
-
-1. If |navigable| is not a [=top-level traversable=], then abort these steps.
-1. Let |origin| be |sourceDocument|'s [=Document/origin=].
-1. If |origin| is an [=opaque origin=], set |initialHost| to [=empty host=].
-1. Otherwise,
-    1. Let |site| be the result of running [=obtain a site=] given |origin|.
-    1. Set |initialHost| to |site|'s [=host=].
-1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] is false:
-    1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new
-        [=bounce tracking record=] with [=bounce tracking record/initial host=]
-        set to |initialHost|.
-1. Otherwise,
-    1. If |sourceSnapshotParams|'s <a spec="html">has transient activation</a> is true:
-        1. Run [=record stateful bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
-        1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new [=bounce tracking record=] with
-            [=bounce tracking record/initial host=] set to |initialHost|.
-    1. Otherwise, add |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
-1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] to false.
-
-</div>
-
 <h5 id="bounce-tracking-mitigations-response-received-monkey-patch">Response Received Monkey
 Patch</h5>
 
 When the response is received at the end of a navigation, fill the [=bounce tracking record/bounce set=].
 
-Insert the following steps in the <a spec="html">navigate</a> algorithm, under "Create navigation params by fetching", after Step 19.7,
+Insert the following steps in the <a spec="html">create navigation params by fetching</a> algorithm, after Step 19.7,
 "Wait until either response is non-null...", which is the point that [=response/url list=] becomes available.
 
 1. Run [=process response received for bounce tracking=] given
@@ -505,17 +503,16 @@ To <dfn>process response received for bounce tracking</dfn> given a [=navigable=
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
 1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
+1. Let |global| be |navigable|'s [=navigable/active document=]'s [=relevant global object=].
 1. [=Run steps after a timeout=] given:
     <dl>
         <dt><var ignore>global</var></dt>
-        <dd>|navigable|'s [=navigable/active document=]'s [=relevant global object=]</dd>
+        <dd>|global|</dd>
         <dt><var ignore>milliseconds</var></dt>
         <dd>[=client bounce detection timer period=]</dd>
         <dt><var ignore>completionSteps</var></dt>
-        <dd>queue a [=task=] to [=record stateful bounces for bounce tracking=] given <var ignore>global</var></dd>
+        <dd>[=queue a global task=] on the [=networking task source=] with |global| to [=record stateful bounces for bounce tracking=] given |global|</dd>
     </dl>
-1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s
-    [=bounce tracking record/client bounce detection running=] to true.
 1. [=list/For each=] |URL| in |URLs|:
     1. Let |site| be the result of running [=obtain a site=] given |URL|.
     1. Let |host| be the |site|'s [=host=].
@@ -528,7 +525,11 @@ Patch</h5>
 
 When the document is loaded at the end of a navigation, update the [=bounce tracking record/final host=].
 
-Insert the following steps in the <a spec="html">navigate</a> algorithm, under <a spec="html">load a document</a>,
+Note: The [=bounce tracking record/final host=] is updated later than [=process response received for bounce tracking=]
+to ensure that the [=bounce tracking record/final host=] is a valid user destination. This is the one that has to be
+compared against when deciding to exempt a [=host=] in the [=record stateful bounces for bounce tracking=] algorithm.
+
+Insert the following steps in the <a spec="html">load a document</a> algorithm,
 before Step 5, "Return null", which is the point that the [=document=] is loaded.
 
 1. Run [=process document load for bounce tracking=] given
@@ -597,7 +598,6 @@ given a [=global object=] |global|, perform the following steps:
 1. [=Assert=]: |topDocument| is the same as |global|'s [=associated document=].
     This ensures that the global has not been detached from the navigable.
 1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
-1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] is false, abort these steps.
 1. [=set/For each=] |host| in |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=]:
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/initial host=], [=iteration/continue=].
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/final host=], [=iteration/continue=].
