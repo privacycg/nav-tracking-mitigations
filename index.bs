@@ -337,7 +337,7 @@ A <dfn>bounce tracking record</dfn> is a [=struct=] whose items are:
 <dt><dfn>initial host</dfn></dt>
 <dd>A [=site=]'s [=host=]. The initiator site of the current [=extended navigation=].</dd>
 <dt><dfn>final host</dfn></dt>
-<dd>A [=site=]'s [=host=] or null. The destination of the current [=extended navigation=].</dd>
+<dd>A [=site=]'s [=host=] or null. The destination of the current [=extended navigation=]. Updated after every document load.</dd>
 <dt><dfn>bounce set</dfn></dt>
 <dd>A [=set=] of [=sites=]' [=hosts=]. All server-side and client-side redirects hit during this [=extended navigation=].</dd>
 <dt><dfn>storage access set</dfn></dt>
@@ -479,7 +479,7 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
         set to |initialHost|.
 1. Otherwise,
     1. If |sourceSnapshotParams|'s <a spec="html">has transient activation</a> is true:
-        1. Run [=record stateful bounces for bounce tracking=].
+        1. Run [=record stateful bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
         1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new [=bounce tracking record=] with
             [=bounce tracking record/initial host=] set to |initialHost|.
     1. Otherwise, add |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
@@ -493,7 +493,7 @@ Patch</h5>
 When the response is received at the end of a navigation, fill the [=bounce tracking record/bounce set=].
 
 Insert the following steps in the <a spec="html">navigate</a> algorithm, under "Create navigation params by fetching", after Step 19.7,
-"Wait until either response is non-null...", as soon as [=response/url list=] becomes available.
+"Wait until either response is non-null...", which is the point that [=response/url list=] becomes available.
 
 1. Run [=process response received for bounce tracking=] given
     <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
@@ -505,13 +505,18 @@ To <dfn>process response received for bounce tracking</dfn> given a [=navigable=
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
 1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
-1. Run [=run steps after a timeout=] given:
-    1. <var ignore>global</var> = |navigable|'s [=navigable/active document=]'s [=relevant global object=]
-    1. <var ignore>milliseconds</var> = [=client bounce detection timer period=]
-    1. <var ignore>completionSteps</var> = [=record stateful bounces for bounce tracking=] given |navigable|.
+1. [=Run steps after a timeout=] given:
+    <dl>
+        <dt><var ignore>global</var></dt>
+        <dd>|navigable|'s [=navigable/active document=]'s [=relevant global object=]</dd>
+        <dt><var ignore>milliseconds</var></dt>
+        <dd>[=client bounce detection timer period=]</dd>
+        <dt><var ignore>completionSteps</var></dt>
+        <dd>queue a [=task=] to [=record stateful bounces for bounce tracking=] given <var ignore>global</var></dd>
+    </dl>
 1. Set |navigable|'s [=top-level traversable/bounce tracking record=]'s
     [=bounce tracking record/client bounce detection running=] to true.
-1. [=map/For each=] |URL| in |URLs|:
+1. [=list/For each=] |URL| in |URLs|:
     1. Let |site| be the result of running [=obtain a site=] given |URL|.
     1. Let |host| be the |site|'s [=host=].
     1. [=Insert=] |host| to the |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
@@ -523,7 +528,8 @@ Patch</h5>
 
 When the document is loaded at the end of a navigation, update the [=bounce tracking record/final host=].
 
-Insert the following steps at the end of the <a spec="html">navigate</a> algorithm.
+Insert the following steps in the <a spec="html">navigate</a> algorithm, under <a spec="html">load a document</a>,
+before Step 5, "Return null", which is the point that the [=document=] is loaded.
 
 1. Run [=process document load for bounce tracking=] given
     <var ignore>navigable</var> and <var ignore>response</var>'s <var ignore>URL list</var>.
@@ -583,11 +589,16 @@ without observing a client redirect.
 <div algorithm>
 
 To run the <dfn>record stateful bounces for bounce tracking</dfn> algorithm
-given a [=navigable=] |navigable|, perform the following steps:
+given a [=global object=] |global|, perform the following steps:
 
+1. Let |navigable| be |global|'s [=associated document=]'s [=node navigable=].
+1. [=Assert=]: |navigable| is not null.
+1. Let |topDocument| be |navigable|'s [=navigable/active document=].
+1. [=Assert=]: |topDocument| is the same as |global|'s [=associated document=].
+    This ensures that the global has not been detached from the navigable.
 1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
 1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/client bounce detection running=] is false, abort these steps.
-1. [=map/For each=] |host| in |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=]:
+1. [=set/For each=] |host| in |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=]:
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/initial host=], [=iteration/continue=].
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/final host=], [=iteration/continue=].
     1. If [=user activation map=] [=map/contains=] |host|, [=iteration/continue=].
