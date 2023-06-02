@@ -602,6 +602,8 @@ given a [=global object=] |global|, perform the following steps:
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/initial host=], [=iteration/continue=].
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/final host=], [=iteration/continue=].
     1. If [=user activation map=] [=map/contains=] |host|, [=iteration/continue=].
+    1. If [=stateful bounce tracking map=] [=map/contains=] |host|, [=iteration/continue=]. (Only the first bounce time since the
+        last execution of the [=bounce tracking timer=] is tracked in the map.)
     1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s
         [=bounce tracking record/storage access set=] does not [=set/contain=] |host|, [=iteration/continue=].
     1. Let |topDocument| be |navigable|'s [=navigable/active document=].
