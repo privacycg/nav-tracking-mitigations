@@ -477,8 +477,6 @@ given a [=request=] |request|, perform the following steps:
         [=top-level traversable/bounce tracking record=]'s
         [=bounce tracking record/storage access set=].
 
-Issue: TODO: Handle subresource requests and iframes for client-side redirects.
-
 </div>
 
 Note: We currently don't treat cookie reads as stateful, but this would be a
