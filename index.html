@@ -4,13 +4,13 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version bf22245b8, updated Tue Apr 18 15:53:37 2023 -0700" name="generator">
+  <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="6c9918a570b9e3b2bc0ed86cc2107d20d1e8ba7c" name="document-revision">
+  <meta content="1ca1e19a26c03b017aeaf9b0466ce1e82141220e" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
-<style>/* style-autolinks */
+<style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
     font-size: inherit;
@@ -71,8 +71,16 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
 </style>
-<style>/* style-colors */
+<style>/* Boilerplate: style-colors */
 
 /* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
 :root {
@@ -181,173 +189,6 @@ pre .property::before, pre .property::after {
 
     --editedrec-bg: darkorange;
 }
-</style>
-<style>/* style-counters */
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}
-</style>
-<style>/* style-dfn-panel */
-:root {
-    --dfnpanel-bg: #ddd;
-    --dfnpanel-text: var(--text);
-}
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    width: 20em;
-    width: 300px;
-    height: auto;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: var(--dfnpanel-bg);
-    color: var(--dfnpanel-text);
-    border: outset 0.2em;
-    white-space: normal; /* in case it's moved into a pre */
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: var(--dfnpanel-text); }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
-.dfn-panel li a {
-    white-space: pre;
-    display: inline-block;
-    max-width: calc(300px - 1.5em - 1em);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled[role="button"] { cursor: pointer; }
-</style>
-<style>/* style-issues */
-a[href].issue-return {
-    float: right;
-    float: inline-end;
-    color: var(--issueheading-text);
-    font-weight: bold;
-    text-decoration: none;
-}
-</style>
-<style>/* style-md-lists */
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}
-</style>
-<style>/* style-selflinks */
-
-:root {
-    --selflink-text: white;
-    --selflink-bg: gray;
-    --selflink-hover-text: black;
-}
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-.example > a.self-link,
-.note > a.self-link,
-.issue > a.self-link {
-    /* These blocks are overflow:auto, so positioning outside
-       doesn't work. */
-    left: auto;
-    right: 0;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: var(--selflink-bg);
-    color: var(--selflink-text);
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: var(--selflink-hover-text);
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }
-</style>
-<style>/* style-var-click-highlighting */
-var { cursor: pointer; }
-var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
-var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
-var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
-var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
-var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
-var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
-var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
-</style>
-<style>/* style-darkmode */
 
 @media (prefers-color-scheme: dark) {
     :root {
@@ -460,27 +301,247 @@ var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
        which is quite common in practice... */
     img { background: white; }
 }
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --selflink-text: black;
-        --selflink-bg: silver;
-        --selflink-hover-text: white;
-    }
+</style>
+<style>/* Boilerplate: style-counters */
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
 }
 
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}
+</style>
+<style>/* Boilerplate: style-dfn-panel */
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 @media (prefers-color-scheme: dark) {
     :root {
         --dfnpanel-bg: #222;
         --dfnpanel-text: var(--text);
     }
 }
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    white-space: pre;
+    display: inline-block;
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled[role="button"] { cursor: pointer; }
+</style>
+<style>/* Boilerplate: style-dfn-panel */
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    white-space: pre;
+    display: inline-block;
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled[role="button"] { cursor: pointer; }
+</style>
+<style>/* Boilerplate: style-issues */
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+<style>/* Boilerplate: style-md-lists */
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}
+</style>
+<style>/* Boilerplate: style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* Boilerplate: style-style-var-click-highlighting */
+/*
+Colors were chosen in Lab using https://nixsensor.com/free-color-converter/
+D50 2deg illuminant, L in [0,100], a and b in [-128, 128]
+0 = lab(85,0,85)
+1 = lab(85,80,30)
+2 = lab(85,-40,40)
+3 = lab(85,-50,0)
+4 = lab(85,5,15)
+5 = lab(85,-10,-50)
+6 = lab(85,35,-15)
+*/
+var { cursor: pointer; }
+var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
 </style>
  <body>
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-04-24">24 April 2023</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-06-05">5 June 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -541,14 +602,33 @@ Learn more about <a href="http://www.w3.org/community/">W3C Community and Busine
     <li>
      <a href="#bounce-tracking-mitigations"><span class="secno">6</span> <span class="content">Bounce Tracking Mitigations</span></a>
      <ol class="toc">
-      <li><a href="#bounce-tracking-mitigations-data-model"><span class="secno">6.1</span> <span class="content">Data Model</span></a>
+      <li>
+       <a href="#bounce-tracking-mitigations-data-model"><span class="secno">6.1</span> <span class="content">Data Model</span></a>
+       <ol class="toc">
+        <li><a href="#bounce-tracking-mitigations-data-model-global"><span class="secno">6.1.1</span> <span class="content">Global Data</span></a>
+        <li><a href="#bounce-tracking-mitigations-data-model-per-tab"><span class="secno">6.1.2</span> <span class="content">Per-Tab Data</span></a>
+        <li><a href="#bounce-tracking-mitigations-data-model-constants"><span class="secno">6.1.3</span> <span class="content">Constants</span></a>
+       </ol>
       <li>
        <a href="#bounce-tracking-mitigations-algorithms"><span class="secno">6.2</span> <span class="content">Algorithms</span></a>
        <ol class="toc">
         <li><a href="#bounce-tracking-mitigations-activation-monkey-patch"><span class="secno">6.2.1</span> <span class="content">User Activation
 Monkey Patch</span></a>
-        <li><a href="#bounce-tracking-mitigations-timer"><span class="secno">6.2.2</span> <span class="content">Timer</span></a>
-        <li><a href="#bounce-tracking-mitigations-deletion"><span class="secno">6.2.3</span> <span class="content">Deletion</span></a>
+        <li>
+         <a href="#bounce-tracking-mitigation-stateful-bounce-detection"><span class="secno">6.2.2</span> <span class="content">Stateful Bounce
+Detection</span></a>
+         <ol class="toc">
+          <li><a href="#bounce-tracking-mitigations-nav-start-monkey-patch"><span class="secno">6.2.2.1</span> <span class="content">Start Navigation
+Monkey Patch</span></a>
+          <li><a href="#bounce-tracking-mitigations-network-cookie-write-monkey-patch"><span class="secno">6.2.2.2</span> <span class="content">Network
+Cookie Write Monkey Patch</span></a>
+          <li><a href="#bounce-tracking-mitigations-response-received-monkey-patch"><span class="secno">6.2.2.3</span> <span class="content">Response Received Monkey
+Patch</span></a>
+          <li><a href="#bounce-tracking-mitigations-document-load-monkey-patch"><span class="secno">6.2.2.4</span> <span class="content">Document Loaded Monkey
+Patch</span></a>
+         </ol>
+        <li><a href="#bounce-tracking-mitigations-timers"><span class="secno">6.2.3</span> <span class="content">Timers</span></a>
+        <li><a href="#bounce-tracking-mitigations-deletion"><span class="secno">6.2.4</span> <span class="content">Deletion</span></a>
        </ol>
      </ol>
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content">Acknowledgements</span></a>
@@ -763,31 +843,51 @@ presented for review.</p>
    <p class="note" role="note"> The following is a work-in-progress and does not yet reflect any consensus in
 the PrivacyCG. </p>
    <h3 class="heading settled" data-level="6.1" id="bounce-tracking-mitigations-data-model"><span class="secno">6.1. </span><span class="content">Data Model</span><a class="self-link" href="#bounce-tracking-mitigations-data-model"></a></h3>
+   <h4 class="heading settled" data-level="6.1.1" id="bounce-tracking-mitigations-data-model-global"><span class="secno">6.1.1. </span><span class="content">Global Data</span><a class="self-link" href="#bounce-tracking-mitigations-data-model-global"></a></h4>
    <p>The user agent holds a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="user-activation-map">user activation map</dfn> which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map">map</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host">hosts</a> to <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment">moments</a>.  The <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment①">moments</a> represent the most recent <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock">wall clock</a> time at which the user activated a top-level document on the
-associated <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①">host</a>.</p>
-   <p>The user agent holds a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="candidate-bounce-tracking-map">candidate bounce tracking map</dfn> which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map①">map</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site①">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host②">hosts</a> to <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment②">moments</a>.  The <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment③">moments</a> represent the
-first <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock①">wall clock</a> time since the last execution of the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer">bounce tracking timer</a> at which a page on the given <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host③">host</a> performed
-an action that could indicate bounce tracking took place.  For example,
+associated <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site①">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①">host</a>.</p>
+   <p>The user agent holds a <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="stateful-bounce-tracking-map">stateful bounce tracking map</dfn> which is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-map" id="ref-for-ordered-map①">map</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site②">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host②">hosts</a> to <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment②">moments</a>.  The <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment③">moments</a> represent the
+first <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock①">wall clock</a> time since the last execution of the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer">bounce tracking timer</a> at which a page on the given <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site③">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host③">host</a> performed
+an action that could indicate stateful bounce tracking took place.  For example,
 if <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer①">bounce tracking timer</a> ran at time X and bounces occurred at times X-1,
 X+1, and X+2, then the map value would be X+1.</p>
    <p class="note" role="note"><span class="marker">Note:</span> Schemeless site is used as the data structure key because by default cookies
 are sent to both <code>http://</code> and <code>https://</code> pages on the same domain.</p>
-   <p class="note" role="note"><span class="marker">Note:</span> Hosts are eagerly removed from the <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map">candidate bounce tracking map</a> when
-a user activation occurs.  This means that a given host can exist in either the <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map">user activation map</a> or <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map①">candidate bounce tracking map</a>, but not both at
+   <p class="note" role="note"><span class="marker">Note:</span> Hosts are eagerly removed from the <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map">stateful bounce tracking map</a> when
+a user activation occurs.  This means that a given host can exist in either the <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map">user activation map</a> or <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map①">stateful bounce tracking map</a>, but not both at
 the same time.  The maps will have non-overlapping sets of keys.</p>
+   <h4 class="heading settled" data-level="6.1.2" id="bounce-tracking-mitigations-data-model-per-tab"><span class="secno">6.1.2. </span><span class="content">Per-Tab Data</span><a class="self-link" href="#bounce-tracking-mitigations-data-model-per-tab"></a></h4>
+   <p>An <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="extended-navigation">extended navigation</dfn> is a contiguous sequence of navigations within a single <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable">top-level traversable</a>,
+joined by client-side redirects, which the user agent expects its user to perceive as a single operation.</p>
+   <p>Each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable①">top-level traversable</a> has an associated <dfn class="dfn-paneled" data-dfn-for="top-level traversable" data-dfn-type="dfn" data-noexport id="top-level-traversable-bounce-tracking-record">bounce tracking record</dfn> which is a <a data-link-type="dfn" href="#bounce-tracking-record" id="ref-for-bounce-tracking-record">bounce tracking record</a> or null. This stores the data relevant
+to bounce tracking enforcement for every <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation">extended navigation</a>.
+It is non-null during an <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation①">extended navigation</a> and returns to null when the UA stops waiting for further
+client-side redirects that might extend the current <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation②">extended navigation</a>.</p>
+   <p>A <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-record">bounce tracking record</dfn> is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#struct" id="ref-for-struct">struct</a> whose items are:</p>
+   <dl>
+    <dt><dfn class="dfn-paneled" data-dfn-for="bounce tracking record" data-dfn-type="dfn" data-noexport id="bounce-tracking-record-initial-host">initial host</dfn>
+    <dd>A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site④">site</a>'s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host④">host</a>. The initiator site of the current <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation③">extended navigation</a>.
+    <dt><dfn class="dfn-paneled" data-dfn-for="bounce tracking record" data-dfn-type="dfn" data-noexport id="bounce-tracking-record-final-host">final host</dfn>
+    <dd>A <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site⑤">site</a>'s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑤">host</a> or null. The destination of the current <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation④">extended navigation</a>. Updated after every document load.
+    <dt><dfn class="dfn-paneled" data-dfn-for="bounce tracking record" data-dfn-type="dfn" data-noexport id="bounce-tracking-record-bounce-set">bounce set</dfn>
+    <dd>A <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set">set</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site⑥">sites</a>' <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑥">hosts</a>. All server-side and client-side redirects hit during this <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation⑤">extended navigation</a>.
+    <dt><dfn class="dfn-paneled" data-dfn-for="bounce tracking record" data-dfn-type="dfn" data-noexport id="bounce-tracking-record-storage-access-set">storage access set</dfn>
+    <dd>A <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#ordered-set" id="ref-for-ordered-set①">set</a> of <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site⑦">sites</a>' <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑦">hosts</a>. All sites which accessed storage during this <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation⑥">extended navigation</a>.
+   </dl>
+   <h4 class="heading settled" data-level="6.1.3" id="bounce-tracking-mitigations-data-model-constants"><span class="secno">6.1.3. </span><span class="content">Constants</span><a class="self-link" href="#bounce-tracking-mitigations-data-model-constants"></a></h4>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-grace-period">bounce tracking grace period</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration">duration</a> that represents the length of time after a possible bounce tracking
-event during which the user agent will wait for an interaction before deleting a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host④">host</a>'s storage.</p>
+event during which the user agent will wait for an interaction before deleting a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site⑧">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑧">host</a>'s storage.</p>
    <p class="note" role="note"><span class="marker">Note:</span> 1 hour is a reasonable <a data-link-type="dfn" href="#bounce-tracking-grace-period" id="ref-for-bounce-tracking-grace-period">bounce tracking grace period</a> value.</p>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-activation-lifetime">bounce tracking activation lifetime</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined①">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration①">duration</a> that represents how long user
-activations will protect a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑤">host</a> from storage deletion.</p>
+activations will protect a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#site" id="ref-for-site⑨">site</a> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑨">host</a> from storage deletion.</p>
    <p class="note" role="note"><span class="marker">Note:</span> 45 days is a reasonable <a data-link-type="dfn" href="#bounce-tracking-activation-lifetime" id="ref-for-bounce-tracking-activation-lifetime">bounce tracking activation lifetime</a> value.</p>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-timer-period">bounce tracking timer period</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined②">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration②">duration</a> that represents how often to run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer②">bounce tracking timer</a> algorithm.</p>
    <p class="note" role="note"><span class="marker">Note:</span> 1 hour is a reasonable <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period">bounce tracking timer period</a> value.</p>
+   <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="client-bounce-detection-timer-period">client bounce detection timer period</dfn> is an <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#implementation-defined" id="ref-for-implementation-defined③">implementation-defined</a> <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-duration" id="ref-for-dfn-duration③">duration</a> that represents how long to wait for a client redirect after a navigation ends.
+The purpose is to catch all automated page-triggered redirects, which should be appended to
+the current <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation⑦">extended navigation</a>, with high probability.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> 10 seconds is a reasonable <a data-link-type="dfn" href="#client-bounce-detection-timer-period" id="ref-for-client-bounce-detection-timer-period">client bounce detection timer period</a> value.</p>
    <h3 class="heading settled" data-level="6.2" id="bounce-tracking-mitigations-algorithms"><span class="secno">6.2. </span><span class="content">Algorithms</span><a class="self-link" href="#bounce-tracking-mitigations-algorithms"></a></h3>
-   <ul>
-    <li data-md>
-     <p>TODO: Define the steps necessary to detect and store a "bounce".</p>
-   </ul>
    <h4 class="heading settled" data-level="6.2.1" id="bounce-tracking-mitigations-activation-monkey-patch"><span class="secno">6.2.1. </span><span class="content">User Activation
 Monkey Patch</span><a class="self-link" href="#bounce-tracking-mitigations-activation-monkey-patch"></a></h4>
    <div class="algorithm" data-algorithm="record a user activation">
@@ -799,7 +899,7 @@ the following steps:</p>
      <li data-md>
       <p>If <var>navigable</var> is null, then abort these steps.</p>
      <li data-md>
-      <p>Let <var>topDocument</var> be <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable">top-level traversable</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document">active document</a>.</p>
+      <p>Let <var>topDocument</var> be <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable②">top-level traversable</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document">active document</a>.</p>
      <li data-md>
       <p>Let <var>origin</var> be <var>topDocument</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-origin" id="ref-for-concept-document-origin">origin</a>.</p>
      <li data-md>
@@ -807,11 +907,11 @@ the following steps:</p>
      <li data-md>
       <p>Let <var>site</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site">obtain a site</a> given <var>origin</var>.</p>
      <li data-md>
-      <p>Let <var>host</var> be <var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑥">host</a>.</p>
+      <p>Let <var>host</var> be <var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⓪">host</a>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove">Remove</a> <var>host</var> from the <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map②">candidate bounce tracking map</a>.</p>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove">Remove</a> <var>host</var> from the <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map②">stateful bounce tracking map</a>.</p>
      <li data-md>
-      <p>Set <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map①">user activation map</a>[<var>host</var>] to <var>topDocument</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-current-wall-time" id="ref-for-dfn-current-wall-time">current wall time</a>.</p>
+      <p>Set <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map①">user activation map</a>[<var>host</var>] to <var>topDocument</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object">relevant settings object</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-eso-current-wall-time" id="ref-for-dfn-eso-current-wall-time">current wall time</a>.</p>
     </ol>
    </div>
    <p>Append the following steps to the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#activation-notification" id="ref-for-activation-notification">activation notification</a> steps in the <a href="https://html.spec.whatwg.org/multipage/interaction.html#user-activation-processing-model">user activation processing
@@ -820,31 +920,187 @@ model</a>:</p>
     <li data-md>
      <p>Run <a data-link-type="dfn" href="#record-a-user-activation" id="ref-for-record-a-user-activation">record a user activation</a> given <var>document</var>.</p>
    </ol>
-   <h4 class="heading settled" data-level="6.2.2" id="bounce-tracking-mitigations-timer"><span class="secno">6.2.2. </span><span class="content">Timer</span><a class="self-link" href="#bounce-tracking-mitigations-timer"></a></h4>
+   <h4 class="heading settled" data-level="6.2.2" id="bounce-tracking-mitigation-stateful-bounce-detection"><span class="secno">6.2.2. </span><span class="content">Stateful Bounce
+Detection</span><a class="self-link" href="#bounce-tracking-mitigation-stateful-bounce-detection"></a></h4>
+   <h5 class="heading settled" data-level="6.2.2.1" id="bounce-tracking-mitigations-nav-start-monkey-patch"><span class="secno">6.2.2.1. </span><span class="content">Start Navigation
+Monkey Patch</span><a class="self-link" href="#bounce-tracking-mitigations-nav-start-monkey-patch"></a></h5>
+   <p>At the start of a navigation, either initialize a new <a data-link-type="dfn" href="#bounce-tracking-record" id="ref-for-bounce-tracking-record①">bounce tracking record</a>,
+or append a client-side redirect to the current <a data-link-type="dfn" href="#bounce-tracking-record" id="ref-for-bounce-tracking-record②">bounce tracking record</a>.</p>
+   <p>Insert the following steps in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate" id="ref-for-navigate">navigate</a> algorithm before step 8,
+"<a href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate-fragid">Navigate to a fragment</a> given navigable, url, historyHandling, and navigationId."</p>
+   <ol>
+    <li data-md>
+     <p>Run <a data-link-type="dfn" href="#process-navigation-start-for-bounce-tracking" id="ref-for-process-navigation-start-for-bounce-tracking">process navigation start for bounce tracking</a> given <var>navigable</var>, <var>sourceDocument</var>, and <var>sourceSnapshotParams</var>.</p>
+   </ol>
+   <div class="algorithm" data-algorithm="process navigation start for bounce tracking">
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-navigation-start-for-bounce-tracking">process navigation start for bounce tracking</dfn> given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable" id="ref-for-navigable">navigable</a> <var>navigable</var>, <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document①">Document</a> <var>sourceDocument</var>, and <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#source-snapshot-params" id="ref-for-source-snapshot-params">source snapshot params</a> <var>sourceSnapshotParams</var>, perform the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>If <var>navigable</var> is not a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable③">top-level traversable</a>, then abort these steps.</p>
+     <li data-md>
+      <p>Remove any queued global tasks to <a data-link-type="dfn" href="#record-stateful-bounces-for-bounce-tracking" id="ref-for-record-stateful-bounces-for-bounce-tracking">record stateful bounces for bounce tracking</a> from the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#networking-task-source" id="ref-for-networking-task-source">networking task source</a>.</p>
+     <li data-md>
+      <p>Let <var>origin</var> be <var>sourceDocument</var>’s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-origin" id="ref-for-concept-document-origin①">origin</a>.</p>
+     <li data-md>
+      <p>If <var>origin</var> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque①">opaque origin</a>, set <var>initialHost</var> to <a data-link-type="dfn" href="https://url.spec.whatwg.org/#empty-host" id="ref-for-empty-host">empty host</a>.</p>
+     <li data-md>
+      <p>Otherwise,</p>
+      <ol>
+       <li data-md>
+        <p>Let <var>site</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site①">obtain a site</a> given <var>origin</var>.</p>
+       <li data-md>
+        <p>Set <var>initialHost</var> to <var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①①">host</a>.</p>
+      </ol>
+     <li data-md>
+      <p>If <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record">bounce tracking record</a> is null:</p>
+      <ol>
+       <li data-md>
+        <p>Set <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①">bounce tracking record</a> to a new <a data-link-type="dfn" href="#bounce-tracking-record" id="ref-for-bounce-tracking-record③">bounce tracking record</a> with <a data-link-type="dfn" href="#bounce-tracking-record-initial-host" id="ref-for-bounce-tracking-record-initial-host">initial host</a> set to <var>initialHost</var>.</p>
+      </ol>
+     <li data-md>
+      <p>Otherwise,</p>
+      <ol>
+       <li data-md>
+        <p>If <var>sourceSnapshotParams</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#source-snapshot-params-activation" id="ref-for-source-snapshot-params-activation">has transient activation</a> is true:</p>
+        <ol>
+         <li data-md>
+          <p>Run <a data-link-type="dfn" href="#record-stateful-bounces-for-bounce-tracking" id="ref-for-record-stateful-bounces-for-bounce-tracking①">record stateful bounces for bounce tracking</a> given <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document①">active document</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a>.</p>
+         <li data-md>
+          <p>Set <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record②">bounce tracking record</a> to a new <a data-link-type="dfn" href="#bounce-tracking-record" id="ref-for-bounce-tracking-record④">bounce tracking record</a> with <a data-link-type="dfn" href="#bounce-tracking-record-initial-host" id="ref-for-bounce-tracking-record-initial-host①">initial host</a> set to <var>initialHost</var>.</p>
+        </ol>
+       <li data-md>
+        <p>Otherwise, add <var>initialHost</var> to <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record③">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-bounce-set" id="ref-for-bounce-tracking-record-bounce-set">bounce set</a>.</p>
+      </ol>
+    </ol>
+   </div>
+   <h5 class="heading settled" data-level="6.2.2.2" id="bounce-tracking-mitigations-network-cookie-write-monkey-patch"><span class="secno">6.2.2.2. </span><span class="content">Network
+Cookie Write Monkey Patch</span><a class="self-link" href="#bounce-tracking-mitigations-network-cookie-write-monkey-patch"></a></h5>
+   <p>Each <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable④">top-level traversable</a> maintains a record of which sites it has saved cookies for in the current <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation⑧">extended navigation</a>.</p>
+   <p>Insert the following steps in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-http-network-fetch" id="ref-for-concept-http-network-fetch">HTTP-network fetch</a> algorithm after step 15,
+"... run the "set-cookie-string" parsing algorithm (see <a href="https://httpwg.org/specs/rfc6265.html#set-cookie">section 5.2</a> of <a data-link-type="biblio" href="#biblio-cookies" title="HTTP State Management Mechanism">[COOKIES]</a>) ...":</p>
+   <ol>
+    <li data-md>
+     <p>If cookies were stored in the cookie store in the previous step, then
+run <a data-link-type="dfn" href="#process-a-network-cookie-access-for-bounce-tracking-mitigations" id="ref-for-process-a-network-cookie-access-for-bounce-tracking-mitigations">process a network cookie access for bounce tracking mitigations</a> given <var>request</var>.</p>
+   </ol>
+   <div class="algorithm" data-algorithm="process a network cookie access for bounce tracking mitigations">
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-a-network-cookie-access-for-bounce-tracking-mitigations">process a network cookie access for bounce tracking mitigations</dfn> given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> <var>request</var>, perform the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>Let <var>origin</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-origin" id="ref-for-concept-request-origin">origin</a>.</p>
+     <li data-md>
+      <p>If <var>origin</var> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque②">opaque origin</a>, then abort these steps.</p>
+     <li data-md>
+      <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination" id="ref-for-concept-request-destination">destination</a> is "<code>document</code>", then:</p>
+      <ol>
+       <li data-md>
+        <p>If <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client" id="ref-for-concept-request-client">client</a> is null, or <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client" id="ref-for-concept-request-client①">client</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-environment-target-browsing-context" id="ref-for-concept-environment-target-browsing-context">target browsing context</a> is null, then abort these steps.</p>
+       <li data-md>
+        <p>Let <var>topLevelTraversable</var> be <var>request</var>’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-client" id="ref-for-concept-request-client②">client</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-environment-target-browsing-context" id="ref-for-concept-environment-target-browsing-context①">target browsing context</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#bc-traversable" id="ref-for-bc-traversable">top-level traversable</a>.</p>
+       <li data-md>
+        <p>If <var>topLevelTraversable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record④">bounce tracking record</a> is null, abort these steps.</p>
+       <li data-md>
+        <p>Let <var>site</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site②">obtain a site</a> given <var>origin</var>.</p>
+       <li data-md>
+        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#set-append" id="ref-for-set-append">Append</a> <var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①②">host</a> to <var>topLevelTraversable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record⑤">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-storage-access-set" id="ref-for-bounce-tracking-record-storage-access-set">storage access set</a>.</p>
+      </ol>
+    </ol>
+    <p class="issue" id="issue-c35f13fe"><a class="self-link" href="#issue-c35f13fe"></a> TODO: Handle subresource requests and iframes for client-side redirects.</p>
+   </div>
+   <p class="note" role="note"><span class="marker">Note:</span> We currently don’t treat cookie reads as stateful, but this would be a
+reasonable future change. We could run <a data-link-type="dfn" href="#process-a-network-cookie-access-for-bounce-tracking-mitigations" id="ref-for-process-a-network-cookie-access-for-bounce-tracking-mitigations①">process a network cookie access for bounce tracking mitigations</a> in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch" id="ref-for-concept-http-network-or-cache-fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2,
+"... <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-append" id="ref-for-concept-node-append">append</a> (<code>Cookie</code>, cookies) to httpRequest’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-header-list" id="ref-for-concept-header-list">header list</a>. ..."</p>
+   <h5 class="heading settled" data-level="6.2.2.3" id="bounce-tracking-mitigations-response-received-monkey-patch"><span class="secno">6.2.2.3. </span><span class="content">Response Received Monkey
+Patch</span><a class="self-link" href="#bounce-tracking-mitigations-response-received-monkey-patch"></a></h5>
+   <p>When the response is received at the end of a navigation, fill the <a data-link-type="dfn" href="#bounce-tracking-record-bounce-set" id="ref-for-bounce-tracking-record-bounce-set①">bounce set</a>.</p>
+   <p>Insert the following steps in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#create-navigation-params-by-fetching" id="ref-for-create-navigation-params-by-fetching">create navigation params by fetching</a> algorithm, after Step 19.7,
+"Wait until either response is non-null...", which is the point that <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-response-url-list" id="ref-for-concept-response-url-list">url list</a> becomes available.</p>
+   <ol>
+    <li data-md>
+     <p>Run <a data-link-type="dfn" href="#process-response-received-for-bounce-tracking" id="ref-for-process-response-received-for-bounce-tracking">process response received for bounce tracking</a> given <var>navigable</var> and <var>response</var>’s <var>URL list</var>.</p>
+   </ol>
+   <div class="algorithm" data-algorithm="process response received for bounce tracking">
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-response-received-for-bounce-tracking">process response received for bounce tracking</dfn> given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable" id="ref-for-navigable①">navigable</a> <var>navigable</var> and a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list">list</a> of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url①">URLs</a> <var>URLs</var>, perform the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>If <var>navigable</var> is not a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable⑤">top-level traversable</a>, then abort these steps.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert">Assert</a>: <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record⑥">bounce tracking record</a> is not null.</p>
+     <li data-md>
+      <p>Let <var>global</var> be <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document②">active document</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a>.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#run-steps-after-a-timeout" id="ref-for-run-steps-after-a-timeout">Run steps after a timeout</a> given:</p>
+      <dl>
+       <dt><var>global</var>
+       <dd><var>global</var>
+       <dt><var>milliseconds</var>
+       <dd><a data-link-type="dfn" href="#client-bounce-detection-timer-period" id="ref-for-client-bounce-detection-timer-period①">client bounce detection timer period</a>
+       <dt><var>completionSteps</var>
+       <dd><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#networking-task-source" id="ref-for-networking-task-source①">networking task source</a> with <var>global</var> to <a data-link-type="dfn" href="#record-stateful-bounces-for-bounce-tracking" id="ref-for-record-stateful-bounces-for-bounce-tracking②">record stateful bounces for bounce tracking</a> given <var>global</var>
+      </dl>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate">For each</a> <var>URL</var> in <var>URLs</var>:</p>
+      <ol>
+       <li data-md>
+        <p>Let <var>site</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site③">obtain a site</a> given <var>URL</var>.</p>
+       <li data-md>
+        <p>Let <var>host</var> be the <var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①③">host</a>.</p>
+       <li data-md>
+        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-node-insert" id="ref-for-concept-node-insert">Insert</a> <var>host</var> to the <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record⑦">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-bounce-set" id="ref-for-bounce-tracking-record-bounce-set②">bounce set</a>.</p>
+      </ol>
+    </ol>
+   </div>
+   <h5 class="heading settled" data-level="6.2.2.4" id="bounce-tracking-mitigations-document-load-monkey-patch"><span class="secno">6.2.2.4. </span><span class="content">Document Loaded Monkey
+Patch</span><a class="self-link" href="#bounce-tracking-mitigations-document-load-monkey-patch"></a></h5>
+   <p>When the document is loaded at the end of a navigation, update the <a data-link-type="dfn" href="#bounce-tracking-record-final-host" id="ref-for-bounce-tracking-record-final-host">final host</a>.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> The <a data-link-type="dfn" href="#bounce-tracking-record-final-host" id="ref-for-bounce-tracking-record-final-host①">final host</a> is updated later than <a data-link-type="dfn" href="#process-response-received-for-bounce-tracking" id="ref-for-process-response-received-for-bounce-tracking①">process response received for bounce tracking</a> to ensure that the <a data-link-type="dfn" href="#bounce-tracking-record-final-host" id="ref-for-bounce-tracking-record-final-host②">final host</a> is a valid user destination. This is the one that has to be
+compared against when deciding to exempt a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①④">host</a> in the <a data-link-type="dfn" href="#record-stateful-bounces-for-bounce-tracking" id="ref-for-record-stateful-bounces-for-bounce-tracking③">record stateful bounces for bounce tracking</a> algorithm.</p>
+   <p>Insert the following steps in the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsing-the-web.html#loading-a-document" id="ref-for-loading-a-document">load a document</a> algorithm,
+before Step 5, "Return null", which is the point that the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document②">document</a> is loaded.</p>
+   <ol>
+    <li data-md>
+     <p>Run <a data-link-type="dfn" href="#process-document-load-for-bounce-tracking" id="ref-for-process-document-load-for-bounce-tracking">process document load for bounce tracking</a> given <var>navigable</var> and <var>response</var>’s <var>URL list</var>.</p>
+   </ol>
+   <div class="algorithm" data-algorithm="process document load for bounce tracking">
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-document-load-for-bounce-tracking">process document load for bounce tracking</dfn> given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#navigable" id="ref-for-navigable②">navigable</a> <var>navigable</var> and a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list" id="ref-for-list①">list</a> of <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-url" id="ref-for-concept-url②">URLs</a> <var>URLs</var>, perform the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>If <var>navigable</var> is not a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable⑥">top-level traversable</a>, then abort these steps.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert①">Assert</a>: <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record⑧">bounce tracking record</a> is not null.</p>
+     <li data-md>
+      <p>If <var>URLs</var> is empty, then abort these steps.</p>
+     <li data-md>
+      <p>Let <var>finalSite</var> be the result of running <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site④">obtain a site</a> given the last entry in <var>URLs</var>.</p>
+     <li data-md>
+      <p>Set the <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record⑨">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-final-host" id="ref-for-bounce-tracking-record-final-host③">final host</a> to the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⑤">host</a> of <var>finalSite</var>.</p>
+    </ol>
+   </div>
+   <h4 class="heading settled" data-level="6.2.3" id="bounce-tracking-mitigations-timers"><span class="secno">6.2.3. </span><span class="content">Timers</span><a class="self-link" href="#bounce-tracking-mitigations-timers"></a></h4>
+   <p>Every <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period①">bounce tracking timer period</a> the user agent should run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer③">bounce tracking timer</a> algorithm given the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock②">wall clock</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time" id="ref-for-wall-clock-unsafe-current-time">unsafe current time</a>.</p>
    <div class="algorithm" data-algorithm="bounce tracking timer">
-    <p>To run the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-timer">bounce tracking timer</dfn> algorithm given a <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment④">moment</a> on the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock②">wall clock</a> <var>now</var>,
-perform the following steps:</p>
+    <p>To run the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-timer">bounce tracking timer</dfn> algorithm given a <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment④">moment</a> on the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock③">wall clock</a> <var>now</var>, perform the following steps:</p>
     <ol>
      <li data-md>
       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate">For each</a> <var>host</var> -> <var>activationTime</var> of <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map②">user activation map</a>:</p>
       <ol>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert">Assert</a> that <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map③">candidate bounce tracking map</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">contain</a> <var>host</var>.</p>
+        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert②">Assert</a> that <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map③">stateful bounce tracking map</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists">contain</a> <var>host</var>.</p>
        <li data-md>
         <p>If <var>activationTime</var> + <a data-link-type="dfn" href="#bounce-tracking-activation-lifetime" id="ref-for-bounce-tracking-activation-lifetime①">bounce tracking activation lifetime</a> is before <var>now</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove①">remove</a> <var>host</var> from <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map③">user activation map</a>.</p>
       </ol>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate①">For each</a> <var>host</var> -> <var>bounceTime</var> of <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map④">candidate bounce tracking map</a>:</p>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate①">For each</a> <var>host</var> -> <var>bounceTime</var> of <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map④">stateful bounce tracking map</a>:</p>
       <ol>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert①">Assert</a> that <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map④">user activation map</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists①">contain</a> <var>host</var>.</p>
+        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert③">Assert</a> that <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map④">user activation map</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists①">contain</a> <var>host</var>.</p>
        <li data-md>
         <p>If <var>bounceTime</var> + <a data-link-type="dfn" href="#bounce-tracking-grace-period" id="ref-for-bounce-tracking-grace-period①">bounce tracking grace period</a> is after <var>now</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue">continue</a>.</p>
        <li data-md>
-        <p>If there is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable①">top-level traversable</a> whose <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document①">active document</a>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-origin" id="ref-for-concept-document-origin①">origin</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site①">site</a>'s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑦">host</a> equals <var>host</var>,
+        <p>If there is a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable" id="ref-for-top-level-traversable⑦">top-level traversable</a> whose <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document③">active document</a>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document-origin" id="ref-for-concept-document-origin②">origin</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site" id="ref-for-obtain-a-site⑤">site</a>'s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⑥">host</a> equals <var>host</var>,
 then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue①">continue</a>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove②">Remove</a> <var>host</var> from <a data-link-type="dfn" href="#candidate-bounce-tracking-map" id="ref-for-candidate-bounce-tracking-map⑤">candidate bounce tracking map</a>.</p>
+        <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-remove" id="ref-for-map-remove②">Remove</a> <var>host</var> from <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map⑤">stateful bounce tracking map</a>.</p>
        <li data-md>
         <p><a data-link-type="dfn" href="#clear-cookies-for-host" id="ref-for-clear-cookies-for-host">Clear cookies for host</a> given <var>host</var>.</p>
        <li data-md>
@@ -856,19 +1112,59 @@ then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-cont
     <p class="issue" id="issue-c8879d93"><a class="self-link" href="#issue-c8879d93"></a>TODO: Consider if we should do anything when the clock is moved
     forward or backward.</p>
    </div>
-   <p>Every <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period①">bounce tracking timer period</a> the user agent should run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer③">bounce tracking timer</a> algorithm given the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock③">wall clock</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time" id="ref-for-wall-clock-unsafe-current-time">unsafe current time</a>.</p>
-   <h4 class="heading settled" data-level="6.2.3" id="bounce-tracking-mitigations-deletion"><span class="secno">6.2.3. </span><span class="content">Deletion</span><a class="self-link" href="#bounce-tracking-mitigations-deletion"></a></h4>
+   <p>This algorithm is called when detecting the end of an <a data-link-type="dfn" href="#extended-navigation" id="ref-for-extended-navigation⑨">extended navigation</a>. This could happen
+if a user-initiated navigation is detected in <a data-link-type="dfn" href="#process-navigation-start-for-bounce-tracking" id="ref-for-process-navigation-start-for-bounce-tracking①">process navigation start for bounce tracking</a>,
+or if the client bounce detection timer expires after <a data-link-type="dfn" href="#process-response-received-for-bounce-tracking" id="ref-for-process-response-received-for-bounce-tracking②">process response received for bounce tracking</a> without observing a client redirect.</p>
+   <div class="algorithm" data-algorithm="record stateful bounces for bounce tracking">
+    <p>To run the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="record-stateful-bounces-for-bounce-tracking">record stateful bounces for bounce tracking</dfn> algorithm
+given a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#global-object" id="ref-for-global-object">global object</a> <var>global</var>, perform the following steps:</p>
+    <ol>
+     <li data-md>
+      <p>Let <var>navigable</var> be <var>global</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window">associated document</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable" id="ref-for-node-navigable①">node navigable</a>.</p>
+     <li data-md>
+      <p>If <var>navigable</var> is null, abort these steps.
+This ensures that the global has not been detached from the navigable.</p>
+     <li data-md>
+      <p>Let <var>topDocument</var> be <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document④">active document</a>.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert④">Assert</a>: <var>topDocument</var> is the same as <var>global</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window①">associated document</a>.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#assert" id="ref-for-assert⑤">Assert</a>: <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①⓪">bounce tracking record</a> is not null.</p>
+     <li data-md>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate①">For each</a> <var>host</var> in <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①①">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-bounce-set" id="ref-for-bounce-tracking-record-bounce-set③">bounce set</a>:</p>
+      <ol>
+       <li data-md>
+        <p>If <var>host</var> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host-equals" id="ref-for-concept-host-equals">equals</a> <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①②">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-initial-host" id="ref-for-bounce-tracking-record-initial-host②">initial host</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue②">continue</a>.</p>
+       <li data-md>
+        <p>If <var>host</var> <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host-equals" id="ref-for-concept-host-equals①">equals</a> <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①③">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-final-host" id="ref-for-bounce-tracking-record-final-host④">final host</a>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue③">continue</a>.</p>
+       <li data-md>
+        <p>If <a data-link-type="dfn" href="#user-activation-map" id="ref-for-user-activation-map⑤">user activation map</a> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists②">contains</a> <var>host</var>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue④">continue</a>.</p>
+       <li data-md>
+        <p>If <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map⑥">stateful bounce tracking map</a> <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-exists" id="ref-for-map-exists③">contains</a> <var>host</var>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue⑤">continue</a>. (Only the first bounce time since the
+last execution of the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer④">bounce tracking timer</a> is tracked in the map.)</p>
+       <li data-md>
+        <p>If <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①④">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-storage-access-set" id="ref-for-bounce-tracking-record-storage-access-set①">storage access set</a> does not <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-contain" id="ref-for-list-contain">contain</a> <var>host</var>, <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue⑥">continue</a>.</p>
+       <li data-md>
+        <p>Let <var>topDocument</var> be <var>navigable</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document" id="ref-for-nav-document⑤">active document</a>.</p>
+       <li data-md>
+        <p>Set <a data-link-type="dfn" href="#stateful-bounce-tracking-map" id="ref-for-stateful-bounce-tracking-map⑦">stateful bounce tracking map</a>[<var>host</var>] to <var>topDocument</var>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object" id="ref-for-relevant-settings-object①">relevant settings object</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-eso-current-wall-time" id="ref-for-dfn-eso-current-wall-time①">current wall time</a>.</p>
+      </ol>
+     <li data-md>
+      <p>Set <var>navigable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record①⑤">bounce tracking record</a> to null.</p>
+    </ol>
+   </div>
+   <h4 class="heading settled" data-level="6.2.4" id="bounce-tracking-mitigations-deletion"><span class="secno">6.2.4. </span><span class="content">Deletion</span><a class="self-link" href="#bounce-tracking-mitigations-deletion"></a></h4>
    <p class="note" role="note">The cookie and cache clearing algorithms were largely copied from
 the <a href="https://w3c.github.io/webappsec-clear-site-data">Clear Site Data</a> spec.  It would be nice to unify these in the future.</p>
    <div class="algorithm" data-algorithm="clear cookies for host">
-    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-cookies-for-host">clear cookies for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑧">host</a> <var>host</var>, perform the
+    <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-cookies-for-host">clear cookies for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⑦">host</a> <var>host</var>, perform the
 following steps:</p>
     <ol>
      <li data-md>
       <p>Let <var>cookieList</var> be the set of cookies from the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.3" id="ref-for-section-5.3">cookie store</a> whose
 domain attribute is a <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.1.3" id="ref-for-section-5.1.3">domain-match</a> with <var>host</var>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate">For each</a> <var>cookie</var> in <var>cookieList</var>:</p>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate②">For each</a> <var>cookie</var> in <var>cookieList</var>:</p>
       <ol>
        <li data-md>
         <p>Remove <var>cookie</var> from the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.3" id="ref-for-section-5.3①">cookie store</a>.</p>
@@ -877,7 +1173,7 @@ domain attribute is a <a data-link-type="dfn" href="https://tools.ietf.org/html/
    </div>
    <p class="issue" id="issue-a6c4e61d"><a class="self-link" href="#issue-a6c4e61d"></a> TODO: Verify that using <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.1.3" id="ref-for-section-5.1.3①">domain-match</a> catches all cookies for the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain" id="ref-for-host-registrable-domain①">registrable domain</a>.</p>
    <div class="algorithm" data-algorithm="clear non-cookie storage for host">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-non-cookie-storage-for-host">clear non-cookie storage for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host⑨">host</a> <var>host</var>, perform
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-non-cookie-storage-for-host">clear non-cookie storage for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⑧">host</a> <var>host</var>, perform
 the following steps: 
     <ol>
      <li data-md>
@@ -887,9 +1183,9 @@ the following steps:
         <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#map-iterate" id="ref-for-map-iterate②">For each</a> <var>storageKey</var> -> <var>storageShelf</var> of <var>shed</var>:</p>
         <ol>
          <li data-md>
-          <p>If <var>storageKey</var>’s <a data-link-type="dfn" href="https://storage.spec.whatwg.org/#storage-key-origin" id="ref-for-storage-key-origin">origin</a> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque①">opaque origin</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue②">continue</a>.</p>
+          <p>If <var>storageKey</var>’s <a data-link-type="dfn" href="https://storage.spec.whatwg.org/#storage-key-origin" id="ref-for-storage-key-origin">origin</a> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque" id="ref-for-concept-origin-opaque③">opaque origin</a>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue⑦">continue</a>.</p>
          <li data-md>
-          <p>If <var>storageKey</var>’s <a data-link-type="dfn" href="https://storage.spec.whatwg.org/#storage-key-origin" id="ref-for-storage-key-origin①">origin</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host" id="ref-for-concept-origin-host">host</a> does not equal <var>host</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue③">continue</a>.</p>
+          <p>If <var>storageKey</var>’s <a data-link-type="dfn" href="https://storage.spec.whatwg.org/#storage-key-origin" id="ref-for-storage-key-origin①">origin</a>’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host" id="ref-for-concept-origin-host">host</a> does not equal <var>host</var>, then <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#iteration-continue" id="ref-for-iteration-continue⑧">continue</a>.</p>
          <li data-md>
           <p>Delete all data stored in <var>storageShelf</var>.</p>
          <li data-md>
@@ -899,14 +1195,14 @@ the following steps:
     </ol>
    </div>
    <div class="algorithm" data-algorithm="clear cache for host">
-     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-cache-for-host">clear cache for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⓪">host</a> <var>host</var>, perform the
+     To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clear-cache-for-host">clear cache for host</dfn> given a <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①⑨">host</a> <var>host</var>, perform the
 following steps: 
     <ol>
      <li data-md>
       <p>Let <var>cacheList</var> be the set of entries from the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7234/#section-2" id="ref-for-section-2">network cache</a> whose
-target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①①">host</a> equals <var>host</var>.</p>
+target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host②⓪">host</a> equals <var>host</var>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate①">For each</a> <var>entry</var> in <var>cacheList</var>:</p>
+      <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#list-iterate" id="ref-for-list-iterate③">For each</a> <var>entry</var> in <var>cacheList</var>:</p>
       <ol>
        <li data-md>
         <p>Remove <var>entry</var> from the <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc7234/#section-2" id="ref-for-section-2①">network cache</a>.</p>
@@ -947,32 +1243,69 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
+   <li><a href="#bounce-tracking-record-bounce-set">bounce set</a><span>, in § 6.1.2</span>
    <li><a href="#bounce-tracking">Bounce tracking</a><span>, in § 3</span>
-   <li><a href="#bounce-tracking-activation-lifetime">bounce tracking activation lifetime</a><span>, in § 6.1</span>
-   <li><a href="#bounce-tracking-grace-period">bounce tracking grace period</a><span>, in § 6.1</span>
-   <li><a href="#bounce-tracking-timer">bounce tracking timer</a><span>, in § 6.2.2</span>
-   <li><a href="#bounce-tracking-timer-period">bounce tracking timer period</a><span>, in § 6.1</span>
-   <li><a href="#candidate-bounce-tracking-map">candidate bounce tracking map</a><span>, in § 6.1</span>
-   <li><a href="#clear-cache-for-host">clear cache for host</a><span>, in § 6.2.3</span>
-   <li><a href="#clear-cookies-for-host">clear cookies for host</a><span>, in § 6.2.3</span>
-   <li><a href="#clear-non-cookie-storage-for-host">clear non-cookie storage for host</a><span>, in § 6.2.3</span>
+   <li><a href="#bounce-tracking-activation-lifetime">bounce tracking activation lifetime</a><span>, in § 6.1.3</span>
+   <li><a href="#bounce-tracking-grace-period">bounce tracking grace period</a><span>, in § 6.1.3</span>
+   <li>
+    bounce tracking record
+    <ul>
+     <li><a href="#bounce-tracking-record">definition of</a><span>, in § 6.1.2</span>
+     <li><a href="#top-level-traversable-bounce-tracking-record">dfn for top-level traversable</a><span>, in § 6.1.2</span>
+    </ul>
+   <li><a href="#bounce-tracking-timer">bounce tracking timer</a><span>, in § 6.2.3</span>
+   <li><a href="#bounce-tracking-timer-period">bounce tracking timer period</a><span>, in § 6.1.3</span>
+   <li><a href="#clear-cache-for-host">clear cache for host</a><span>, in § 6.2.4</span>
+   <li><a href="#clear-cookies-for-host">clear cookies for host</a><span>, in § 6.2.4</span>
+   <li><a href="#clear-non-cookie-storage-for-host">clear non-cookie storage for host</a><span>, in § 6.2.4</span>
+   <li><a href="#client-bounce-detection-timer-period">client bounce detection timer period</a><span>, in § 6.1.3</span>
+   <li><a href="#extended-navigation">extended navigation</a><span>, in § 6.1.2</span>
+   <li><a href="#bounce-tracking-record-final-host">final host</a><span>, in § 6.1.2</span>
+   <li><a href="#bounce-tracking-record-initial-host">initial host</a><span>, in § 6.1.2</span>
    <li><a href="#link-decoration">Link decoration</a><span>, in § 3</span>
    <li><a href="#navigational-tracking">Navigational tracking</a><span>, in § 3</span>
+   <li><a href="#process-a-network-cookie-access-for-bounce-tracking-mitigations">process a network cookie access for bounce tracking mitigations</a><span>, in § 6.2.2.2</span>
+   <li><a href="#process-document-load-for-bounce-tracking">process document load for bounce tracking</a><span>, in § 6.2.2.4</span>
+   <li><a href="#process-navigation-start-for-bounce-tracking">process navigation start for bounce tracking</a><span>, in § 6.2.2.1</span>
+   <li><a href="#process-response-received-for-bounce-tracking">process response received for bounce tracking</a><span>, in § 6.2.2.3</span>
    <li><a href="#record-a-user-activation">record a user activation</a><span>, in § 6.2.1</span>
-   <li><a href="#user-activation-map">user activation map</a><span>, in § 6.1</span>
+   <li><a href="#record-stateful-bounces-for-bounce-tracking">record stateful bounces for bounce tracking</a><span>, in § 6.2.3</span>
+   <li><a href="#stateful-bounce-tracking-map">stateful bounce tracking map</a><span>, in § 6.1.1</span>
+   <li><a href="#bounce-tracking-record-storage-access-set">storage access set</a><span>, in § 6.1.2</span>
+   <li><a href="#user-activation-map">user activation map</a><span>, in § 6.1.1</span>
   </ul>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
+    <a data-link-type="biblio">[COOKIES]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="69ba1a02">cookie store</span>
+     <li><span class="dfn-paneled" id="5ac0e3d4">domain-match</span>
+    </ul>
+   <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="543878fa">append</span>
      <li><span class="dfn-paneled" id="a973e0fe">document</span>
+     <li><span class="dfn-paneled" id="b9429bc2">insert</span>
      <li><span class="dfn-paneled" id="c62cd7cf">origin</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[FETCH]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="857d5516">client</span>
+     <li><span class="dfn-paneled" id="3ae34c95">destination</span>
+     <li><span class="dfn-paneled" id="d85a6c84">header list</span>
+     <li><span class="dfn-paneled" id="d75f6c27">http-network fetch</span>
+     <li><span class="dfn-paneled" id="980528b0">http-network-or-cache fetch</span>
+     <li><span class="dfn-paneled" id="f78d5b5c">origin</span>
+     <li><span class="dfn-paneled" id="55213b5b">request</span>
+     <li><span class="dfn-paneled" id="ff8d2a6f">url list</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HR-TIME-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="a09bfce2">current wall time</span>
+     <li><span class="dfn-paneled" id="f16ee824">current wall time</span>
      <li><span class="dfn-paneled" id="4b2c8c72">duration</span>
      <li><span class="dfn-paneled" id="1e2edd5b">moment</span>
      <li><span class="dfn-paneled" id="12938d07">unsafe current time</span>
@@ -983,20 +1316,34 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
     <ul>
      <li><span class="dfn-paneled" id="36d15a6d">activation notification</span>
      <li><span class="dfn-paneled" id="35972864">active document</span>
+     <li><span class="dfn-paneled" id="3349d69f">associated document</span>
+     <li><span class="dfn-paneled" id="07ad3048">create navigation params by fetching</span>
+     <li><span class="dfn-paneled" id="4b6086d7">global object</span>
+     <li><span class="dfn-paneled" id="dfa9c14c">has transient activation</span>
      <li><span class="dfn-paneled" id="77a2ee6e">host</span>
      <li><span class="dfn-paneled" id="448c95f9">http-equiv</span>
      <li><span class="dfn-paneled" id="5423e8ff">hyperlink</span>
      <li><span class="dfn-paneled" id="87fcd40c">iframe</span>
+     <li><span class="dfn-paneled" id="ba244b14">load a document</span>
      <li><span class="dfn-paneled" id="3a2db83f">localStorage</span>
      <li><span class="dfn-paneled" id="93ce1392">location</span>
      <li><span class="dfn-paneled" id="64b89595">meta</span>
+     <li><span class="dfn-paneled" id="9c19b7fc">navigable</span>
+     <li><span class="dfn-paneled" id="2594e562">navigate</span>
+     <li><span class="dfn-paneled" id="b6ae4501">networking task source</span>
      <li><span class="dfn-paneled" id="13dd6cae">node navigable</span>
      <li><span class="dfn-paneled" id="602b1a68">obtain a site</span>
      <li><span class="dfn-paneled" id="b01b1359">opaque origin</span>
+     <li><span class="dfn-paneled" id="48438eb3">queue a global task</span>
      <li><span class="dfn-paneled" id="e7b2fe41">refresh</span>
+     <li><span class="dfn-paneled" id="e99bd18e">relevant global object</span>
      <li><span class="dfn-paneled" id="9c4c1e66">relevant settings object</span>
+     <li><span class="dfn-paneled" id="8596ac55">run steps after a timeout</span>
      <li><span class="dfn-paneled" id="fb9bb722">site</span>
+     <li><span class="dfn-paneled" id="77093875">source snapshot params</span>
+     <li><span class="dfn-paneled" id="085ddd0a">target browsing context</span>
      <li><span class="dfn-paneled" id="bd736ec6">top-level traversable</span>
+     <li><span class="dfn-paneled" id="0ff9b6b9">top-level traversable <small>(for browsing context)</small></span>
      <li><span class="dfn-paneled" id="d0c1b934">traversable navigable</span>
     </ul>
    <li>
@@ -1007,20 +1354,19 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="a3b18719">append</span>
      <li><span class="dfn-paneled" id="77b4c09a">assert</span>
-     <li><span class="dfn-paneled" id="a326add7">contain</span>
+     <li><span class="dfn-paneled" id="ae8def21">contain <small>(for list)</small></span>
+     <li><span class="dfn-paneled" id="a326add7">contain <small>(for map)</small></span>
      <li><span class="dfn-paneled" id="f937b7b6">continue</span>
      <li><span class="dfn-paneled" id="16d07e10">for each <small>(for list)</small></span>
      <li><span class="dfn-paneled" id="45209803">for each <small>(for map)</small></span>
      <li><span class="dfn-paneled" id="860300d4">implementation-defined</span>
+     <li><span class="dfn-paneled" id="649608b9">list</span>
      <li><span class="dfn-paneled" id="3fca5a9e">map</span>
      <li><span class="dfn-paneled" id="7d4424b2">remove</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[RFC6265]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="69ba1a02">cookie store</span>
-     <li><span class="dfn-paneled" id="5ac0e3d4">domain-match</span>
+     <li><span class="dfn-paneled" id="15e48c39">set</span>
+     <li><span class="dfn-paneled" id="984221ca">struct</span>
     </ul>
    <li>
     <a data-link-type="biblio">[RFC7234]</a> defines the following terms:
@@ -1041,6 +1387,8 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
    <li>
     <a data-link-type="biblio">[URL]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="cfc67fdc">empty host</span>
+     <li><span class="dfn-paneled" id="8ad2567a">equal</span>
      <li><span class="dfn-paneled" id="752d140b">host</span>
      <li><span class="dfn-paneled" id="bc9d7803">registrable domain</span>
      <li><span class="dfn-paneled" id="dcffbccd">url</span>
@@ -1049,8 +1397,12 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
+   <dt id="biblio-cookies">[COOKIES]
+   <dd>A. Barth. <a href="https://httpwg.org/specs/rfc6265.html"><cite>HTTP State Management Mechanism</cite></a>. April 2011. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc6265.html">https://httpwg.org/specs/rfc6265.html</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dt id="biblio-fetch">[FETCH]
+   <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
    <dt id="biblio-hr-time-3">[HR-TIME-3]
    <dd>Yoav Weiss. <a href="https://w3c.github.io/hr-time/"><cite>High Resolution Time</cite></a>. URL: <a href="https://w3c.github.io/hr-time/">https://w3c.github.io/hr-time/</a>
    <dt id="biblio-html">[HTML]
@@ -1059,8 +1411,6 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
-   <dt id="biblio-rfc6265">[RFC6265]
-   <dd>A. Barth. <a href="https://httpwg.org/specs/rfc6265.html"><cite>HTTP State Management Mechanism</cite></a>. April 2011. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc6265.html">https://httpwg.org/specs/rfc6265.html</a>
    <dt id="biblio-rfc7234">[RFC7234]
    <dd>R. Fielding, Ed.; M. Nottingham, Ed.; J. Reschke, Ed.. <a href="https://httpwg.org/specs/rfc7234.html"><cite>Hypertext Transfer Protocol (HTTP/1.1): Caching</cite></a>. June 2014. Proposed Standard. URL: <a href="https://httpwg.org/specs/rfc7234.html">https://httpwg.org/specs/rfc7234.html</a>
    <dt id="biblio-storage">[STORAGE]
@@ -1090,11 +1440,12 @@ might be essential for that action to happen. However, this is also clearly
 a user ID and sufficient to track a user if the source and target
 collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-fc2127e1" title="Jump to section">↵</a></div>
    <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-0c501704" title="Jump to section">↵</a></div>
+   <div class="issue"> TODO: Handle subresource requests and iframes for client-side redirects. <a class="issue-return" href="#issue-c35f13fe" title="Jump to section">↵</a></div>
    <div class="issue">TODO: Consider if we should do anything when the clock is moved
     forward or backward. <a class="issue-return" href="#issue-c8879d93" title="Jump to section">↵</a></div>
    <div class="issue"> TODO: Verify that using <a data-link-type="dfn" href="https://tools.ietf.org/html/rfc6265/#section-5.1.3">domain-match</a> catches all cookies for the <a data-link-type="dfn" href="https://url.spec.whatwg.org/#host-registrable-domain">registrable domain</a>. <a class="issue-return" href="#issue-a6c4e61d" title="Jump to section">↵</a></div>
   </div>
-<script>/* script-dfn-panel */
+<script>/* Boilerplate: script-dfn-panel */
 "use strict";
 {
     const dfnsJson = window.dfnsJson || {};
@@ -1247,64 +1598,262 @@ collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issu
     }
 }
 </script>
-<script>/* script-dfn-panel-json */
+<script>/* Boilerplate: script-dfn-panel */
+"use strict";
+{
+    const dfnsJson = window.dfnsJson || {};
+
+    function genDfnPanel({dfnID, url, dfnText, refSections, external}) {
+        return mk.aside({
+            class: "dfn-panel",
+            id: `infopanel-for-${dfnID}`,
+            "data-for": dfnID,
+            "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+            },
+            mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
+                `Info about the '${dfnText}' ${external?"external":""} reference.`),
+            mk.a({href:url}, url),
+            mk.b({}, "Referenced in:"),
+            mk.ul({},
+                ...refSections.map(section=>
+                    mk.li({},
+                        ...section.refs.map((ref, refI)=>
+                            [
+                                mk.a({
+                                    href: `#${ref.id}`
+                                    },
+                                    (refI == 0) ? section.title : `(${refI + 1})`
+                                ),
+                                " ",
+                            ]
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    function genAllDfnPanels() {
+        for(const panelData of Object.values(window.dfnpanelData)) {
+            const dfnID = panelData.dfnID;
+            const dfn = document.getElementById(dfnID);
+            if(!dfn) {
+                console.log(`Can't find dfn#${dfnID}.`, panelData);
+            } else {
+                const panel = genDfnPanel(panelData);
+                append(document.body, panel);
+                insertDfnPopupAction(dfn, panel)
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+        genAllDfnPanels();
+
+        // Add popup behavior to all dfns to show the corresponding dfn-panel.
+        var dfns = queryAll('.dfn-paneled');
+        for(let dfn of dfns) { ; }
+
+        document.body.addEventListener("click", (e) => {
+            // If not handled already, just hide all dfn panels.
+            hideAllDfnPanels();
+        });
+    })
+
+
+    function hideAllDfnPanels() {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
+    }
+
+    function showDfnPanel(dfnPanel, dfn) {
+        hideAllDfnPanels(); // Only display one at this time.
+        dfn.setAttribute("aria-expanded", "true");
+        dfnPanel.classList.add("on");
+        dfnPanel.style.left = "5px";
+        dfnPanel.style.top = "0px";
+        const panelRect = dfnPanel.getBoundingClientRect();
+        const panelWidth = panelRect.right - panelRect.left;
+        if (panelRect.right > document.body.scrollWidth) {
+            // Panel's overflowing the screen.
+            // Just drop it below the dfn and flip it rightward instead.
+            // This still wont' fix things if the screen is *really* wide,
+            // but fixing that's a lot harder without 'anchor()'.
+            dfnPanel.style.top = "1.5em";
+            dfnPanel.style.left = "auto";
+            dfnPanel.style.right = "0px";
+        }
+    }
+
+    function pinDfnPanel(dfnPanel) {
+        // Switch it to "activated" state, which pins it.
+        dfnPanel.classList.add("activated");
+        dfnPanel.style.left = null;
+        dfnPanel.style.top = null;
+    }
+
+    function hideDfnPanel(dfnPanel, dfn) {
+        if(!dfn) {
+            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
+        }
+        dfn.setAttribute("aria-expanded", "false")
+        dfnPanel.classList.remove("on");
+        dfnPanel.classList.remove("activated");
+    }
+
+    function toggleDfnPanel(dfnPanel, dfn) {
+        if(dfnPanel.classList.contains("on")) {
+            hideDfnPanel(dfnPanel, dfn);
+        } else {
+            showDfnPanel(dfnPanel, dfn);
+        }
+    }
+
+    function insertDfnPopupAction(dfn, dfnPanel) {
+        // Find dfn panel
+        const panelWrapper = document.createElement('span');
+        panelWrapper.appendChild(dfnPanel);
+        panelWrapper.style.position = "relative";
+        panelWrapper.style.height = "0px";
+        dfn.insertAdjacentElement("afterend", panelWrapper);
+        dfn.setAttribute('role', 'button');
+        dfn.setAttribute('aria-expanded', 'false')
+        dfn.tabIndex = 0;
+        dfn.classList.add('has-dfn-panel');
+        dfn.addEventListener('click', (event) => {
+            showDfnPanel(dfnPanel, dfn);
+            event.stopPropagation();
+        });
+        dfn.addEventListener('keypress', (event) => {
+            const kc = event.keyCode;
+            // 32->Space, 13->Enter
+            if(kc == 32 || kc == 13) {
+                toggleDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        });
+
+        dfnPanel.addEventListener('click', (event) => {
+            if (event.target.nodeName == 'A') {
+                pinDfnPanel(dfnPanel);
+            }
+            event.stopPropagation();
+        });
+
+        dfnPanel.addEventListener('keydown', (event) => {
+            if(event.keyCode == 27) { // Escape key
+                hideDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        })
+    }
+}
+</script>
+<script>/* Boilerplate: script-dfn-panel-json */
 window.dfnpanelData = {};
-window.dfnpanelData['a973e0fe'] = {"dfnID": "a973e0fe", "url": "https://dom.spec.whatwg.org/#concept-document", "dfnText": "document", "refSections": [{"refs": [{"id": "ref-for-concept-document"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
-window.dfnpanelData['c62cd7cf'] = {"dfnID": "c62cd7cf", "url": "https://dom.spec.whatwg.org/#concept-document-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-concept-document-origin"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-document-origin\u2460"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['a09bfce2'] = {"dfnID": "a09bfce2", "url": "https://w3c.github.io/hr-time/#dfn-current-wall-time", "dfnText": "current wall time", "refSections": [{"refs": [{"id": "ref-for-dfn-current-wall-time"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
-window.dfnpanelData['4b2c8c72'] = {"dfnID": "4b2c8c72", "url": "https://w3c.github.io/hr-time/#dfn-duration", "dfnText": "duration", "refSections": [{"refs": [{"id": "ref-for-dfn-duration"}, {"id": "ref-for-dfn-duration\u2460"}, {"id": "ref-for-dfn-duration\u2461"}], "title": "6.1. Data Model"}], "external": true};
-window.dfnpanelData['1e2edd5b'] = {"dfnID": "1e2edd5b", "url": "https://w3c.github.io/hr-time/#dfn-moment", "dfnText": "moment", "refSections": [{"refs": [{"id": "ref-for-dfn-moment"}, {"id": "ref-for-dfn-moment\u2460"}, {"id": "ref-for-dfn-moment\u2461"}, {"id": "ref-for-dfn-moment\u2462"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-dfn-moment\u2463"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['12938d07'] = {"dfnID": "12938d07", "url": "https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time", "dfnText": "unsafe current time", "refSections": [{"refs": [{"id": "ref-for-wall-clock-unsafe-current-time"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['05de5ae3'] = {"dfnID": "05de5ae3", "url": "https://w3c.github.io/hr-time/#dfn-wall-clock", "dfnText": "wall clock", "refSections": [{"refs": [{"id": "ref-for-dfn-wall-clock"}, {"id": "ref-for-dfn-wall-clock\u2460"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-dfn-wall-clock\u2461"}, {"id": "ref-for-dfn-wall-clock\u2462"}], "title": "6.2.2. Timer"}], "external": true};
+window.dfnpanelData['69ba1a02'] = {"dfnID": "69ba1a02", "url": "https://tools.ietf.org/html/rfc6265/#section-5.3", "dfnText": "cookie store", "refSections": [{"refs": [{"id": "ref-for-section-5.3"}, {"id": "ref-for-section-5.3\u2460"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['5ac0e3d4'] = {"dfnID": "5ac0e3d4", "url": "https://tools.ietf.org/html/rfc6265/#section-5.1.3", "dfnText": "domain-match", "refSections": [{"refs": [{"id": "ref-for-section-5.1.3"}, {"id": "ref-for-section-5.1.3\u2460"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['543878fa'] = {"dfnID": "543878fa", "url": "https://dom.spec.whatwg.org/#concept-node-append", "dfnText": "append", "refSections": [{"refs": [{"id": "ref-for-concept-node-append"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['a973e0fe'] = {"dfnID": "a973e0fe", "url": "https://dom.spec.whatwg.org/#concept-document", "dfnText": "document", "refSections": [{"refs": [{"id": "ref-for-concept-document"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-document\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-document\u2461"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": true};
+window.dfnpanelData['b9429bc2'] = {"dfnID": "b9429bc2", "url": "https://dom.spec.whatwg.org/#concept-node-insert", "dfnText": "insert", "refSections": [{"refs": [{"id": "ref-for-concept-node-insert"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
+window.dfnpanelData['c62cd7cf'] = {"dfnID": "c62cd7cf", "url": "https://dom.spec.whatwg.org/#concept-document-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-concept-document-origin"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-document-origin\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-document-origin\u2461"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['857d5516'] = {"dfnID": "857d5516", "url": "https://fetch.spec.whatwg.org/#concept-request-client", "dfnText": "client", "refSections": [{"refs": [{"id": "ref-for-concept-request-client"}, {"id": "ref-for-concept-request-client\u2460"}, {"id": "ref-for-concept-request-client\u2461"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['3ae34c95'] = {"dfnID": "3ae34c95", "url": "https://fetch.spec.whatwg.org/#concept-request-destination", "dfnText": "destination", "refSections": [{"refs": [{"id": "ref-for-concept-request-destination"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['d85a6c84'] = {"dfnID": "d85a6c84", "url": "https://fetch.spec.whatwg.org/#concept-header-list", "dfnText": "header list", "refSections": [{"refs": [{"id": "ref-for-concept-header-list"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['d75f6c27'] = {"dfnID": "d75f6c27", "url": "https://fetch.spec.whatwg.org/#concept-http-network-fetch", "dfnText": "http-network fetch", "refSections": [{"refs": [{"id": "ref-for-concept-http-network-fetch"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['980528b0'] = {"dfnID": "980528b0", "url": "https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch", "dfnText": "http-network-or-cache fetch", "refSections": [{"refs": [{"id": "ref-for-concept-http-network-or-cache-fetch"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['f78d5b5c'] = {"dfnID": "f78d5b5c", "url": "https://fetch.spec.whatwg.org/#concept-request-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-concept-request-origin"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['55213b5b'] = {"dfnID": "55213b5b", "url": "https://fetch.spec.whatwg.org/#concept-request", "dfnText": "request", "refSections": [{"refs": [{"id": "ref-for-concept-request"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['ff8d2a6f'] = {"dfnID": "ff8d2a6f", "url": "https://fetch.spec.whatwg.org/#concept-response-url-list", "dfnText": "url list", "refSections": [{"refs": [{"id": "ref-for-concept-response-url-list"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
+window.dfnpanelData['f16ee824'] = {"dfnID": "f16ee824", "url": "https://w3c.github.io/hr-time/#dfn-eso-current-wall-time", "dfnText": "current wall time", "refSections": [{"refs": [{"id": "ref-for-dfn-eso-current-wall-time"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-dfn-eso-current-wall-time\u2460"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['4b2c8c72'] = {"dfnID": "4b2c8c72", "url": "https://w3c.github.io/hr-time/#dfn-duration", "dfnText": "duration", "refSections": [{"refs": [{"id": "ref-for-dfn-duration"}, {"id": "ref-for-dfn-duration\u2460"}, {"id": "ref-for-dfn-duration\u2461"}, {"id": "ref-for-dfn-duration\u2462"}], "title": "6.1.3. Constants"}], "external": true};
+window.dfnpanelData['1e2edd5b'] = {"dfnID": "1e2edd5b", "url": "https://w3c.github.io/hr-time/#dfn-moment", "dfnText": "moment", "refSections": [{"refs": [{"id": "ref-for-dfn-moment"}, {"id": "ref-for-dfn-moment\u2460"}, {"id": "ref-for-dfn-moment\u2461"}, {"id": "ref-for-dfn-moment\u2462"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-dfn-moment\u2463"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['12938d07'] = {"dfnID": "12938d07", "url": "https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time", "dfnText": "unsafe current time", "refSections": [{"refs": [{"id": "ref-for-wall-clock-unsafe-current-time"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['05de5ae3'] = {"dfnID": "05de5ae3", "url": "https://w3c.github.io/hr-time/#dfn-wall-clock", "dfnText": "wall clock", "refSections": [{"refs": [{"id": "ref-for-dfn-wall-clock"}, {"id": "ref-for-dfn-wall-clock\u2460"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-dfn-wall-clock\u2461"}, {"id": "ref-for-dfn-wall-clock\u2462"}], "title": "6.2.3. Timers"}], "external": true};
 window.dfnpanelData['36d15a6d'] = {"dfnID": "36d15a6d", "url": "https://html.spec.whatwg.org/multipage/interaction.html#activation-notification", "dfnText": "activation notification", "refSections": [{"refs": [{"id": "ref-for-activation-notification"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
-window.dfnpanelData['35972864'] = {"dfnID": "35972864", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document", "dfnText": "active document", "refSections": [{"refs": [{"id": "ref-for-nav-document"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-nav-document\u2460"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['77a2ee6e'] = {"dfnID": "77a2ee6e", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host", "dfnText": "host", "refSections": [{"refs": [{"id": "ref-for-concept-origin-host"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['35972864'] = {"dfnID": "35972864", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#nav-document", "dfnText": "active document", "refSections": [{"refs": [{"id": "ref-for-nav-document"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-nav-document\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-nav-document\u2461"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-nav-document\u2462"}, {"id": "ref-for-nav-document\u2463"}, {"id": "ref-for-nav-document\u2464"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['3349d69f'] = {"dfnID": "3349d69f", "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window", "dfnText": "associated document", "refSections": [{"refs": [{"id": "ref-for-concept-document-window"}, {"id": "ref-for-concept-document-window\u2460"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['07ad3048'] = {"dfnID": "07ad3048", "url": "https://html.spec.whatwg.org/multipage/browsing-the-web.html#create-navigation-params-by-fetching", "dfnText": "create navigation params by fetching", "refSections": [{"refs": [{"id": "ref-for-create-navigation-params-by-fetching"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
+window.dfnpanelData['4b6086d7'] = {"dfnID": "4b6086d7", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#global-object", "dfnText": "global object", "refSections": [{"refs": [{"id": "ref-for-global-object"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['dfa9c14c'] = {"dfnID": "dfa9c14c", "url": "https://html.spec.whatwg.org/multipage/browsing-the-web.html#source-snapshot-params-activation", "dfnText": "has transient activation", "refSections": [{"refs": [{"id": "ref-for-source-snapshot-params-activation"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['77a2ee6e'] = {"dfnID": "77a2ee6e", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-host", "dfnText": "host", "refSections": [{"refs": [{"id": "ref-for-concept-origin-host"}], "title": "6.2.4. Deletion"}], "external": true};
 window.dfnpanelData['448c95f9'] = {"dfnID": "448c95f9", "url": "https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv", "dfnText": "http-equiv", "refSections": [{"refs": [{"id": "ref-for-attr-meta-http-equiv"}], "title": "3. Terminology"}], "external": true};
 window.dfnpanelData['5423e8ff'] = {"dfnID": "5423e8ff", "url": "https://html.spec.whatwg.org/multipage/links.html#hyperlink", "dfnText": "hyperlink", "refSections": [{"refs": [{"id": "ref-for-hyperlink"}], "title": "3. Terminology"}], "external": true};
 window.dfnpanelData['87fcd40c'] = {"dfnID": "87fcd40c", "url": "https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element", "dfnText": "iframe", "refSections": [{"refs": [{"id": "ref-for-the-iframe-element"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['ba244b14'] = {"dfnID": "ba244b14", "url": "https://html.spec.whatwg.org/multipage/browsing-the-web.html#loading-a-document", "dfnText": "load a document", "refSections": [{"refs": [{"id": "ref-for-loading-a-document"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": true};
 window.dfnpanelData['3a2db83f'] = {"dfnID": "3a2db83f", "url": "https://html.spec.whatwg.org/multipage/webstorage.html#dom-localstorage", "dfnText": "localStorage", "refSections": [{"refs": [{"id": "ref-for-dom-localstorage"}], "title": "5.1.3. Brave"}], "external": true};
 window.dfnpanelData['93ce1392'] = {"dfnID": "93ce1392", "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#dom-location", "dfnText": "location", "refSections": [{"refs": [{"id": "ref-for-dom-location"}], "title": "3. Terminology"}], "external": true};
 window.dfnpanelData['64b89595'] = {"dfnID": "64b89595", "url": "https://html.spec.whatwg.org/multipage/semantics.html#meta", "dfnText": "meta", "refSections": [{"refs": [{"id": "ref-for-meta"}], "title": "3. Terminology"}], "external": true};
-window.dfnpanelData['13dd6cae'] = {"dfnID": "13dd6cae", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable", "dfnText": "node navigable", "refSections": [{"refs": [{"id": "ref-for-node-navigable"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
-window.dfnpanelData['602b1a68'] = {"dfnID": "602b1a68", "url": "https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site", "dfnText": "obtain a site", "refSections": [{"refs": [{"id": "ref-for-obtain-a-site"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2460"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['b01b1359'] = {"dfnID": "b01b1359", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque", "dfnText": "opaque origin", "refSections": [{"refs": [{"id": "ref-for-concept-origin-opaque"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['9c19b7fc'] = {"dfnID": "9c19b7fc", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#navigable", "dfnText": "navigable", "refSections": [{"refs": [{"id": "ref-for-navigable"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-navigable\u2460"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-navigable\u2461"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": true};
+window.dfnpanelData['2594e562'] = {"dfnID": "2594e562", "url": "https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate", "dfnText": "navigate", "refSections": [{"refs": [{"id": "ref-for-navigate"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['b6ae4501'] = {"dfnID": "b6ae4501", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#networking-task-source", "dfnText": "networking task source", "refSections": [{"refs": [{"id": "ref-for-networking-task-source"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-networking-task-source\u2460"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
+window.dfnpanelData['13dd6cae'] = {"dfnID": "13dd6cae", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#node-navigable", "dfnText": "node navigable", "refSections": [{"refs": [{"id": "ref-for-node-navigable"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-node-navigable\u2460"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['602b1a68'] = {"dfnID": "602b1a68", "url": "https://html.spec.whatwg.org/multipage/browsers.html#obtain-a-site", "dfnText": "obtain a site", "refSections": [{"refs": [{"id": "ref-for-obtain-a-site"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2461"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2462"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2463"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-obtain-a-site\u2464"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['b01b1359'] = {"dfnID": "b01b1359", "url": "https://html.spec.whatwg.org/multipage/browsers.html#concept-origin-opaque", "dfnText": "opaque origin", "refSections": [{"refs": [{"id": "ref-for-concept-origin-opaque"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2461"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-concept-origin-opaque\u2462"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['48438eb3'] = {"dfnID": "48438eb3", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task", "dfnText": "queue a global task", "refSections": [{"refs": [{"id": "ref-for-queue-a-global-task"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
 window.dfnpanelData['e7b2fe41'] = {"dfnID": "e7b2fe41", "url": "https://html.spec.whatwg.org/multipage/semantics.html#attr-meta-http-equiv-keyword-refresh", "dfnText": "refresh", "refSections": [{"refs": [{"id": "ref-for-attr-meta-http-equiv-keyword-refresh"}], "title": "3. Terminology"}], "external": true};
-window.dfnpanelData['9c4c1e66'] = {"dfnID": "9c4c1e66", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object", "dfnText": "relevant settings object", "refSections": [{"refs": [{"id": "ref-for-relevant-settings-object"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": true};
-window.dfnpanelData['fb9bb722'] = {"dfnID": "fb9bb722", "url": "https://html.spec.whatwg.org/multipage/browsers.html#site", "dfnText": "site", "refSections": [{"refs": [{"id": "ref-for-site"}, {"id": "ref-for-site\u2460"}], "title": "6.1. Data Model"}], "external": true};
-window.dfnpanelData['bd736ec6'] = {"dfnID": "bd736ec6", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable", "dfnText": "top-level traversable", "refSections": [{"refs": [{"id": "ref-for-top-level-traversable"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2460"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['d0c1b934'] = {"dfnID": "d0c1b934", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#traversable-navigable", "dfnText": "traversable navigable", "refSections": [{"refs": [{"id": "ref-for-traversable-navigable"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['e99bd18e'] = {"dfnID": "e99bd18e", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global", "dfnText": "relevant global object", "refSections": [{"refs": [{"id": "ref-for-concept-relevant-global"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2460"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
+window.dfnpanelData['9c4c1e66'] = {"dfnID": "9c4c1e66", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#relevant-settings-object", "dfnText": "relevant settings object", "refSections": [{"refs": [{"id": "ref-for-relevant-settings-object"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-relevant-settings-object\u2460"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['8596ac55'] = {"dfnID": "8596ac55", "url": "https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#run-steps-after-a-timeout", "dfnText": "run steps after a timeout", "refSections": [{"refs": [{"id": "ref-for-run-steps-after-a-timeout"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": true};
+window.dfnpanelData['fb9bb722'] = {"dfnID": "fb9bb722", "url": "https://html.spec.whatwg.org/multipage/browsers.html#site", "dfnText": "site", "refSections": [{"refs": [{"id": "ref-for-site"}, {"id": "ref-for-site\u2460"}, {"id": "ref-for-site\u2461"}, {"id": "ref-for-site\u2462"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-site\u2463"}, {"id": "ref-for-site\u2464"}, {"id": "ref-for-site\u2465"}, {"id": "ref-for-site\u2466"}], "title": "6.1.2. Per-Tab Data"}, {"refs": [{"id": "ref-for-site\u2467"}, {"id": "ref-for-site\u2468"}], "title": "6.1.3. Constants"}], "external": true};
+window.dfnpanelData['77093875'] = {"dfnID": "77093875", "url": "https://html.spec.whatwg.org/multipage/browsing-the-web.html#source-snapshot-params", "dfnText": "source snapshot params", "refSections": [{"refs": [{"id": "ref-for-source-snapshot-params"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['085ddd0a'] = {"dfnID": "085ddd0a", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-environment-target-browsing-context", "dfnText": "target browsing context", "refSections": [{"refs": [{"id": "ref-for-concept-environment-target-browsing-context"}, {"id": "ref-for-concept-environment-target-browsing-context\u2460"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['bd736ec6'] = {"dfnID": "bd736ec6", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable", "dfnText": "top-level traversable", "refSections": [{"refs": [{"id": "ref-for-top-level-traversable"}, {"id": "ref-for-top-level-traversable\u2460"}], "title": "6.1.2. Per-Tab Data"}, {"refs": [{"id": "ref-for-top-level-traversable\u2461"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2462"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2463"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2464"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2465"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-top-level-traversable\u2466"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['0ff9b6b9'] = {"dfnID": "0ff9b6b9", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#bc-traversable", "dfnText": "top-level traversable (for browsing context)", "refSections": [{"refs": [{"id": "ref-for-bc-traversable"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['d0c1b934'] = {"dfnID": "d0c1b934", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#traversable-navigable", "dfnText": "traversable navigable", "refSections": [{"refs": [{"id": "ref-for-traversable-navigable"}], "title": "6.2.4. Deletion"}], "external": true};
 window.dfnpanelData['4a139803'] = {"dfnID": "4a139803", "url": "https://httpwg.org/specs/rfc7231.html#status.3xx", "dfnText": "http 3xx statuses", "refSections": [{"refs": [{"id": "ref-for-status.3xx"}], "title": "3. Terminology"}], "external": true};
-window.dfnpanelData['77b4c09a'] = {"dfnID": "77b4c09a", "url": "https://infra.spec.whatwg.org/#assert", "dfnText": "assert", "refSections": [{"refs": [{"id": "ref-for-assert"}, {"id": "ref-for-assert\u2460"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['a326add7'] = {"dfnID": "a326add7", "url": "https://infra.spec.whatwg.org/#map-exists", "dfnText": "contain", "refSections": [{"refs": [{"id": "ref-for-map-exists"}, {"id": "ref-for-map-exists\u2460"}], "title": "6.2.2. Timer"}], "external": true};
-window.dfnpanelData['f937b7b6'] = {"dfnID": "f937b7b6", "url": "https://infra.spec.whatwg.org/#iteration-continue", "dfnText": "continue", "refSections": [{"refs": [{"id": "ref-for-iteration-continue"}, {"id": "ref-for-iteration-continue\u2460"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-iteration-continue\u2461"}, {"id": "ref-for-iteration-continue\u2462"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['16d07e10'] = {"dfnID": "16d07e10", "url": "https://infra.spec.whatwg.org/#list-iterate", "dfnText": "for each (for list)", "refSections": [{"refs": [{"id": "ref-for-list-iterate"}, {"id": "ref-for-list-iterate\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['45209803'] = {"dfnID": "45209803", "url": "https://infra.spec.whatwg.org/#map-iterate", "dfnText": "for each (for map)", "refSections": [{"refs": [{"id": "ref-for-map-iterate"}, {"id": "ref-for-map-iterate\u2460"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-map-iterate\u2461"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['860300d4'] = {"dfnID": "860300d4", "url": "https://infra.spec.whatwg.org/#implementation-defined", "dfnText": "implementation-defined", "refSections": [{"refs": [{"id": "ref-for-implementation-defined"}, {"id": "ref-for-implementation-defined\u2460"}, {"id": "ref-for-implementation-defined\u2461"}], "title": "6.1. Data Model"}], "external": true};
-window.dfnpanelData['3fca5a9e'] = {"dfnID": "3fca5a9e", "url": "https://infra.spec.whatwg.org/#ordered-map", "dfnText": "map", "refSections": [{"refs": [{"id": "ref-for-ordered-map"}, {"id": "ref-for-ordered-map\u2460"}], "title": "6.1. Data Model"}], "external": true};
-window.dfnpanelData['7d4424b2'] = {"dfnID": "7d4424b2", "url": "https://infra.spec.whatwg.org/#map-remove", "dfnText": "remove", "refSections": [{"refs": [{"id": "ref-for-map-remove"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-map-remove\u2460"}, {"id": "ref-for-map-remove\u2461"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-map-remove\u2462"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['69ba1a02'] = {"dfnID": "69ba1a02", "url": "https://tools.ietf.org/html/rfc6265/#section-5.3", "dfnText": "cookie store", "refSections": [{"refs": [{"id": "ref-for-section-5.3"}, {"id": "ref-for-section-5.3\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['5ac0e3d4'] = {"dfnID": "5ac0e3d4", "url": "https://tools.ietf.org/html/rfc6265/#section-5.1.3", "dfnText": "domain-match", "refSections": [{"refs": [{"id": "ref-for-section-5.1.3"}, {"id": "ref-for-section-5.1.3\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['4b7a6eea'] = {"dfnID": "4b7a6eea", "url": "https://tools.ietf.org/html/rfc7234/#section-2", "dfnText": "network cache", "refSections": [{"refs": [{"id": "ref-for-section-2"}, {"id": "ref-for-section-2\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['ef4a9b44'] = {"dfnID": "ef4a9b44", "url": "https://storage.spec.whatwg.org/#storage-key-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-storage-key-origin"}, {"id": "ref-for-storage-key-origin\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['660191f0'] = {"dfnID": "660191f0", "url": "https://storage.spec.whatwg.org/#storage-shed", "dfnText": "storage shed", "refSections": [{"refs": [{"id": "ref-for-storage-shed"}], "title": "6.2.3. Deletion"}], "external": true};
+window.dfnpanelData['a3b18719'] = {"dfnID": "a3b18719", "url": "https://infra.spec.whatwg.org/#set-append", "dfnText": "append", "refSections": [{"refs": [{"id": "ref-for-set-append"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": true};
+window.dfnpanelData['77b4c09a'] = {"dfnID": "77b4c09a", "url": "https://infra.spec.whatwg.org/#assert", "dfnText": "assert", "refSections": [{"refs": [{"id": "ref-for-assert"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-assert\u2460"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-assert\u2461"}, {"id": "ref-for-assert\u2462"}, {"id": "ref-for-assert\u2463"}, {"id": "ref-for-assert\u2464"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['ae8def21'] = {"dfnID": "ae8def21", "url": "https://infra.spec.whatwg.org/#list-contain", "dfnText": "contain (for list)", "refSections": [{"refs": [{"id": "ref-for-list-contain"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['a326add7'] = {"dfnID": "a326add7", "url": "https://infra.spec.whatwg.org/#map-exists", "dfnText": "contain (for map)", "refSections": [{"refs": [{"id": "ref-for-map-exists"}, {"id": "ref-for-map-exists\u2460"}, {"id": "ref-for-map-exists\u2461"}, {"id": "ref-for-map-exists\u2462"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['f937b7b6'] = {"dfnID": "f937b7b6", "url": "https://infra.spec.whatwg.org/#iteration-continue", "dfnText": "continue", "refSections": [{"refs": [{"id": "ref-for-iteration-continue"}, {"id": "ref-for-iteration-continue\u2460"}, {"id": "ref-for-iteration-continue\u2461"}, {"id": "ref-for-iteration-continue\u2462"}, {"id": "ref-for-iteration-continue\u2463"}, {"id": "ref-for-iteration-continue\u2464"}, {"id": "ref-for-iteration-continue\u2465"}], "title": "6.2.3. Timers"}, {"refs": [{"id": "ref-for-iteration-continue\u2466"}, {"id": "ref-for-iteration-continue\u2467"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['16d07e10'] = {"dfnID": "16d07e10", "url": "https://infra.spec.whatwg.org/#list-iterate", "dfnText": "for each (for list)", "refSections": [{"refs": [{"id": "ref-for-list-iterate"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-list-iterate\u2460"}], "title": "6.2.3. Timers"}, {"refs": [{"id": "ref-for-list-iterate\u2461"}, {"id": "ref-for-list-iterate\u2462"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['45209803'] = {"dfnID": "45209803", "url": "https://infra.spec.whatwg.org/#map-iterate", "dfnText": "for each (for map)", "refSections": [{"refs": [{"id": "ref-for-map-iterate"}, {"id": "ref-for-map-iterate\u2460"}], "title": "6.2.3. Timers"}, {"refs": [{"id": "ref-for-map-iterate\u2461"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['860300d4'] = {"dfnID": "860300d4", "url": "https://infra.spec.whatwg.org/#implementation-defined", "dfnText": "implementation-defined", "refSections": [{"refs": [{"id": "ref-for-implementation-defined"}, {"id": "ref-for-implementation-defined\u2460"}, {"id": "ref-for-implementation-defined\u2461"}, {"id": "ref-for-implementation-defined\u2462"}], "title": "6.1.3. Constants"}], "external": true};
+window.dfnpanelData['649608b9'] = {"dfnID": "649608b9", "url": "https://infra.spec.whatwg.org/#list", "dfnText": "list", "refSections": [{"refs": [{"id": "ref-for-list"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-list\u2460"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": true};
+window.dfnpanelData['3fca5a9e'] = {"dfnID": "3fca5a9e", "url": "https://infra.spec.whatwg.org/#ordered-map", "dfnText": "map", "refSections": [{"refs": [{"id": "ref-for-ordered-map"}, {"id": "ref-for-ordered-map\u2460"}], "title": "6.1.1. Global Data"}], "external": true};
+window.dfnpanelData['7d4424b2'] = {"dfnID": "7d4424b2", "url": "https://infra.spec.whatwg.org/#map-remove", "dfnText": "remove", "refSections": [{"refs": [{"id": "ref-for-map-remove"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-map-remove\u2460"}, {"id": "ref-for-map-remove\u2461"}], "title": "6.2.3. Timers"}, {"refs": [{"id": "ref-for-map-remove\u2462"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['15e48c39'] = {"dfnID": "15e48c39", "url": "https://infra.spec.whatwg.org/#ordered-set", "dfnText": "set", "refSections": [{"refs": [{"id": "ref-for-ordered-set"}, {"id": "ref-for-ordered-set\u2460"}], "title": "6.1.2. Per-Tab Data"}], "external": true};
+window.dfnpanelData['984221ca'] = {"dfnID": "984221ca", "url": "https://infra.spec.whatwg.org/#struct", "dfnText": "struct", "refSections": [{"refs": [{"id": "ref-for-struct"}], "title": "6.1.2. Per-Tab Data"}], "external": true};
+window.dfnpanelData['4b7a6eea'] = {"dfnID": "4b7a6eea", "url": "https://tools.ietf.org/html/rfc7234/#section-2", "dfnText": "network cache", "refSections": [{"refs": [{"id": "ref-for-section-2"}, {"id": "ref-for-section-2\u2460"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['ef4a9b44'] = {"dfnID": "ef4a9b44", "url": "https://storage.spec.whatwg.org/#storage-key-origin", "dfnText": "origin", "refSections": [{"refs": [{"id": "ref-for-storage-key-origin"}, {"id": "ref-for-storage-key-origin\u2460"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['660191f0'] = {"dfnID": "660191f0", "url": "https://storage.spec.whatwg.org/#storage-shed", "dfnText": "storage shed", "refSections": [{"refs": [{"id": "ref-for-storage-shed"}], "title": "6.2.4. Deletion"}], "external": true};
 window.dfnpanelData['0d21247b'] = {"dfnID": "0d21247b", "url": "https://www.w3.org/TR/tracking-dnt/#dfn-tracking", "dfnText": "tracking", "refSections": [{"refs": [{"id": "ref-for-dfn-tracking"}], "title": "1. Introduction"}], "external": true};
-window.dfnpanelData['752d140b'] = {"dfnID": "752d140b", "url": "https://url.spec.whatwg.org/#concept-host", "dfnText": "host", "refSections": [{"refs": [{"id": "ref-for-concept-host"}, {"id": "ref-for-concept-host\u2460"}, {"id": "ref-for-concept-host\u2461"}, {"id": "ref-for-concept-host\u2462"}, {"id": "ref-for-concept-host\u2463"}, {"id": "ref-for-concept-host\u2464"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-concept-host\u2465"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-host\u2466"}], "title": "6.2.2. Timer"}, {"refs": [{"id": "ref-for-concept-host\u2467"}, {"id": "ref-for-concept-host\u2468"}, {"id": "ref-for-concept-host\u2460\u24ea"}, {"id": "ref-for-concept-host\u2460\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['bc9d7803'] = {"dfnID": "bc9d7803", "url": "https://url.spec.whatwg.org/#host-registrable-domain", "dfnText": "registrable domain", "refSections": [{"refs": [{"id": "ref-for-host-registrable-domain"}], "title": "5.1.1. Safari"}, {"refs": [{"id": "ref-for-host-registrable-domain\u2460"}], "title": "6.2.3. Deletion"}], "external": true};
-window.dfnpanelData['dcffbccd'] = {"dfnID": "dcffbccd", "url": "https://url.spec.whatwg.org/#concept-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-concept-url"}], "title": "3. Terminology"}], "external": true};
+window.dfnpanelData['cfc67fdc'] = {"dfnID": "cfc67fdc", "url": "https://url.spec.whatwg.org/#empty-host", "dfnText": "empty host", "refSections": [{"refs": [{"id": "ref-for-empty-host"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}], "external": true};
+window.dfnpanelData['8ad2567a'] = {"dfnID": "8ad2567a", "url": "https://url.spec.whatwg.org/#concept-host-equals", "dfnText": "equal", "refSections": [{"refs": [{"id": "ref-for-concept-host-equals"}, {"id": "ref-for-concept-host-equals\u2460"}], "title": "6.2.3. Timers"}], "external": true};
+window.dfnpanelData['752d140b'] = {"dfnID": "752d140b", "url": "https://url.spec.whatwg.org/#concept-host", "dfnText": "host", "refSections": [{"refs": [{"id": "ref-for-concept-host"}, {"id": "ref-for-concept-host\u2460"}, {"id": "ref-for-concept-host\u2461"}, {"id": "ref-for-concept-host\u2462"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-concept-host\u2463"}, {"id": "ref-for-concept-host\u2464"}, {"id": "ref-for-concept-host\u2465"}, {"id": "ref-for-concept-host\u2466"}], "title": "6.1.2. Per-Tab Data"}, {"refs": [{"id": "ref-for-concept-host\u2467"}, {"id": "ref-for-concept-host\u2468"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-concept-host\u2460\u24ea"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-host\u2460\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-concept-host\u2460\u2461"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-concept-host\u2460\u2462"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-concept-host\u2460\u2463"}, {"id": "ref-for-concept-host\u2460\u2464"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-concept-host\u2460\u2465"}], "title": "6.2.3. Timers"}, {"refs": [{"id": "ref-for-concept-host\u2460\u2466"}, {"id": "ref-for-concept-host\u2460\u2467"}, {"id": "ref-for-concept-host\u2460\u2468"}, {"id": "ref-for-concept-host\u2461\u24ea"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['bc9d7803'] = {"dfnID": "bc9d7803", "url": "https://url.spec.whatwg.org/#host-registrable-domain", "dfnText": "registrable domain", "refSections": [{"refs": [{"id": "ref-for-host-registrable-domain"}], "title": "5.1.1. Safari"}, {"refs": [{"id": "ref-for-host-registrable-domain\u2460"}], "title": "6.2.4. Deletion"}], "external": true};
+window.dfnpanelData['dcffbccd'] = {"dfnID": "dcffbccd", "url": "https://url.spec.whatwg.org/#concept-url", "dfnText": "url", "refSections": [{"refs": [{"id": "ref-for-concept-url"}], "title": "3. Terminology"}, {"refs": [{"id": "ref-for-concept-url\u2460"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-concept-url\u2461"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": true};
 window.dfnpanelData['link-decoration'] = {"dfnID": "link-decoration", "url": "#link-decoration", "dfnText": "Link decoration", "refSections": [{"refs": [{"id": "ref-for-link-decoration"}, {"id": "ref-for-link-decoration\u2460"}], "title": "1. Introduction"}, {"refs": [{"id": "ref-for-link-decoration\u2461"}, {"id": "ref-for-link-decoration\u2462"}, {"id": "ref-for-link-decoration\u2463"}, {"id": "ref-for-link-decoration\u2464"}, {"id": "ref-for-link-decoration\u2465"}, {"id": "ref-for-link-decoration\u2466"}, {"id": "ref-for-link-decoration\u2467"}], "title": "3. Terminology"}], "external": false};
 window.dfnpanelData['navigational-tracking'] = {"dfnID": "navigational-tracking", "url": "#navigational-tracking", "dfnText": "Navigational tracking", "refSections": [{"refs": [{"id": "ref-for-navigational-tracking"}, {"id": "ref-for-navigational-tracking\u2460"}], "title": "1. Introduction"}, {"refs": [{"id": "ref-for-navigational-tracking\u2461"}, {"id": "ref-for-navigational-tracking\u2462"}, {"id": "ref-for-navigational-tracking\u2463"}, {"id": "ref-for-navigational-tracking\u2464"}, {"id": "ref-for-navigational-tracking\u2465"}], "title": "3. Terminology"}, {"refs": [{"id": "ref-for-navigational-tracking\u2466"}], "title": "5.1. Deployed Mitigations"}, {"refs": [{"id": "ref-for-navigational-tracking\u2467"}], "title": "5.1.1. Safari"}, {"refs": [{"id": "ref-for-navigational-tracking\u2468"}], "title": "5.1.2. Firefox"}, {"refs": [{"id": "ref-for-navigational-tracking\u2460\u24ea"}, {"id": "ref-for-navigational-tracking\u2460\u2460"}], "title": "5.1.3. Brave"}], "external": false};
 window.dfnpanelData['bounce-tracking'] = {"dfnID": "bounce-tracking", "url": "#bounce-tracking", "dfnText": "Bounce tracking", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking"}], "title": "3. Terminology"}], "external": false};
-window.dfnpanelData['user-activation-map'] = {"dfnID": "user-activation-map", "url": "#user-activation-map", "dfnText": "user activation map", "refSections": [{"refs": [{"id": "ref-for-user-activation-map"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-user-activation-map\u2460"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-user-activation-map\u2461"}, {"id": "ref-for-user-activation-map\u2462"}, {"id": "ref-for-user-activation-map\u2463"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['candidate-bounce-tracking-map'] = {"dfnID": "candidate-bounce-tracking-map", "url": "#candidate-bounce-tracking-map", "dfnText": "candidate bounce tracking map", "refSections": [{"refs": [{"id": "ref-for-candidate-bounce-tracking-map"}, {"id": "ref-for-candidate-bounce-tracking-map\u2460"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-candidate-bounce-tracking-map\u2461"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-candidate-bounce-tracking-map\u2462"}, {"id": "ref-for-candidate-bounce-tracking-map\u2463"}, {"id": "ref-for-candidate-bounce-tracking-map\u2464"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['bounce-tracking-grace-period'] = {"dfnID": "bounce-tracking-grace-period", "url": "#bounce-tracking-grace-period", "dfnText": "bounce tracking grace period", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-grace-period"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-grace-period\u2460"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['bounce-tracking-activation-lifetime'] = {"dfnID": "bounce-tracking-activation-lifetime", "url": "#bounce-tracking-activation-lifetime", "dfnText": "bounce tracking activation lifetime", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-activation-lifetime"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-activation-lifetime\u2460"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['bounce-tracking-timer-period'] = {"dfnID": "bounce-tracking-timer-period", "url": "#bounce-tracking-timer-period", "dfnText": "bounce tracking timer period", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-timer-period"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-timer-period\u2460"}], "title": "6.2.2. Timer"}], "external": false};
+window.dfnpanelData['user-activation-map'] = {"dfnID": "user-activation-map", "url": "#user-activation-map", "dfnText": "user activation map", "refSections": [{"refs": [{"id": "ref-for-user-activation-map"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-user-activation-map\u2460"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-user-activation-map\u2461"}, {"id": "ref-for-user-activation-map\u2462"}, {"id": "ref-for-user-activation-map\u2463"}, {"id": "ref-for-user-activation-map\u2464"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['stateful-bounce-tracking-map'] = {"dfnID": "stateful-bounce-tracking-map", "url": "#stateful-bounce-tracking-map", "dfnText": "stateful bounce tracking map", "refSections": [{"refs": [{"id": "ref-for-stateful-bounce-tracking-map"}, {"id": "ref-for-stateful-bounce-tracking-map\u2460"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-stateful-bounce-tracking-map\u2461"}], "title": "6.2.1. User Activation\nMonkey Patch"}, {"refs": [{"id": "ref-for-stateful-bounce-tracking-map\u2462"}, {"id": "ref-for-stateful-bounce-tracking-map\u2463"}, {"id": "ref-for-stateful-bounce-tracking-map\u2464"}, {"id": "ref-for-stateful-bounce-tracking-map\u2465"}, {"id": "ref-for-stateful-bounce-tracking-map\u2466"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['extended-navigation'] = {"dfnID": "extended-navigation", "url": "#extended-navigation", "dfnText": "extended navigation", "refSections": [{"refs": [{"id": "ref-for-extended-navigation"}, {"id": "ref-for-extended-navigation\u2460"}, {"id": "ref-for-extended-navigation\u2461"}, {"id": "ref-for-extended-navigation\u2462"}, {"id": "ref-for-extended-navigation\u2463"}, {"id": "ref-for-extended-navigation\u2464"}, {"id": "ref-for-extended-navigation\u2465"}], "title": "6.1.2. Per-Tab Data"}, {"refs": [{"id": "ref-for-extended-navigation\u2466"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-extended-navigation\u2467"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-extended-navigation\u2468"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['top-level-traversable-bounce-tracking-record'] = {"dfnID": "top-level-traversable-bounce-tracking-record", "url": "#top-level-traversable-bounce-tracking-record", "dfnText": "bounce tracking record", "refSections": [{"refs": [{"id": "ref-for-top-level-traversable-bounce-tracking-record"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2461"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2462"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable-bounce-tracking-record\u2463"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2464"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-top-level-traversable-bounce-tracking-record\u2465"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2466"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-top-level-traversable-bounce-tracking-record\u2467"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2468"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460\u24ea"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460\u2460"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460\u2461"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460\u2462"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460\u2463"}, {"id": "ref-for-top-level-traversable-bounce-tracking-record\u2460\u2464"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-record'] = {"dfnID": "bounce-tracking-record", "url": "#bounce-tracking-record", "dfnText": "bounce tracking record", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-record"}], "title": "6.1.2. Per-Tab Data"}, {"refs": [{"id": "ref-for-bounce-tracking-record\u2460"}, {"id": "ref-for-bounce-tracking-record\u2461"}, {"id": "ref-for-bounce-tracking-record\u2462"}, {"id": "ref-for-bounce-tracking-record\u2463"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}], "external": false};
+window.dfnpanelData['bounce-tracking-record-initial-host'] = {"dfnID": "bounce-tracking-record-initial-host", "url": "#bounce-tracking-record-initial-host", "dfnText": "initial host", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-record-initial-host"}, {"id": "ref-for-bounce-tracking-record-initial-host\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-bounce-tracking-record-initial-host\u2461"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-record-final-host'] = {"dfnID": "bounce-tracking-record-final-host", "url": "#bounce-tracking-record-final-host", "dfnText": "final host", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-record-final-host"}, {"id": "ref-for-bounce-tracking-record-final-host\u2460"}, {"id": "ref-for-bounce-tracking-record-final-host\u2461"}, {"id": "ref-for-bounce-tracking-record-final-host\u2462"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-bounce-tracking-record-final-host\u2463"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-record-bounce-set'] = {"dfnID": "bounce-tracking-record-bounce-set", "url": "#bounce-tracking-record-bounce-set", "dfnText": "bounce set", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-record-bounce-set"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-bounce-tracking-record-bounce-set\u2460"}, {"id": "ref-for-bounce-tracking-record-bounce-set\u2461"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-bounce-tracking-record-bounce-set\u2462"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-record-storage-access-set'] = {"dfnID": "bounce-tracking-record-storage-access-set", "url": "#bounce-tracking-record-storage-access-set", "dfnText": "storage access set", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-record-storage-access-set"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}, {"refs": [{"id": "ref-for-bounce-tracking-record-storage-access-set\u2460"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-grace-period'] = {"dfnID": "bounce-tracking-grace-period", "url": "#bounce-tracking-grace-period", "dfnText": "bounce tracking grace period", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-grace-period"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-bounce-tracking-grace-period\u2460"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-activation-lifetime'] = {"dfnID": "bounce-tracking-activation-lifetime", "url": "#bounce-tracking-activation-lifetime", "dfnText": "bounce tracking activation lifetime", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-activation-lifetime"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-bounce-tracking-activation-lifetime\u2460"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['bounce-tracking-timer-period'] = {"dfnID": "bounce-tracking-timer-period", "url": "#bounce-tracking-timer-period", "dfnText": "bounce tracking timer period", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-timer-period"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-bounce-tracking-timer-period\u2460"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['client-bounce-detection-timer-period'] = {"dfnID": "client-bounce-detection-timer-period", "url": "#client-bounce-detection-timer-period", "dfnText": "client bounce detection timer period", "refSections": [{"refs": [{"id": "ref-for-client-bounce-detection-timer-period"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-client-bounce-detection-timer-period\u2460"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}], "external": false};
 window.dfnpanelData['record-a-user-activation'] = {"dfnID": "record-a-user-activation", "url": "#record-a-user-activation", "dfnText": "record a user activation", "refSections": [{"refs": [{"id": "ref-for-record-a-user-activation"}], "title": "6.2.1. User Activation\nMonkey Patch"}], "external": false};
-window.dfnpanelData['bounce-tracking-timer'] = {"dfnID": "bounce-tracking-timer", "url": "#bounce-tracking-timer", "dfnText": "bounce tracking timer", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-timer"}, {"id": "ref-for-bounce-tracking-timer\u2460"}, {"id": "ref-for-bounce-tracking-timer\u2461"}], "title": "6.1. Data Model"}, {"refs": [{"id": "ref-for-bounce-tracking-timer\u2462"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['clear-cookies-for-host'] = {"dfnID": "clear-cookies-for-host", "url": "#clear-cookies-for-host", "dfnText": "clear cookies for host", "refSections": [{"refs": [{"id": "ref-for-clear-cookies-for-host"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['clear-non-cookie-storage-for-host'] = {"dfnID": "clear-non-cookie-storage-for-host", "url": "#clear-non-cookie-storage-for-host", "dfnText": "clear non-cookie storage for host", "refSections": [{"refs": [{"id": "ref-for-clear-non-cookie-storage-for-host"}], "title": "6.2.2. Timer"}], "external": false};
-window.dfnpanelData['clear-cache-for-host'] = {"dfnID": "clear-cache-for-host", "url": "#clear-cache-for-host", "dfnText": "clear cache for host", "refSections": [{"refs": [{"id": "ref-for-clear-cache-for-host"}], "title": "6.2.2. Timer"}], "external": false};</script>
-<script>/* script-dom-helper */
+window.dfnpanelData['process-navigation-start-for-bounce-tracking'] = {"dfnID": "process-navigation-start-for-bounce-tracking", "url": "#process-navigation-start-for-bounce-tracking", "dfnText": "process navigation start for bounce tracking", "refSections": [{"refs": [{"id": "ref-for-process-navigation-start-for-bounce-tracking"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-process-navigation-start-for-bounce-tracking\u2460"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['process-a-network-cookie-access-for-bounce-tracking-mitigations'] = {"dfnID": "process-a-network-cookie-access-for-bounce-tracking-mitigations", "url": "#process-a-network-cookie-access-for-bounce-tracking-mitigations", "dfnText": "process a network cookie access for bounce tracking mitigations", "refSections": [{"refs": [{"id": "ref-for-process-a-network-cookie-access-for-bounce-tracking-mitigations"}, {"id": "ref-for-process-a-network-cookie-access-for-bounce-tracking-mitigations\u2460"}], "title": "6.2.2.2. Network\nCookie Write Monkey Patch"}], "external": false};
+window.dfnpanelData['process-response-received-for-bounce-tracking'] = {"dfnID": "process-response-received-for-bounce-tracking", "url": "#process-response-received-for-bounce-tracking", "dfnText": "process response received for bounce tracking", "refSections": [{"refs": [{"id": "ref-for-process-response-received-for-bounce-tracking"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-process-response-received-for-bounce-tracking\u2460"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}, {"refs": [{"id": "ref-for-process-response-received-for-bounce-tracking\u2461"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['process-document-load-for-bounce-tracking'] = {"dfnID": "process-document-load-for-bounce-tracking", "url": "#process-document-load-for-bounce-tracking", "dfnText": "process document load for bounce tracking", "refSections": [{"refs": [{"id": "ref-for-process-document-load-for-bounce-tracking"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": false};
+window.dfnpanelData['bounce-tracking-timer'] = {"dfnID": "bounce-tracking-timer", "url": "#bounce-tracking-timer", "dfnText": "bounce tracking timer", "refSections": [{"refs": [{"id": "ref-for-bounce-tracking-timer"}, {"id": "ref-for-bounce-tracking-timer\u2460"}], "title": "6.1.1. Global Data"}, {"refs": [{"id": "ref-for-bounce-tracking-timer\u2461"}], "title": "6.1.3. Constants"}, {"refs": [{"id": "ref-for-bounce-tracking-timer\u2462"}, {"id": "ref-for-bounce-tracking-timer\u2463"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['record-stateful-bounces-for-bounce-tracking'] = {"dfnID": "record-stateful-bounces-for-bounce-tracking", "url": "#record-stateful-bounces-for-bounce-tracking", "dfnText": "record stateful bounces for bounce tracking", "refSections": [{"refs": [{"id": "ref-for-record-stateful-bounces-for-bounce-tracking"}, {"id": "ref-for-record-stateful-bounces-for-bounce-tracking\u2460"}], "title": "6.2.2.1. Start Navigation\nMonkey Patch"}, {"refs": [{"id": "ref-for-record-stateful-bounces-for-bounce-tracking\u2461"}], "title": "6.2.2.3. Response Received Monkey\nPatch"}, {"refs": [{"id": "ref-for-record-stateful-bounces-for-bounce-tracking\u2462"}], "title": "6.2.2.4. Document Loaded Monkey\nPatch"}], "external": false};
+window.dfnpanelData['clear-cookies-for-host'] = {"dfnID": "clear-cookies-for-host", "url": "#clear-cookies-for-host", "dfnText": "clear cookies for host", "refSections": [{"refs": [{"id": "ref-for-clear-cookies-for-host"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['clear-non-cookie-storage-for-host'] = {"dfnID": "clear-non-cookie-storage-for-host", "url": "#clear-non-cookie-storage-for-host", "dfnText": "clear non-cookie storage for host", "refSections": [{"refs": [{"id": "ref-for-clear-non-cookie-storage-for-host"}], "title": "6.2.3. Timers"}], "external": false};
+window.dfnpanelData['clear-cache-for-host'] = {"dfnID": "clear-cache-for-host", "url": "#clear-cache-for-host", "dfnText": "clear cache for host", "refSections": [{"refs": [{"id": "ref-for-clear-cache-for-host"}], "title": "6.2.3. Timers"}], "external": false};
+</script>
+<script>/* Boilerplate: script-dom-helper */
 function query(sel) { return document.querySelector(sel); }
 
 function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
@@ -1498,89 +2047,103 @@ function parseHTML(markup) {
 		el.innerHTML = markup;
 		return el.content;
 	}
-}</script>
-<script>/* script-var-click-highlighting */
+}
+</script>
+<script>/* Boilerplate: script-var-click-highlighting */
+/*
+Color-choosing design:
 
-    "use strict";
-    {
-        document.addEventListener("click", e=>{
-            if(e.target.nodeName == "VAR") {
-                highlightSameAlgoVars(e.target);
-            }
-        });
-        const indexCounts = new Map();
-        const indexNames = new Map();
-        function highlightSameAlgoVars(v) {
-            // Find the algorithm container.
-            let algoContainer = null;
-            let searchEl = v;
-            while(algoContainer == null && searchEl != document.body) {
-                searchEl = searchEl.parentNode;
-                if(searchEl.hasAttribute("data-algorithm")) {
-                    algoContainer = searchEl;
-                }
-            }
+Colors are ordered by goodness.
+Each color has a usage count (initially zero).
+Each variable has a last-used color.
 
-            // Not highlighting document-global vars,
-            // too likely to be unrelated.
-            if(algoContainer == null) return;
-
-            const algoName = algoContainer.getAttribute("data-algorithm");
-            const varName = getVarName(v);
-            const addClass = !v.classList.contains("selected");
-            let highlightClass = null;
-            if(addClass) {
-                const index = chooseHighlightIndex(algoName, varName);
-                indexCounts.get(algoName)[index] += 1;
-                indexNames.set(algoName+"///"+varName, index);
-                highlightClass = nameFromIndex(index);
-            } else {
-                const index = previousHighlightIndex(algoName, varName);
-                indexCounts.get(algoName)[index] -= 1;
-                highlightClass = nameFromIndex(index);
-            }
-
-            // Find all same-name vars, and toggle their class appropriately.
-            for(const el of algoContainer.querySelectorAll("var")) {
-                if(getVarName(el) == varName) {
-                    el.classList.toggle("selected", addClass);
-                    el.classList.toggle(highlightClass, addClass);
-                }
+* If the var has a last-used color, and that color's usage is 0,
+    return that color.
+* Otherwise, return the lowest-indexed color with the lowest usage.
+    Increment the color's usage and set it as the last-used color
+    for that var.
+* On unclicking, decrement usage of the color.
+*/
+"use strict";
+{
+    document.addEventListener("click", e=>{
+        if(e.target.nodeName == "VAR") {
+            highlightSameAlgoVars(e.target);
+        }
+    });
+    const indexCounts = new Map();
+    const indexNames = new Map();
+    function highlightSameAlgoVars(v) {
+        // Find the algorithm container.
+        let algoContainer = null;
+        let searchEl = v;
+        while(algoContainer == null && searchEl != document.body) {
+            searchEl = searchEl.parentNode;
+            if(searchEl.hasAttribute("data-algorithm")) {
+                algoContainer = searchEl;
             }
         }
-        function getVarName(el) {
-            return el.textContent.replace(/(\s|\xa0)+/, " ").trim();
-        }
-        function chooseHighlightIndex(algoName, varName) {
-            let indexes = null;
-            if(indexCounts.has(algoName)) {
-                indexes = indexCounts.get(algoName);
-            } else {
-                // 7 classes right now
-                indexes = [0,0,0,0,0,0,0];
-                indexCounts.set(algoName, indexes);
-            }
 
-            // If the element was recently unclicked,
-            // *and* that color is still unclaimed,
-            // give it back the same color.
-            const lastIndex = previousHighlightIndex(algoName, varName);
-            if(indexes[lastIndex] === 0) return lastIndex;
+        // Not highlighting document-global vars,
+        // too likely to be unrelated.
+        if(algoContainer == null) return;
 
-            // Find the earliest index with the lowest count.
-            const minCount = Math.min.apply(null, indexes);
-            let index = null;
-            for(var i = 0; i < indexes.length; i++) {
-                if(indexes[i] == minCount) {
-                    return i;
-                }
+        const algoName = algoContainer.getAttribute("data-algorithm");
+        const varName = getVarName(v);
+        const addClass = !v.classList.contains("selected");
+        let highlightClass = null;
+        if(addClass) {
+            const index = chooseHighlightIndex(algoName, varName);
+            indexCounts.get(algoName)[index] += 1;
+            indexNames.set(algoName+"///"+varName, index);
+            highlightClass = nameFromIndex(index);
+        } else {
+            const index = previousHighlightIndex(algoName, varName);
+            indexCounts.get(algoName)[index] -= 1;
+            highlightClass = nameFromIndex(index);
+        }
+
+        // Find all same-name vars, and toggle their class appropriately.
+        for(const el of algoContainer.querySelectorAll("var")) {
+            if(getVarName(el) == varName) {
+                el.classList.toggle("selected", addClass);
+                el.classList.toggle(highlightClass, addClass);
             }
-        }
-        function previousHighlightIndex(algoName, varName) {
-            return indexNames.get(algoName+"///"+varName);
-        }
-        function nameFromIndex(index) {
-            return "selected" + index;
         }
     }
+    function getVarName(el) {
+        return el.textContent.replace(/(\s|\xa0)+/, " ").trim();
+    }
+    function chooseHighlightIndex(algoName, varName) {
+        let indexes = null;
+        if(indexCounts.has(algoName)) {
+            indexes = indexCounts.get(algoName);
+        } else {
+            // 7 classes right now
+            indexes = [0,0,0,0,0,0,0];
+            indexCounts.set(algoName, indexes);
+        }
+
+        // If the element was recently unclicked,
+        // *and* that color is still unclaimed,
+        // give it back the same color.
+        const lastIndex = previousHighlightIndex(algoName, varName);
+        if(indexes[lastIndex] === 0) return lastIndex;
+
+        // Find the earliest index with the lowest count.
+        const minCount = Math.min.apply(null, indexes);
+        let index = null;
+        for(var i = 0; i < indexes.length; i++) {
+            if(indexes[i] == minCount) {
+                return i;
+            }
+        }
+    }
+    function previousHighlightIndex(algoName, varName) {
+        return indexNames.get(algoName+"///"+varName);
+    }
+    function nameFromIndex(index) {
+        return "selected" + index;
+    }
+}
 </script>
