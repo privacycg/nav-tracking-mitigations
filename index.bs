@@ -425,6 +425,7 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 |navigable|, [=Document=] |sourceDocument|, and <a spec="html">source snapshot params</a> |sourceSnapshotParams|, perform the following steps:
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+1. Remove any queued global tasks to [=record stateful bounces for bounce tracking=] from the [=networking task source=].
 1. Let |origin| be |sourceDocument|'s [=Document/origin=].
 1. If |origin| is an [=opaque origin=], set |initialHost| to [=empty host=].
 1. Otherwise,
@@ -446,7 +447,7 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 <h5 id="bounce-tracking-mitigations-network-cookie-write-monkey-patch">Network
 Cookie Write Monkey Patch</h5>
 
-Each [=top-level traversable=] maintains a record of which sites it has saved cookies for.
+Each [=top-level traversable=] maintains a record of which sites it has saved cookies for in the current [=extended navigation=].
 
 Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorithm after step 15,
 "... run the "set-cookie-string" parsing algorithm (see [section 5.2](https://httpwg.org/specs/rfc6265.html#set-cookie) of [[COOKIES]]) ...":
@@ -593,10 +594,10 @@ To run the <dfn>record stateful bounces for bounce tracking</dfn> algorithm
 given a [=global object=] |global|, perform the following steps:
 
 1. Let |navigable| be |global|'s [=associated document=]'s [=node navigable=].
-1. [=Assert=]: |navigable| is not null.
+1. If |navigable| is null, abort these steps.
+    This ensures that the global has not been detached from the navigable.
 1. Let |topDocument| be |navigable|'s [=navigable/active document=].
 1. [=Assert=]: |topDocument| is the same as |global|'s [=associated document=].
-    This ensures that the global has not been detached from the navigable.
 1. [=Assert=]: |navigable|'s [=top-level traversable/bounce tracking record=] is not null.
 1. [=set/For each=] |host| in |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=]:
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/initial host=], [=iteration/continue=].
