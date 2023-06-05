@@ -464,14 +464,14 @@ given a [=request=] |request|, perform the following steps:
 1. Let |origin| be |request|'s [=request/origin=].
 1. If |origin| is an [=opaque origin=], then abort these steps.
 1. If |request|'s [=request/destination=] is "`document`", then:
-    1. [=Assert=]: |request|'s [=request/client=] is not null, and
+    1. If |request|'s [=request/client=] is null, or
         |request|'s [=request/client=]'s [=environment/target browsing context=]
-        is not null.
+        is null, then abort these steps.
     1. Let |topLevelTraversable| be |request|'s [=request/client=]'s
         [=environment/target browsing context=]'s
         [=browsing context/top-level traversable=].
-    1. [=Assert=]: |topLevelTraversable|'s
-        [=top-level traversable/bounce tracking record=] is not null.
+    1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=]
+        is null, abort these steps.
     1. Let |site| be the result of running [=obtain a site=] given |origin|.
     1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
         [=top-level traversable/bounce tracking record=]'s
