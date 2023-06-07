@@ -520,7 +520,7 @@ Insert the following steps in the <a spec="storage">obtain a storage bottle map<
 
 1. Run [=process a storage access for bounce tracking mitigations=] given <var ignore>environment</var>.
 
-<p class=note>[Note](https://whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
+Issue(whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
 <a spec="storage">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
 So this patch is not comprehensive.</p>
 
