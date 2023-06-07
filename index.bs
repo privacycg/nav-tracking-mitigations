@@ -490,11 +490,13 @@ in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21
 
 Each [=top-level traversable=] maintains a record of which sites have accessed storage in the current [=extended navigation=].
 
-Insert the following steps in the <a spec="storage">obtain a storage key</a> algorithm before step 4, "Return key":
+Insert the following steps in the <a spec="storage">obtain a storage bottle map</a> algorithm before step 10, "Return <var ignore>proxyMap</var>":
 
 1. Run [=process a storage access for bounce tracking mitigations=] given <var ignore>environment</var>.
 
-Issue: TODO: Verify that this algorithm is the correct location to catch precisely those sites which access non-cookie storage.
+<p class=note>[Note](https://whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
+<a spec="storage">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
+So this patch is not comprehensive.</p>
 
 <div algorithm>
 
