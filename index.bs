@@ -464,10 +464,10 @@ given a [=request=] |request|, perform the following steps:
 1. Let |origin| be |request|'s [=request/origin=].
 1. If |origin| is an [=opaque origin=], then abort these steps.
 1. If |request|'s [=request/destination=] is "`document`", then:
-    1. If |request|'s [=request/client=] is null, or
-        |request|'s [=request/client=]'s [=environment/target browsing context=]
+    1. If |request|'s [=request/reserved client=] is null, or
+        |request|'s [=request/reserved client=]'s [=environment/target browsing context=]
         is null, then abort these steps.
-    1. Let |topLevelTraversable| be |request|'s [=request/client=]'s
+    1. Let |topLevelTraversable| be |request|'s [=request/reserved client=]'s
         [=environment/target browsing context=]'s
         [=browsing context/top-level traversable=].
     1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=]
