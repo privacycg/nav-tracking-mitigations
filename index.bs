@@ -453,12 +453,12 @@ Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorit
 "... run the "set-cookie-string" parsing algorithm (see [section 5.2](https://httpwg.org/specs/rfc6265.html#set-cookie) of [[COOKIES]]) ...":
 
 1. If cookies were stored in the cookie store in the previous step, then
-    run [=process a network cookie access for bounce tracking mitigations=]
+    run [=process a navigation storage access for bounce tracking mitigations=]
     given <var ignore>request</var>.
 
 <div algorithm>
 
-To <dfn>process a network cookie access for bounce tracking mitigations</dfn>
+To <dfn>process a navigation storage access for bounce tracking mitigations</dfn>
 given a [=request=] |request|, perform the following steps:
 
 1. Let |origin| be |request|'s [=request/origin=].
@@ -482,7 +482,7 @@ Issue: TODO: Handle subresource requests and iframes for client-side redirects.
 </div>
 
 Note: We currently don't treat cookie reads as stateful, but this would be a
-reasonable future change. We could run [=process a network cookie access for bounce tracking mitigations=]
+reasonable future change. We could run [=process a navigation storage access for bounce tracking mitigations=]
 in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2,
 "... [=append=] (`Cookie`, cookies) to httpRequest’s [=header list=]. ..."
 
@@ -490,27 +490,10 @@ in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21
 
 Each [=top-level traversable=] maintains a record of which sites have activated service workers in the current [=extended navigation=].
 
-Insert the following steps in the [activate]((https://w3c.github.io/ServiceWorker/#activate) algorithm before step 11,
-"Run the [Update Worker State](https://w3c.github.io/ServiceWorker/#update-worker-state) algorithm...":
+Insert the following steps in the [Handle Fetch](https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm) algorithm after step 23,
+"If the result of running the [Run Service Worker](https://w3c.github.io/ServiceWorker/#run-service-worker) algorithm...":
 
-1. Run [=process a service worker activation for bounce tracking mitigations=] given <var ignore>registration</var> and <var ignore>matchedClients</var>.
-
-<div algorithm>
-
-To <dfn>process a service worker activation for bounce tracking mitigations</dfn>
-given a [=service worker registration=] |registration| and a list of [=service worker clients=] |matchedClients|,
-perform the following steps:
-
-1. Let |host| be |registration|'s [=service worker registration/scope url=]'s [=host=].
-1. [=list/For each=] |client| in |matchedClients|:
-    1. Let |browsingContext| be |client|'s [=environment/target browsing context=].
-    1. If |browsingContext| is null, then [=iteration/continue=].
-    1. Let |topLevelTraversable| be |browsingContext|'s [=browsing context/top-level traversable=].
-    1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null, then [=iteration/continue=].
-    1. [=set/Append=] |host| to |topLevelTraversable|'s [=top-level traversable/bounce tracking record=]'s
-        [=bounce tracking record/storage access set=].
-
-</div>
+1. Run [=process a navigation storage access for bounce tracking mitigations=] given <var ignore>request</var>.
 
 <h5 id="bounce-tracking-mitigations-storage-access-monkey-patch">Storage Access Monkey Patch</h5>
 
@@ -518,7 +501,7 @@ Each [=top-level traversable=] maintains a record of which sites have accessed s
 
 Insert the following steps in the <a spec="storage">obtain a storage bottle map</a> algorithm before step 10, "Return <var ignore>proxyMap</var>":
 
-1. Run [=process a storage access for bounce tracking mitigations=] given <var ignore>environment</var>.
+1. Run [=process a general storage access for bounce tracking mitigations=] given <var ignore>environment</var>.
 
 Issue(whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
 <a spec="storage">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
@@ -526,7 +509,7 @@ So this patch is not comprehensive.</p>
 
 <div algorithm>
 
-To <dfn>process a storage access for bounce tracking mitigations</dfn>
+To <dfn>process a general storage access for bounce tracking mitigations</dfn>
 given an [=environment=] |environment|, perform the following steps:
 
 1. If |environment| is not an [=environment settings object=], then abort these steps.
