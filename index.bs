@@ -453,12 +453,12 @@ Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorit
 "... run the "set-cookie-string" parsing algorithm (see [section 5.2](https://httpwg.org/specs/rfc6265.html#set-cookie) of [[COOKIES]]) ...":
 
 1. If cookies were stored in the cookie store in the previous step, then
-    run [=process a navigation storage access for bounce tracking mitigations=]
+    run [=process a fetch storage access for bounce tracking mitigations=]
     given <var ignore>request</var>.
 
 <div algorithm>
 
-To <dfn>process a navigation storage access for bounce tracking mitigations</dfn>
+To <dfn>process a fetch storage access for bounce tracking mitigations</dfn>
 given a [=request=] |request|, perform the following steps:
 
 1. Let |origin| be |request|'s [=request/origin=].
@@ -489,7 +489,7 @@ Issue: TODO: Handle iframes for client-side redirects.
 </div>
 
 Note: We currently don't treat cookie reads as stateful, but this would be a
-reasonable future change. We could run [=process a navigation storage access for bounce tracking mitigations=]
+reasonable future change. We could run [=process a fetch storage access for bounce tracking mitigations=]
 in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2,
 "... [=append=] (`Cookie`, cookies) to httpRequest’s [=header list=]. ..."
 
@@ -500,7 +500,7 @@ Each [=top-level traversable=] maintains a record of which sites have activated 
 Insert the following steps in the [Handle Fetch](https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm) algorithm after step 23,
 "If the result of running the [Run Service Worker](https://w3c.github.io/ServiceWorker/#run-service-worker) algorithm...":
 
-1. Run [=process a navigation storage access for bounce tracking mitigations=] given <var ignore>request</var>.
+1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>.
 
 <h5 id="bounce-tracking-mitigations-storage-access-monkey-patch">Storage Access Monkey Patch</h5>
 
