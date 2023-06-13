@@ -452,14 +452,20 @@ Each [=top-level traversable=] maintains a record of which sites it has saved co
 Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorithm after step 15,
 "... run the "set-cookie-string" parsing algorithm (see [section 5.2](https://httpwg.org/specs/rfc6265.html#set-cookie) of [[COOKIES]]) ...":
 
-1. If cookies were stored in the cookie store in the previous step, then
-    run [=process a fetch storage access for bounce tracking mitigations=]
-    given <var ignore>request</var>.
+1. If cookies were stored in the cookie store in the previous step, then run
+    [=process a fetch storage access for bounce tracking mitigations=] given:
+    <dl>
+        <dt>request</dt>
+        <dd><var ignore>request</var></dd>
+        <dt>partitionedCookies</dt>
+        <dd>whether the <var ignore>Partitioned</var> attribute was set in the Set-Cookie header</dd>
+    </dl>
 
 <div algorithm>
 
 To <dfn>process a fetch storage access for bounce tracking mitigations</dfn>
-given a [=request=] |request|, perform the following steps:
+given a [=request=] |request| and a [=boolean=] |partitionedCookies|,
+perform the following steps:
 
 1. Let |origin| be |request|'s [=request/origin=].
 1. If |origin| is an [=opaque origin=], then abort these steps.
@@ -479,7 +485,7 @@ given a [=request=] |request|, perform the following steps:
         [=browsing context/top-level traversable=].
     1. If |request|'s [=request/destination=] is "`iframe`", then:
         1. Let |firstPartyOrigin| be |topLevelTraversable|'s [=navigable/active document=]'s [=Document/origin=].
-        1. If |origin| and |firstPartyOrigin| are not [=same site=], then abort these steps.
+        1. If |origin| and |firstPartyOrigin| are not [=same site=], and |partitionedCookies| is false, then abort these steps.
 1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=]
     is null, abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
@@ -501,7 +507,8 @@ Each [=top-level traversable=] maintains a record of which sites have activated 
 Insert the following steps in the [Handle Fetch](https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm) algorithm after step 23,
 "If the result of running the [Run Service Worker](https://w3c.github.io/ServiceWorker/#run-service-worker) algorithm...":
 
-1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>.
+1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>
+    and <var ignore>partitionedCookies</var> set to false.
 
 <h5 id="bounce-tracking-mitigations-storage-access-monkey-patch">Storage Access Monkey Patch</h5>
 
