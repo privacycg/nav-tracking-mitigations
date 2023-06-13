@@ -477,6 +477,9 @@ given a [=request=] |request|, perform the following steps:
     1. Let |topLevelTraversable| be |request|'s [=request/reserved client=]'s
         [=environment/target browsing context=]'s
         [=browsing context/top-level traversable=].
+    1. If |request|'s [=request/destination=] is "`iframe`", then:
+        1. Let |firstPartyOrigin| be |topLevelTraversable|'s [=navigable/active document=]'s [=Document/origin=].
+        1. If |origin| and |firstPartyOrigin| are not [=same site=], then abort these steps.
 1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=]
     is null, abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
@@ -525,11 +528,14 @@ Note: At time of writing, <a spec="storage">obtain a storage bottle map</a> can 
 but this will be refactored to support [=service workers=] which attempt to access storage on every navigation, and thus is not considered
 when updating the [=bounce tracking record/storage access set=].
 
-1. Let |origin| be |environment|'s [=environment/top-level origin=].
-1. If |origin| is null or an [=opaque origin=], then abort these steps.
 1. Let |browsingContext| be |environment|'s [=environment/target browsing context=].
 1. If |browsingContext| is null, then abort these steps.
+1. Let |activeDocument| be |browsingContext|'s active document.
+1. Let |origin| be |activeDocument|'s [=Document/origin=].
 1. Let |topLevelTraversable| be |browsingContext|'s [=browsing context/top-level traversable=].
+1. If |activeDocument|'s node navigable's [=navigable/parent=] is non-null:
+    1. Let |firstPartyOrigin| be |topLevelTraversable|'s [=navigable/active document=]'s [=Document/origin=].
+    1. If |origin| and |firstPartyOrigin| are not [=same site=], then abort these steps.
 1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null,
     then abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
