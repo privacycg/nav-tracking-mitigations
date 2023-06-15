@@ -457,6 +457,7 @@ Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorit
     given <var ignore>request</var>.
 
 Note: This spec is written for the case where third-party cookies are blocked. Any cookies written by embedded third-party sites are partitioned.
+    Ignore any cookies set in the Set-Cookie header that are ignored by the user agent before committing to storage.
 
 <div algorithm>
 
