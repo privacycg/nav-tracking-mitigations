@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="11a796fdf1c6193edf9bd6bf108030e7d3350946" name="document-revision">
+  <meta content="f234fafa3b9076c5f73d3fba1bdc81175f3abb47" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -541,7 +541,7 @@ var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
   <header>
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="no-ref" id="title">Navigational-Tracking Mitigations</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-06-09">9 June 2023</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time datetime="2023-06-16">16 June 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Participate:
@@ -842,6 +842,15 @@ mitigations.  There is a <a href="https://github.com/privacycg/nav-tracking-miti
 explainer</a> for this work, but the text in this section is intended for adoption across all browsers. This
 section is not complete yet, and as the algorithms are developed, they will be specified here and
 presented for review.</p>
+   <p>This spec is written for the case where the following features are enabled:</p>
+   <ul>
+    <li data-md>
+     <p>All third-party cookies are blocked.</p>
+    <li data-md>
+     <p>All cookies written by embedded third-party sites are partitioned.</p>
+    <li data-md>
+     <p>All storage written by embedded third-party sites is partitioned.</p>
+   </ul>
    <p class="note" role="note"> The following is a work-in-progress and does not yet reflect any consensus in
 the PrivacyCG. </p>
    <h3 class="heading settled" data-level="6.1" id="bounce-tracking-mitigations-data-model"><span class="secno">6.1. </span><span class="content">Data Model</span><a class="self-link" href="#bounce-tracking-mitigations-data-model"></a></h3>
@@ -985,6 +994,8 @@ Cookie Write Monkey Patch</span><a class="self-link" href="#bounce-tracking-miti
      <p>If cookies were stored in the cookie store in the previous step, then
 run <a data-link-type="dfn" href="#process-a-fetch-storage-access-for-bounce-tracking-mitigations" id="ref-for-process-a-fetch-storage-access-for-bounce-tracking-mitigations">process a fetch storage access for bounce tracking mitigations</a> given <var>request</var>.</p>
    </ol>
+   <p class="note" role="note"><span class="marker">Note:</span> If the <code>Set-Cookie</code> header includes any cookies that the user agent ignores, for example because it’s blocking third-party cookies,
+    they’re not considered "stored in the cookie store" in this algorithm.</p>
    <div class="algorithm" data-algorithm="process a fetch storage access for bounce tracking mitigations">
     <p>To <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="process-a-fetch-storage-access-for-bounce-tracking-mitigations">process a fetch storage access for bounce tracking mitigations</dfn> given a <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request" id="ref-for-concept-request">request</a> <var>request</var>, perform the following steps:</p>
     <ol>
@@ -1015,7 +1026,6 @@ run <a data-link-type="dfn" href="#process-a-fetch-storage-access-for-bounce-tra
      <li data-md>
       <p><a data-link-type="dfn" href="https://infra.spec.whatwg.org/#set-append" id="ref-for-set-append">Append</a> <var>site</var>’s <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-host" id="ref-for-concept-host①②">host</a> to <var>topLevelTraversable</var>’s <a data-link-type="dfn" href="#top-level-traversable-bounce-tracking-record" id="ref-for-top-level-traversable-bounce-tracking-record⑤">bounce tracking record</a>'s <a data-link-type="dfn" href="#bounce-tracking-record-storage-access-set" id="ref-for-bounce-tracking-record-storage-access-set">storage access set</a>.</p>
     </ol>
-    <p class="issue" id="issue-2818c702"><a class="self-link" href="#issue-2818c702"></a> TODO: Handle iframes for client-side redirects.</p>
    </div>
    <p class="note" role="note"><span class="marker">Note:</span> We currently don’t treat cookie reads as stateful, but this would be a
 reasonable future change. We could run <a data-link-type="dfn" href="#process-a-fetch-storage-access-for-bounce-tracking-mitigations" id="ref-for-process-a-fetch-storage-access-for-bounce-tracking-mitigations①">process a fetch storage access for bounce tracking mitigations</a> in the <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-http-network-or-cache-fetch" id="ref-for-concept-http-network-or-cache-fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2,
@@ -1510,7 +1520,6 @@ might be essential for that action to happen. However, this is also clearly
 a user ID and sufficient to track a user if the source and target
 collaborate. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-fc2127e1" title="Jump to section">↵</a></div>
    <div class="issue"> This is probably the same case as the unsubscribe link. <a href="https://github.com/privacycg/nav-tracking-mitigations/issues/5">[Issue #5]</a> <a class="issue-return" href="#issue-0c501704" title="Jump to section">↵</a></div>
-   <div class="issue"> TODO: Handle iframes for client-side redirects. <a class="issue-return" href="#issue-2818c702" title="Jump to section">↵</a></div>
    <div class="issue"> This patch has to be run whenever a site accesses non-cookie storage. <a data-link-type="dfn" href="https://storage.spec.whatwg.org/#obtain-a-storage-bottle-map">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
 So this patch is not comprehensive. <a href="https://github.com/whatwg/storage/issues/165">[Issue #whatwg/storage#165]</a> <a class="issue-return" href="#issue-6bd6f4f1" title="Jump to section">↵</a></div>
    <div class="issue">TODO: Consider if we should do anything when the clock is moved
