@@ -614,6 +614,10 @@ Every [=bounce tracking timer period=] the user agent should run the
 [=bounce tracking timer=] algorithm given the [=wall clock=]'s
 [=wall clock/unsafe current time=].
 
+Note: Running the deletion algorithm on a global timer has the effect of adding fuzz to the
+    delay between stateful bounce and data deletion. This mitigates adversarial leaks of
+    interaction and bounce times. (See "Privacy and Security Considerations", below.)
+
 <div algorithm>
 
 To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
@@ -723,12 +727,12 @@ following steps:
 
 <h2 id="privacy-and-security-considerations">Privacy and Security Considerations</h2>
 
-This feature will likely need to store information about sites that have a user interaction, some 
-amount of view time, or [engagement](https://www.chromium.org/developers/design-documents/site-engagement/). 
-This information is not directly exposed to sites, however, it can be indirectly observed.  For example, 
-if `tracker.example` reports back its oldest existing state to `site1.example`, then `site1.example` could 
-infer that `tracker.example` has had an interaction.  If it does not report any long-lived state, however, 
-then `site1.example` could infer that the state was wiped.
+This feature stores information about sites that have a user interaction, some amount of view time, or
+[engagement](https://www.chromium.org/developers/design-documents/site-engagement/). This information is 
+not directly exposed to sites, however, it can be indirectly observed.  For example, if `tracker.example` 
+reports back its oldest existing state to `site1.example`, then `site1.example` could infer that 
+`tracker.example` has had an interaction.  If it does not report any long-lived state, however, then 
+`site1.example` could infer that the state was wiped.
 
 In addition, there are potential scenarios where the existence of an interaction could be accessed through 
 existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that 

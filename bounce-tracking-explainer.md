@@ -143,7 +143,7 @@ For this reason we are not currently pursuing this approach, but acknowledge it 
 
 # Privacy and Security Considerations
 
-This feature will likely need to store information about sites that have a user interaction, some amount of view time, or [engagement](https://www.chromium.org/developers/design-documents/site-engagement/).  This information is not directly exposed to sites, however, it can be indirectly observed.  For example, if `tracker.example` reports back its oldest existing state to `site1.example`, then `site1.example` could infer that `tracker.example` has had an interaction.  If it does not report any long-lived state, however, then `site1.example` could infer that the state was wiped.
+This feature stores information about sites that have a user interaction, some amount of view time, or [engagement](https://www.chromium.org/developers/design-documents/site-engagement/).  This information is not directly exposed to sites, however, it can be indirectly observed.  For example, if `tracker.example` reports back its oldest existing state to `site1.example`, then `site1.example` could infer that `tracker.example` has had an interaction.  If it does not report any long-lived state, however, then `site1.example` could infer that the state was wiped.
 
 In addition, there are potential scenarios where the existence of an interaction could be accessed through existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that causes an automatic redirect that triggers the bounce tracking mitigations.  An attacker could use existing XS leaks to determine if any logged-in state is present on a target site and then look to see if that state disappears after triggering the bounce.
 
