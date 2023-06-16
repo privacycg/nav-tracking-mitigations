@@ -291,6 +291,11 @@ for this work, but the text in this section is intended for adoption across all 
 section is not complete yet, and as the algorithms are developed, they will be specified here and
 presented for review.
 
+This spec is written for the case where the following features are enabled:
+    * All third-party cookies are blocked.
+    * All cookies written by embedded third-party sites are partitioned.
+    * All storage written by embedded third-party sites is partitioned.
+
 <p class=note>
 The following is a work-in-progress and does not yet reflect any consensus in
 the PrivacyCG.
@@ -456,9 +461,8 @@ Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorit
     run [=process a fetch storage access for bounce tracking mitigations=]
     given <var ignore>request</var>.
 
-Note: This spec is written for the case where third-party cookies are blocked. Any cookies written by embedded third-party sites are partitioned.
-    Ignore any cookies set in the Set-Cookie header that are ignored by the user agent before committing to storage, such as non-partitioned
-    third-party cookies.
+Note: If the `Set-Cookie` header includes any cookies that the user agent ignores, for example because it's blocking third-party cookies,
+    they're not considered "stored in the cookie store" in this algorithm.
 
 <div algorithm>
 
@@ -515,8 +519,6 @@ Insert the following steps in the <a spec="storage">obtain a storage bottle map<
 Issue(whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
 <a spec="storage">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
 So this patch is not comprehensive.</p>
-
-Note: This spec is written for the case where all storage access by embedded third-party sites is partitioned.
 
 <div algorithm>
 
