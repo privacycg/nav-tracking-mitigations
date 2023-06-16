@@ -614,6 +614,10 @@ Every [=bounce tracking timer period=] the user agent should run the
 [=bounce tracking timer=] algorithm given the [=wall clock=]'s
 [=wall clock/unsafe current time=].
 
+Note: Running the deletion algorithm on a global timer has the effect of adding fuzz to the
+    delay between stateful bounce and data deletion. This mitigates adversarial leaks of
+    interaction and bounce times. (See "Privacy and Security Considerations", below.)
+
 <div algorithm>
 
 To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
@@ -720,6 +724,43 @@ following steps:
     1. Remove |entry| from the [=network cache=].
 
 </div>
+
+<h2 id="privacy-and-security-considerations">Privacy and Security Considerations</h2>
+
+This feature stores information about sites that have a user interaction, some amount of view time, or
+[engagement](https://www.chromium.org/developers/design-documents/site-engagement/). This information is 
+not directly exposed to sites, however, it can be indirectly observed.  For example, if `tracker.example` 
+reports back its oldest existing state to `site1.example`, then `site1.example` could infer that 
+`tracker.example` has had an interaction.  If it does not report any long-lived state, however, then 
+`site1.example` could infer that the state was wiped.
+
+In addition, there are potential scenarios where the existence of an interaction could be accessed through 
+existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that 
+causes an automatic redirect that triggers the bounce tracking mitigations.  An attacker could use existing 
+XS leaks to determine if any logged-in state is present on a target site and then look to see if that state 
+disappears after triggering the bounce.
+
+The information leak from tracker to site does not seem very significant.  At a minimum, the proposed 
+mitigations do not make the situation worse and without the mitigations there is a greater potential for a 
+tracker to communicate state to the target site.
+
+The cross-site adversarial information leak is more concerning.  Solutions designed for this effort should 
+take this threat into account and attempt to mitigate it.  For example, delaying or fuzzing the timing of 
+storage wiping could lessen the impact of the leak.  Ultimately, though, it may be necessary to weigh the 
+cost of this 1 bit information leak against the gains in mitigating bounce tracking.
+
+Another threat that should be considered by any solution is the possibility that an attacker will trick a 
+user into visiting an existing redirect endpoint on a site that they care about and somehow trigger their 
+storage to be deleted.  The current plan, however, is to already look at signals that a user cares about a 
+site for legitimate use cases, in order to avoid wiping data they care about.  This threat just puts more 
+weight on getting these signals correct.
+
+Otherwise this effort does not store or expose any new types of information.  It does not create any new 
+cross-origin communication or storage capabilities.
+
+There is some implementation complexity to be aware of when wiping storage.  The browser must be careful 
+not to wipe storage out from under a site actively using it.  This could lead to poor interop and broken 
+web sites.
 
 <h2 id="acknowledgements" class="no-num">Acknowledgements</h2>
 
