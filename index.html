@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
   <meta content="Bikeshed version 5fcd28d6d, updated Tue May 30 13:12:11 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="f234fafa3b9076c5f73d3fba1bdc81175f3abb47" name="document-revision">
+  <meta content="911b0058633f3f72fd11fee8c9b3a1642f4f2b22" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -633,6 +633,7 @@ Patch</span></a>
         <li><a href="#bounce-tracking-mitigations-deletion"><span class="secno">6.2.4</span> <span class="content">Deletion</span></a>
        </ol>
      </ol>
+    <li><a href="#privacy-and-security-considerations"><span class="secno">7</span> <span class="content">Privacy and Security Considerations</span></a>
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content">Acknowledgements</span></a>
     <li>
      <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
@@ -1145,6 +1146,9 @@ before Step 5, "Return null", which is the point that the <a data-link-type="dfn
    </div>
    <h4 class="heading settled" data-level="6.2.3" id="bounce-tracking-mitigations-timers"><span class="secno">6.2.3. </span><span class="content">Timers</span><a class="self-link" href="#bounce-tracking-mitigations-timers"></a></h4>
    <p>Every <a data-link-type="dfn" href="#bounce-tracking-timer-period" id="ref-for-bounce-tracking-timer-period①">bounce tracking timer period</a> the user agent should run the <a data-link-type="dfn" href="#bounce-tracking-timer" id="ref-for-bounce-tracking-timer③">bounce tracking timer</a> algorithm given the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock②">wall clock</a>'s <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#wall-clock-unsafe-current-time" id="ref-for-wall-clock-unsafe-current-time">unsafe current time</a>.</p>
+   <p class="note" role="note"><span class="marker">Note:</span> Running the deletion algorithm on a global timer has the effect of adding fuzz to the
+    delay between stateful bounce and data deletion. This mitigates adversarial leaks of
+    interaction and bounce times. (See "Privacy and Security Considerations", below.)</p>
    <div class="algorithm" data-algorithm="bounce tracking timer">
     <p>To run the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="bounce-tracking-timer">bounce tracking timer</dfn> algorithm given a <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-moment" id="ref-for-dfn-moment④">moment</a> on the <a data-link-type="dfn" href="https://w3c.github.io/hr-time/#dfn-wall-clock" id="ref-for-dfn-wall-clock③">wall clock</a> <var>now</var>, perform the following steps:</p>
     <ol>
@@ -1276,6 +1280,31 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
       </ol>
     </ol>
    </div>
+   <h2 class="heading settled" data-level="7" id="privacy-and-security-considerations"><span class="secno">7. </span><span class="content">Privacy and Security Considerations</span><a class="self-link" href="#privacy-and-security-considerations"></a></h2>
+   <p>This feature stores information about sites that have a user interaction, some amount of view time, or <a href="https://www.chromium.org/developers/design-documents/site-engagement/">engagement</a>. This information is 
+not directly exposed to sites, however, it can be indirectly observed.  For example, if <code>tracker.example</code> reports back its oldest existing state to <code>site1.example</code>, then <code>site1.example</code> could infer that <code>tracker.example</code> has had an interaction.  If it does not report any long-lived state, however, then <code>site1.example</code> could infer that the state was wiped.</p>
+   <p>In addition, there are potential scenarios where the existence of an interaction could be accessed through
+existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that 
+causes an automatic redirect that triggers the bounce tracking mitigations.  An attacker could use existing 
+XS leaks to determine if any logged-in state is present on a target site and then look to see if that state 
+disappears after triggering the bounce.</p>
+   <p>The information leak from tracker to site does not seem very significant.  At a minimum, the proposed
+mitigations do not make the situation worse and without the mitigations there is a greater potential for a 
+tracker to communicate state to the target site.</p>
+   <p>The cross-site adversarial information leak is more concerning.  Solutions designed for this effort should
+take this threat into account and attempt to mitigate it.  For example, delaying or fuzzing the timing of 
+storage wiping could lessen the impact of the leak.  Ultimately, though, it may be necessary to weigh the 
+cost of this 1 bit information leak against the gains in mitigating bounce tracking.</p>
+   <p>Another threat that should be considered by any solution is the possibility that an attacker will trick a
+user into visiting an existing redirect endpoint on a site that they care about and somehow trigger their 
+storage to be deleted.  The current plan, however, is to already look at signals that a user cares about a 
+site for legitimate use cases, in order to avoid wiping data they care about.  This threat just puts more 
+weight on getting these signals correct.</p>
+   <p>Otherwise this effort does not store or expose any new types of information.  It does not create any new
+cross-origin communication or storage capabilities.</p>
+   <p>There is some implementation complexity to be aware of when wiping storage.  The browser must be careful
+not to wipe storage out from under a site actively using it.  This could lead to poor interop and broken 
+web sites.</p>
    <h2 class="no-num heading settled" id="acknowledgements"><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Many thanks to the Privacy Community Group for many good discussions about this proposal.</p>
   </main>
