@@ -409,7 +409,7 @@ model]]:
 
 1. Run [=record a user activation=] given <var ignore>document</var>.
 
-<h4 id="bounce-tracking-mitigations-web-authentication-monkey-patch">Web Authentication Monkey Patch</h5>
+<h4 id="bounce-tracking-mitigations-web-authentication-monkey-patch">Web Authentication Monkey Patch</h4>
 
 A successful credential access, using the Web Authentication API, is also treated as a user activation for bounce-tracking purposes.
 
