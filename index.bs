@@ -500,11 +500,10 @@ in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21
 "... [=append=] (`Cookie`, cookies) to httpRequest’s [=header list=]. ..."
 
 <h5 id="bounce-tracking-mitigations-service-worker-activation-monkey-patch">Service Worker Activation Monkey Patch</h5>
-
 Each [=top-level traversable=] maintains a record of which sites have activated service workers in the current [=extended navigation=].
 
-Insert the following steps in the [Handle Fetch](https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm) algorithm after step 23,
-"If the result of running the [Run Service Worker](https://w3c.github.io/ServiceWorker/#run-service-worker) algorithm...":
+Insert the following steps in the <a href=https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm">Handle Fetch</a> algorithm after step 23,
+"If the result of running the <a href=https://w3c.github.io/ServiceWorker/#run-service-worker">Run Service Worker</a> algorithm...":
 
 1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>.
 
@@ -539,6 +538,37 @@ when updating the [=bounce tracking record/storage access set=].
 1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null,
     then abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
+1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
+        [=top-level traversable/bounce tracking record=]'s
+        [=bounce tracking record/storage access set=].
+
+</div>
+
+<h5 id="bounce-tracking-mitigations-web-authentication-monkey-patch">Web Authentication Monkey Patch</h5>
+
+Each [=top-level traversable=] maintains a record of which sites have successfully received a credential from the user,
+    via the Web Authentication API, in the current [=extended navigation=].
+
+Add the following argument to the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source) algorithm:
+
+<dt>browsingContext</dt>
+<dd>The caller's [=environment's=] [=environment/target browsing context=]</dd>
+
+Insert the following steps in the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source)
+    algorithm in step 17, under "If any authenticator indicates success":
+
+1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
+
+<div algorithm>
+
+To <dfn>process a Web Authentication assertion for bounce tracking mitigations</dfn> given an
+    [=origin=] |callerOrigin| and a [=browsing context=] |browsingContext|, perform the following steps:
+
+1. If |browsingContext| is null, then abort these steps.
+1. Let |topLevelTraversable| be |browsingContext|'s [=browsing context/top-level traversable=].
+1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null,
+    then abort these steps.
+1. Let |site| be the result of running [=obtain a site=] given |callerOrigin|.
 1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
         [=top-level traversable/bounce tracking record=]'s
         [=bounce tracking record/storage access set=].
