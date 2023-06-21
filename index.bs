@@ -409,6 +409,37 @@ model]]:
 
 1. Run [=record a user activation=] given <var ignore>document</var>.
 
+<h4 id="bounce-tracking-mitigations-web-authentication-monkey-patch">Web Authentication Monkey Patch</h5>
+
+A successful credential access, using the Web Authentication API, is also treated as a user activation for bounce-tracking purposes.
+
+Add the following argument to the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source) algorithm:
+
+<dt>browsingContext</dt>
+<dd>The caller's [=environment's=] [=environment/target browsing context=]</dd>
+
+Insert the following steps in the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source)
+    algorithm in step 17, under "If any authenticator indicates success":
+
+1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
+
+<div algorithm>
+
+To <dfn>process a Web Authentication assertion for bounce tracking mitigations</dfn> given
+    a [=browsing context=] |browsingContext|, perform the following steps:
+
+1. If |browsingContext| is null, then abort these steps.
+1. Let |topDocument| be |browsingContext|'s active document.
+1. Let |origin| be |topDocument|'s [=Document/origin=].
+1. If |origin| is an [=opaque origin=] then abort these steps.
+1. Let |site| be the result of running [=obtain a site=] given |origin|.
+1. Let |host| be |site|'s [=host=].
+1. Set [=user activation map=][|host|] to |topDocument|'s
+    [=relevant settings object=]'s
+    [=environment settings object/current wall time=].
+
+</div>
+
 <h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
 Detection</h4>
 
@@ -538,37 +569,6 @@ when updating the [=bounce tracking record/storage access set=].
 1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null,
     then abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
-1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
-        [=top-level traversable/bounce tracking record=]'s
-        [=bounce tracking record/storage access set=].
-
-</div>
-
-<h5 id="bounce-tracking-mitigations-web-authentication-monkey-patch">Web Authentication Monkey Patch</h5>
-
-Each [=top-level traversable=] maintains a record of which sites have successfully received a credential from the user,
-    via the Web Authentication API, in the current [=extended navigation=].
-
-Add the following argument to the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source) algorithm:
-
-<dt>browsingContext</dt>
-<dd>The caller's [=environment's=] [=environment/target browsing context=]</dd>
-
-Insert the following steps in the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source)
-    algorithm in step 17, under "If any authenticator indicates success":
-
-1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
-
-<div algorithm>
-
-To <dfn>process a Web Authentication assertion for bounce tracking mitigations</dfn> given an
-    [=origin=] |callerOrigin| and a [=browsing context=] |browsingContext|, perform the following steps:
-
-1. If |browsingContext| is null, then abort these steps.
-1. Let |topLevelTraversable| be |browsingContext|'s [=browsing context/top-level traversable=].
-1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null,
-    then abort these steps.
-1. Let |site| be the result of running [=obtain a site=] given |callerOrigin|.
 1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
         [=top-level traversable/bounce tracking record=]'s
         [=bounce tracking record/storage access set=].
