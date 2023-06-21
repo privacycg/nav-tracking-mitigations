@@ -531,10 +531,11 @@ in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21
 "... [=append=] (`Cookie`, cookies) to httpRequest’s [=header list=]. ..."
 
 <h5 id="bounce-tracking-mitigations-service-worker-activation-monkey-patch">Service Worker Activation Monkey Patch</h5>
+
 Each [=top-level traversable=] maintains a record of which sites have activated service workers in the current [=extended navigation=].
 
-Insert the following steps in the <a href=https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm">Handle Fetch</a> algorithm after step 23,
-"If the result of running the <a href=https://w3c.github.io/ServiceWorker/#run-service-worker">Run Service Worker</a> algorithm...":
+Insert the following steps in the [Handle Fetch](https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm) algorithm after step 23,
+"If the result of running the [Run Service Worker](https://w3c.github.io/ServiceWorker/#run-service-worker) algorithm...":
 
 1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>.
 
