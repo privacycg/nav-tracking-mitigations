@@ -409,6 +409,39 @@ model]]:
 
 1. Run [=record a user activation=] given <var ignore>document</var>.
 
+<h4 id="bounce-tracking-mitigations-web-authentication-monkey-patch">Web Authentication Monkey Patch</h4>
+
+A successful credential access, using the Web Authentication API, is also treated as a user activation for bounce-tracking purposes.
+
+Add the following argument to the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm:
+
+<dl dfn-for="PublicKeyCredential/[[DiscoverFromExternalSource]](origin, options, sameOriginWithAncestors)">
+<dt>browsingContext</dt>
+<dd>The caller's [=environment's=] [=environment/target browsing context=]</dd>
+</dl>
+
+Insert the following steps in the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm
+    in step 17, under "If any authenticator indicates success":
+
+1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
+
+<div algorithm>
+
+To <dfn>process a Web Authentication assertion for bounce tracking mitigations</dfn> given
+    a [=browsing context=] |browsingContext|, perform the following steps:
+
+1. If |browsingContext| is null, then abort these steps.
+1. Let |topDocument| be |browsingContext|'s active document.
+1. Let |origin| be |topDocument|'s [=Document/origin=].
+1. If |origin| is an [=opaque origin=] then abort these steps.
+1. Let |site| be the result of running [=obtain a site=] given |origin|.
+1. Let |host| be |site|'s [=host=].
+1. Set [=user activation map=][|host|] to |topDocument|'s
+    [=relevant settings object=]'s
+    [=environment settings object/current wall time=].
+
+</div>
+
 <h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
 Detection</h4>
 
