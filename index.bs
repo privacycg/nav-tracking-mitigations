@@ -423,7 +423,7 @@ Add the following argument to the [Discover From External Source](https://w3c.gi
 Insert the following steps in the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm
     in step 17, under "If any authenticator indicates success":
 
-1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
+1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>browsingContext</var>.
 
 <div algorithm>
 
