@@ -413,15 +413,15 @@ model]]:
 
 A successful credential access, using the Web Authentication API, is also treated as a user activation for bounce-tracking purposes.
 
-Add the following argument to the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source) algorithm:
+Add the following argument to the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm:
 
 <dl dfn-for="PublicKeyCredential/[[DiscoverFromExternalSource]](origin, options, sameOriginWithAncestors)">
 <dt>browsingContext</dt>
 <dd>The caller's [=environment's=] [=environment/target browsing context=]</dd>
 </dl>
 
-Insert the following steps in the [Discover From External Source](https://www.w3.org/TR/webauthn-2/#sctn-discover-from-external-source)
-    algorithm in step 17, under "If any authenticator indicates success":
+Insert the following steps in the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm
+    in step 17, under "If any authenticator indicates success":
 
 1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
 
