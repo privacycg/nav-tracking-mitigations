@@ -413,14 +413,14 @@ model]]:
 
 A successful credential access, using the Web Authentication API, is also treated as a user activation for bounce-tracking purposes.
 
-Add the following argument to the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm:
+Add the following argument to {{PublicKeyCredential}}'s {{PublicKeyCredential/[[DiscoverFromExternalSource]]()}} algorithm:
 
 <dl dfn-for="PublicKeyCredential/[[DiscoverFromExternalSource]](origin, options, sameOriginWithAncestors)">
 <dt>browsingContext</dt>
 <dd>The caller's [=environment's=] [=environment/target browsing context=]</dd>
 </dl>
 
-Insert the following steps in the [Discover From External Source](https://w3c.github.io/webauthn/#dom-publickeycredential-discoverfromexternalsource-slot) algorithm
+Insert the following steps in the {{PublicKeyCredential/[[DiscoverFromExternalSource]]()}} algorithm
     in step 17, under "If any authenticator indicates success":
 
 1. Run [=process a Web Authentication assertion for bounce tracking mitigations=] given <var ignore>callerOrigin</var> and <var ignore>browsingContext</var>.
@@ -452,7 +452,7 @@ At the start of a navigation, either initialize a new [=bounce tracking record=]
 or append a client-side redirect to the current [=bounce tracking record=].
 
 Insert the following steps in the <a spec="html">navigate</a> algorithm before step 8,
-"[Navigate to a fragment](https://html.spec.whatwg.org/multipage/browsing-the-web.html#navigate-fragid) given navigable, url, historyHandling, and navigationId."
+"Navigate to a fragment given navigable, url, historyHandling, and navigationId."
 
 1. Run [=process navigation start for bounce tracking=] given
     <var ignore>navigable</var>, <var ignore>sourceDocument</var>, and <var ignore>sourceSnapshotParams</var>.
@@ -488,7 +488,7 @@ Cookie Write Monkey Patch</h5>
 Each [=top-level traversable=] maintains a record of which sites it has saved cookies for in the current [=extended navigation=].
 
 Insert the following steps in the <a spec="fetch">HTTP-network fetch</a> algorithm after step 15,
-"... run the "set-cookie-string" parsing algorithm (see [section 5.2](https://httpwg.org/specs/rfc6265.html#set-cookie) of [[COOKIES]]) ...":
+"... run the "set-cookie-string" parsing algorithm (see section 5.2 of [[COOKIES]]) ...":
 
 1. If cookies were stored in the cookie store in the previous step, then
     run [=process a fetch storage access for bounce tracking mitigations=]
@@ -536,8 +536,8 @@ in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21
 
 Each [=top-level traversable=] maintains a record of which sites have activated service workers in the current [=extended navigation=].
 
-Insert the following steps in the [Handle Fetch](https://w3c.github.io/ServiceWorker/#on-fetch-request-algorithm) algorithm after step 23,
-"If the result of running the [Run Service Worker](https://w3c.github.io/ServiceWorker/#run-service-worker) algorithm...":
+Insert the following steps in the [=Handle Fetch=] algorithm after step 23,
+"If the result of running the Run Service Worker algorithm...":
 
 1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>.
 
@@ -713,7 +713,7 @@ given a [=global object=] |global|, perform the following steps:
 <h4 id="bounce-tracking-mitigations-deletion">Deletion</h4>
 
 <p class=note>The cookie and cache clearing algorithms were largely copied from
-the <a href="https://w3c.github.io/webappsec-clear-site-data">Clear Site Data</a>
+the [[clear-site-data|Clear Site Data]]
 spec.  It would be nice to unify these in the future.</p>
 
 <div algorithm>
