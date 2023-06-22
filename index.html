@@ -4,9 +4,9 @@
   <title>Navigational-Tracking Mitigations</title>
   <meta content="width=device-width" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version 516eaf3cf, updated Tue Jun 20 13:48:28 2023 -0700" name="generator">
+  <meta content="Bikeshed version 5edf5e459, updated Thu Jun 22 11:28:01 2023 -0700" name="generator">
   <link href="https://privacycg.github.io/nav-tracking-mitigations/" rel="canonical">
-  <meta content="6e34e31373c493130d571865ff4f8021a598255f" name="document-revision">
+  <meta content="20eb245c270466e335709015b48da5251ae6e1ec" name="document-revision">
 <style>
 #example-link-decoration-tracking code em {background-color: cyan}
 </style>
@@ -516,7 +516,7 @@ a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
 dfn > a.self-link::before      { content: "#"; }
 </style>
-<style>/* Boilerplate: style-style-var-click-highlighting */
+<style>/* Boilerplate: style-var-click-highlighting */
 /*
 Colors were chosen in Lab using https://nixsensor.com/free-color-converter/
 D50 2deg illuminant, L in [0,100], a and b in [-128, 128]
@@ -1315,29 +1315,29 @@ target URI <a data-link-type="dfn" href="https://url.spec.whatwg.org/#concept-ho
     </ol>
    </div>
    <h2 class="heading settled" data-level="7" id="privacy-and-security-considerations"><span class="secno">7. </span><span class="content">Privacy and Security Considerations</span><a class="self-link" href="#privacy-and-security-considerations"></a></h2>
-   <p>This feature stores information about sites that have a user interaction, some amount of view time, or <a href="https://www.chromium.org/developers/design-documents/site-engagement/">engagement</a>. This information is 
+   <p>This feature stores information about sites that have a user interaction, some amount of view time, or <a href="https://www.chromium.org/developers/design-documents/site-engagement/">engagement</a>. This information is
 not directly exposed to sites, however, it can be indirectly observed.  For example, if <code>tracker.example</code> reports back its oldest existing state to <code>site1.example</code>, then <code>site1.example</code> could infer that <code>tracker.example</code> has had an interaction.  If it does not report any long-lived state, however, then <code>site1.example</code> could infer that the state was wiped.</p>
    <p>In addition, there are potential scenarios where the existence of an interaction could be accessed through
-existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that 
-causes an automatic redirect that triggers the bounce tracking mitigations.  An attacker could use existing 
-XS leaks to determine if any logged-in state is present on a target site and then look to see if that state 
+existing XS leaks in the platform.  Consider a scenario where a target site has an existing endpoint that
+causes an automatic redirect that triggers the bounce tracking mitigations.  An attacker could use existing
+XS leaks to determine if any logged-in state is present on a target site and then look to see if that state
 disappears after triggering the bounce.</p>
    <p>The information leak from tracker to site does not seem very significant.  At a minimum, the proposed
-mitigations do not make the situation worse and without the mitigations there is a greater potential for a 
+mitigations do not make the situation worse and without the mitigations there is a greater potential for a
 tracker to communicate state to the target site.</p>
    <p>The cross-site adversarial information leak is more concerning.  Solutions designed for this effort should
-take this threat into account and attempt to mitigate it.  For example, delaying or fuzzing the timing of 
-storage wiping could lessen the impact of the leak.  Ultimately, though, it may be necessary to weigh the 
+take this threat into account and attempt to mitigate it.  For example, delaying or fuzzing the timing of
+storage wiping could lessen the impact of the leak.  Ultimately, though, it may be necessary to weigh the
 cost of this 1 bit information leak against the gains in mitigating bounce tracking.</p>
    <p>Another threat that should be considered by any solution is the possibility that an attacker will trick a
-user into visiting an existing redirect endpoint on a site that they care about and somehow trigger their 
-storage to be deleted.  The current plan, however, is to already look at signals that a user cares about a 
-site for legitimate use cases, in order to avoid wiping data they care about.  This threat just puts more 
+user into visiting an existing redirect endpoint on a site that they care about and somehow trigger their
+storage to be deleted.  The current plan, however, is to already look at signals that a user cares about a
+site for legitimate use cases, in order to avoid wiping data they care about.  This threat just puts more
 weight on getting these signals correct.</p>
    <p>Otherwise this effort does not store or expose any new types of information.  It does not create any new
 cross-origin communication or storage capabilities.</p>
    <p>There is some implementation complexity to be aware of when wiping storage.  The browser must be careful
-not to wipe storage out from under a site actively using it.  This could lead to poor interop and broken 
+not to wipe storage out from under a site actively using it.  This could lead to poor interop and broken
 web sites.</p>
    <h2 class="no-num heading settled" id="acknowledgements"><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p>Many thanks to the Privacy Community Group for many good discussions about this proposal.</p>
