@@ -473,6 +473,12 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
     1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new
         [=bounce tracking record=] with [=bounce tracking record/initial host=]
         set to |initialHost|.
+
+Note: This includes the case where the current navigation was initiated by another navigable, e.g. when opening
+    a link in a new tab. In this case, |sourceDocument| is set to the opener Document, and the new bounce tracking
+    record has its [=bounce tracking record/initial host=] set to the opener host. This ensures that trackers opened
+    in new tabs are detected as distinct from the [=bounce tracking record/initial host=] in the new  [=bounce tracking record=].
+
 1. Otherwise,
     1. If |sourceSnapshotParams|'s <a spec="html">has transient activation</a> is true:
         1. Run [=record stateful bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
