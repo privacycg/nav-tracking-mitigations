@@ -442,6 +442,10 @@ To <dfn>process a Web Authentication assertion for bounce tracking mitigations</
 
 </div>
 
+Note: It's also reasonable to treat signin to a browser-integrated account as a user activation for
+    bounce-tracking purposes. Such an interaction could be stored in the [=user activation map=]
+    for the host of the identity provider and/or the host domain of the account.
+
 <h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
 Detection</h4>
 
