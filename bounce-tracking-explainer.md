@@ -69,7 +69,7 @@ This tracking scenario will be mitigated by this effort by wiping the tracker do
 
 Another tracking scenario involves a source site redirecting all outgoing links through a tracker domain.  Again, the tracker domain is able to access first-party storage in this scenario and has no first-party relationship with the user.
 
-![Diagram 2](diagrams/explainer_diagram_2.png)
+![Diagram 2](~/diagrams/explainer_diagram_2.png)
 
 This tracking scenario will be mitigated by this effort by wiping the tracker domain's storage.
 
