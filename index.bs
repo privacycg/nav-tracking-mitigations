@@ -466,7 +466,6 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 1. Remove any queued global tasks to [=record stateful bounces for bounce tracking=] from the [=networking task source=].
 1. Let |origin| be |sourceDocument|'s [=Document/origin=].
 1. If |origin| is an [=opaque origin=], set |initialHost| to [=empty host=].
-
 1. Otherwise,
     1. Let |site| be the result of running [=obtain a site=] given |origin|.
     1. Set |initialHost| to |site|'s [=host=].
