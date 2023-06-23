@@ -651,6 +651,10 @@ To <dfn>process document load for bounce tracking</dfn> given a [=navigable=]
 
 </div>
 
+<h5 id="bounce-tracking-mitigations-navigation-state-diagram">Navigation State Diagram</h5>
+
+<img alt="Navigation state diagram" src="diagrams/navigation_state_diagram.png">
+
 <h4 id="bounce-tracking-mitigations-timers">Timers</h4>
 
 Every [=bounce tracking timer period=] the user agent should run the
