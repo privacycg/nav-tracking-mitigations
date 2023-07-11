@@ -574,17 +574,23 @@ Note: At time of writing, <a spec="storage">obtain a storage bottle map</a> can 
 but this will be refactored to support [=service workers=] which attempt to access storage on every navigation, and thus is not considered
 when updating the [=bounce tracking record/storage access set=].
 
-1. Let |origin| be |environment|'s [=environment/top-level origin=].
+2. Let |origin| be |environment|'s [=environment/top-level origin=].
 1. If |origin| is null or an [=opaque origin=], then abort these steps.
-1. Let |browsingContext| be |environment|'s [=environment/target browsing context=].
-1. If |browsingContext| is null, then abort these steps.
-1. Let |topLevelTraversable| be |browsingContext|'s [=browsing context/top-level traversable=].
-1. If |topLevelTraversable|'s [=top-level traversable/bounce tracking record=] is null,
-    then abort these steps.
-1. Let |site| be the result of running [=obtain a site=] given |origin|.
-1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
-        [=top-level traversable/bounce tracking record=]'s
-        [=bounce tracking record/storage access set=].
+1. Let |global| be |environment|'s [=environment settings object/realm execution context=]'s [=global object=].
+1. Let |navigables| be an [=set/empty=] [=set=] of [=navigables=].
+1. If |global| is a [=Window=] object, [=set/append=] |global|'s [=associated document=]'s [=node navigable=] onto |navigables|.
+1. Otherwise, if |global| is a {{WorkerGlobalScope}} object,
+    1. Let |ownerSet| be |global|'s [=WorkerGlobalScope/owner set=].
+    1. [=set/For each=] |owner| in |ownerSet|:
+        1. If |owner| is a [=document=] object, [=set/append=] |owner|'s [=node navigable=] onto |navigables|.
+        1. If |owner| is a {{WorkerGlobalScope}} object, [=set/append=] |owner| onto |ownerSet|.
+1. [=set/For each=] |navigable| in |navigables|:
+    1. If |navigable| is not a [=top-level traversable=], then abort these steps.
+    1. If |navigable|'s [=top-level traversable/bounce tracking record=] is null, then abort these steps.
+    1. Let |site| be the result of running [=obtain a site=] given |origin|.
+    1. [=set/Append=] |site|'s [=host=] to |navigable|'s
+            [=top-level traversable/bounce tracking record=]'s
+            [=bounce tracking record/storage access set=].
 
 </div>
 
