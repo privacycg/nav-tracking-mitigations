@@ -580,25 +580,16 @@ but this will be refactored to support [=service workers=] which attempt to acce
 when updating the [=bounce tracking record/storage access set=].
 
 2. Let |origin| be |environment|'s [=environment/top-level origin=].
-3. If |origin| is null or an [=opaque origin=], then abort these steps.
-4. Let |global| be |environment|'s [=environment settings object/realm execution context=]'s [=global object=].
-5. Let |navigables| be an [=set/empty=] [=set=] of [=navigables=].
-6. If |global| is a [=Window=] object, [=set/append=] |global|'s [=associated document=]'s [=node navigable=] onto |navigables|.
-7. Otherwise, if |global| is a {{WorkerGlobalScope}} object,
-    1. Let |ownerQueue| be an [=queue/empty=] [=queue=] of [=document=] or {{WorkerGlobalScope}} objects.
-    1. [=queue/Enqueue=] |global| onto |ownerQueue|.
-    1. [=iteration/While=] |ownerQueue| is not [=queue/empty=],
-        1. [=queue/Dequeue=] |owner| from |ownerQueue|.
+1. If |origin| is null or an [=opaque origin=], then abort these steps.
+1. Let |global| be |environment|'s [=environment settings object/realm execution context=]'s [=global object=].
+1. Let |navigables| be an [=set/empty=] [=set=] of [=navigables=].
+1. If |global| is a [=Window=] object, [=set/append=] |global|'s [=associated document=]'s [=node navigable=] onto |navigables|.
+1. Otherwise, if |global| is a {{WorkerGlobalScope}} object,
+    1. Let |ownerSet| be |global|'s [=WorkerGlobalScope/owner set=].
+    1. [=set/For each=] |owner| in |ownerSet|:
         1. If |owner| is a [=document=] object, [=set/append=] |owner|'s [=node navigable=] onto |navigables|.
-        1. If |owner| is a {{WorkerGlobalScope}} object, then [=set/For each=] |owner| in |global|'s [=WorkerGlobalScope/owner set=],
-            [=queue/enqueue=] |owner| onto |ownerQueue|.
-
-Note: Handling {{WorkerGlobalScope}} covers all storage access from a dedicated worker ({{DedicatedWorkerGlobalScope}}) or a shared worker
-({{SharedWorkerGlobalScope}}). This doesn't apply to service workers, which rely on [=process a fetch storage access for bounce tracking mitigations=]
-during Fetch events and [=process a general storage access for bounce tracking mitigations=] with a [=Window=] object when a service worker is
-accessed using navigator.serviceWorker.getRegistration().
-
-8. [=set/For each=] |navigable| in |navigables|:
+        1. If |owner| is a {{WorkerGlobalScope}} object, [=set/append=] |owner| onto |ownerSet|.
+1. [=set/For each=] |navigable| in |navigables|:
     1. If |navigable| is not a [=top-level traversable=], then abort these steps.
     1. If |navigable|'s [=top-level traversable/bounce tracking record=] is null, then abort these steps.
     1. Let |site| be the result of running [=obtain a site=] given |origin|.
