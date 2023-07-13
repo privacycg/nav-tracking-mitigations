@@ -594,8 +594,9 @@ when updating the [=bounce tracking record/storage access set=].
             [=queue/enqueue=] |owner| onto |ownerQueue|.
 
 Note: Handling {{WorkerGlobalScope}} covers all storage access from a dedicated worker ({{DedicatedWorkerGlobalScope}}) or a shared worker
-({{SharedWorkerGlobalScope}}). This doesn't apply to shared workers, which rely on [=process a fetch storage access for bounce tracking mitigations=]
-during Fetch events and [=process a general storage access for bounce tracking mitigations=] with a [=Window=] object for general storage access.
+({{SharedWorkerGlobalScope}}). This doesn't apply to service workers, which rely on [=process a fetch storage access for bounce tracking mitigations=]
+during Fetch events and [=process a general storage access for bounce tracking mitigations=] with a [=Window=] object when a service worker is
+accessed using navigator.serviceWorker.getRegistration().
 
 8. [=set/For each=] |navigable| in |navigables|:
     1. If |navigable| is not a [=top-level traversable=], then abort these steps.
