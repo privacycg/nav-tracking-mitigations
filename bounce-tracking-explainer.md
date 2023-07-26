@@ -27,6 +27,8 @@ Safari, Firefox, and Brave have already shipped various bounce tracking mitigati
 
 # API / Browser Behavior
 
+***NOTE**:  This section contains early discussion of possible ways to mitigate bounce tracking.  In developing Chrome's MVP implementation, however, we have settled on a more precise definition.  This is fully defined in the [specification](https://privacycg.github.io/nav-tracking-mitigations/#bounce-tracking-mitigations) and also described in more accessible terms in [developer documentation](https://developer.chrome.com/docs/privacy-sandbox/bounce-tracking-mitigations/#how-it-works).  Please see these sources for an up-to-date description of bounce tracking mitigations.*
+
 This proposal does not have any additional API surface, but instead changes the behavior of the browser.
 
 At a high level the proposal is for the browser to automatically delete storage for a site (eTLD+1) when both of the following are true:
