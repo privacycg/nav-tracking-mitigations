@@ -41,6 +41,11 @@ spec: HTTP; urlPrefix: https://httpwg.org/specs/rfc7231.html#
     type: dfn; text: HTTP 3xx statuses; url: status.3xx
 spec: tracking-dnt; urlPrefix: https://www.w3.org/TR/tracking-dnt/#
     type: dfn; text: tracking; url: dfn-tracking
+spec: WEBDRIVER; urlPrefix: https://w3c.github.io/webdriver/
+    type: dfn
+        text: error code; url: dfn-error-code
+        text: unknown error; url: dfn-unknown-error
+        text: unsupported operation; url: dfn-unsupported-operation
 spec: RFC6265; urlPrefix: https://tools.ietf.org/html/rfc6265/
     type: dfn
         text: cookie store; url: section-5.3
@@ -786,6 +791,49 @@ following steps:
     1. Remove |entry| from the [=network cache=].
 
 </div>
+
+<h3 id="bounce-tracking-mitigations-automation">User Agent Automation</h3>
+
+For the purposes of user-agent automation and application testing, this
+document defines a number of [extension commands] for the [[WebDriver]]
+specification.
+
+<h4 id="run-bounce-tracking-mitigations-command">Run Bounce Tracking Mitigations</h4>
+
+<figure id="table-webdriver-run-bounce-tracking-mitigations-command" class="table">
+    <table class="data">
+        <thead>
+            <tr>
+                <th>HTTP Method</th>
+                <th>URI Template</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>DELETE</td>
+                <td>`/session/{session id}/storage/run_bounce_tracking_mitigations`</td>
+            </tr>
+        </tbody>
+    </table>
+</figure>
+
+The [=remote end steps=] are:
+
+1. If no Bounce Tracking Mitigation Service is currently running, return a [=error|WebDriver error=] with
+    [=error code=] [=unsupported operation=].
+
+1. If the [=stateful bounce tracking map=] contains a malformed host, return a [=error|WebDriver error=] with
+    [=error code=] [=unknown error=].
+
+1. Let |list| be a new list of the [=site=] [=hosts=] in the [=stateful bounce tracking map=].
+
+1. Set [=bounce tracking grace period=] to 0 seconds.
+
+1. Run the [=bounce tracking timer=] algorithm.
+
+1. Set [=bounce tracking grace period=] back to its original value.
+
+1. Return [=success=] with data |list|.
 
 <h2 id="privacy-and-security-considerations">Privacy and Security Considerations</h2>
 
