@@ -827,11 +827,13 @@ The [=remote end steps=] are:
 
 1. Let |list| be a new list of the [=site=] [=hosts=] in the [=stateful bounce tracking map=].
 
+1. Let |temp| be [=bounce tracking grace period=].
+
 1. Set [=bounce tracking grace period=] to 0 seconds.
 
 1. Run the [=bounce tracking timer=] algorithm.
 
-1. Set [=bounce tracking grace period=] back to its original value.
+1. Set [=bounce tracking grace period=] to |temp|.
 
 1. Return [=success=] with data |list|.
 
