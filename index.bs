@@ -50,7 +50,7 @@ spec: RFC6265; urlPrefix: https://tools.ietf.org/html/rfc6265/
     type: dfn
         text: cookie store; url: section-5.3
         text: domain-match; url: section-5.1.3
-spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234/
+spec: RFC9111; urlPrefix: https://tools.ietf.org/html/rfc9111/
     type: dfn
         text: network cache; url: section-2
 </pre>
@@ -353,6 +353,8 @@ A <dfn>bounce tracking record</dfn> is a [=struct=] whose items are:
 <dd>A [=set=] of [=sites=]' [=hosts=]. All server-side and client-side redirects hit during this [=extended navigation=].</dd>
 <dt><dfn>storage access set</dfn></dt>
 <dd>A [=set=] of [=sites=]' [=hosts=]. All sites which accessed storage during this [=extended navigation=].</dd>
+<dt><dfn>user activation set</dfn></dt>
+<dd>A [=set=] of [=sites=]' [=hosts=]. All sites which received a user activation during this [=extended navigation=].</dd>
 </dl>
 
 <h4 id="bounce-tracking-mitigations-data-model-constants">Constants</h4>
@@ -405,6 +407,9 @@ the following steps:
 1. Set [=user activation map=][|host|] to |topDocument|'s
     [=relevant settings object=]'s
     [=environment settings object/current wall time=].
+1. If |navigable|'s [=top-level traversable/bounce tracking record=] is not null:
+    1. [=set/Append=] |host| to |navigable|'s [=top-level traversable/bounce tracking record=]'s
+        [=bounce tracking record/storage access set=].
 
 </div>
 
@@ -493,6 +498,8 @@ Note: This includes the case where the current navigation was initiated by anoth
         1. Run [=record stateful bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
         1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new [=bounce tracking record=] with
             [=bounce tracking record/initial host=] set to |initialHost|.
+        1. [=set/Append=] |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s
+            [=bounce tracking record/user activation set=].
     1. Otherwise, add |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
 
 </div>
