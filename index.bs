@@ -755,8 +755,10 @@ spec.  It would be nice to unify these in the future.</p>
 To <dfn>clear cookies for host</dfn> given a [=host=] |host|, perform the
 following steps:
 
-1. Let |cookieList| be the set of cookies from the [=cookie store=] whose
-    domain attribute is a [=domain-match=] with |host|.
+1. Let |cookieList| be a set of cookies, initially empty.
+1. [=list/For each=] cookie |cookie| in the [=cookie store=], if either of the following is true, add |cookie| to |cookieList|:
+     - |cookie| is not partitioned, and |cookie|'s domain attribute is a [=domain-match=] with |host|; or
+     - |cookie| is partitioned, and |cookie|'s partition key is equal to |host|'s [=obtain a site|site=].
 1. [=list/For each=] |cookie| in |cookieList|:
     1. Remove |cookie| from the [=cookie store=].
 
