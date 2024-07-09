@@ -50,9 +50,14 @@ spec: RFC6265; urlPrefix: https://tools.ietf.org/html/rfc6265/
     type: dfn
         text: cookie store; url: section-5.3
         text: domain-match; url: section-5.1.3
+        text: domain attribute; url: section-5.2.3
 spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234/
     type: dfn
         text: network cache; url: section-2
+spec: PARTITIONED-COOKIES; urlPrefix: https://datatracker.ietf.org/doc/html/draft-cutler-httpbis-partitioned-cookies#
+    type: dfn
+        text: partitioned cookie; url: section-2.1
+        text: partition key; url: section-2.2
 </pre>
 
 <section class="non-normative">
@@ -757,8 +762,8 @@ following steps:
 
 1. Let |cookieList| be a set of cookies, initially empty.
 1. [=list/For each=] cookie |cookie| in the [=cookie store=], if either of the following is true, add |cookie| to |cookieList|:
-     - |cookie| is not partitioned, and |cookie|'s domain attribute is a [=domain-match=] with |host|; or
-     - |cookie| is partitioned, and |cookie|'s partition key is equal to |host|'s [=obtain a site|site=].
+     - |cookie| is not [=partitioned cookie|partitioned=], and |cookie|'s [=domain attribute=] is a [=domain-match=] with |host|; or
+     - |cookie| is [=partitioned cookie|partitioned=], and |cookie|'s [=partition key=] is equal to |host|'s [=obtain a site|site=].
 1. [=list/For each=] |cookie| in |cookieList|:
     1. Remove |cookie| from the [=cookie store=].
 
