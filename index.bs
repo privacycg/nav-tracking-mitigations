@@ -709,7 +709,7 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
         [=obtain a site|site=]'s [=host=] equals |host|,
         then [=iteration/continue=].
     1. [=map/Remove=] |host| from [=stateful bounce tracking map=].
-    1. [=Clear cookies for host=] given |host|.
+    1. [=Clear cookies for site host=] given |host|.
     1. [=Clear non-cookie storage for host=] given |host|.
     1. [=Clear cache for host=] given |host|.
 
@@ -757,7 +757,7 @@ spec.  It would be nice to unify these in the future.</p>
 
 <div algorithm>
 
-To <dfn>clear cookies for host</dfn> given a [=host=] |host|, perform the
+To <dfn>clear cookies for site host</dfn> given a [=site=] [=host=] |host|, perform the
 following steps:
 
 1. Let |cookieList| be a set of cookies, initially empty.
