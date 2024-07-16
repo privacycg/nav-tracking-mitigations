@@ -760,6 +760,7 @@ spec.  It would be nice to unify these in the future.</p>
 To <dfn>clear cookies for host</dfn> given a [=host=] |host|, perform the
 following steps:
 
+1. [=Assert=]: |host|'s [=host/registrable domain=] is |host| or null.
 1. Let |cookieList| be a set of cookies, initially empty.
 1. [=list/For each=] cookie |cookie| in the [=cookie store=]:
     1. If |cookie| is not [=partitioned cookie|partitioned=]:
