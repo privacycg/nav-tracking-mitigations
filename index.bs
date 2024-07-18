@@ -766,8 +766,8 @@ following steps:
     1. If |cookie| is not [=partitioned cookie|partitioned=]:
         1. If |cookie|'s [=domain attribute=] is a [=domain-match=] with |host|, add |cookie| to |cookieList|; otherwise, continue.
     1. If |cookie| is [=partitioned cookie|partitioned=]:
-        1. If |cookie|'s [=partition key=] is [=same site=] with the [=site=] ("http", |host|), add |cookie| to |cookieList|.
-        1. If |cookie|'s [=partition key=] is [=same site=] with the [=site=] ("https", |host|), add |cookie| to |cookieList|.
+        1. If the top-level [=site=] in |cookie|'s [=partition key=] is [=same site=] with the [=site=] ("http", |host|), add |cookie| to |cookieList|.
+        1. If the top-level [=site=] in |cookie|'s [=partition key=] is [=same site=] with the [=site=] ("https", |host|), add |cookie| to |cookieList|.
         1. Otherwise, continue.
 1. [=list/For each=] |cookie| in |cookieList|:
     1. Remove |cookie| from the [=cookie store=].
