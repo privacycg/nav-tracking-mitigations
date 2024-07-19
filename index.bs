@@ -784,12 +784,17 @@ the following steps:
 1. For each <a spec=storage>storage shed</a> |shed| held by the user agent or a
     [=traversable navigable=]:
     1. [=map/For each=] |storageKey| -> |storageShelf| of |shed|:
-        1. If |storageKey|'s <a spec=storage for="storage key">origin</a> is an
-            [=opaque origin=], then [=iteration/continue=].
-        1. If |storageKey|'s <a spec=storage for="storage key">origin</a>'s
-            [=origin/host=] does not equal |host|, then [=iteration/continue=].
+        1. Let |topLevelSite| be |storageKey|'s <a spec=storage for="storage key">top-level site</a>.
+        1. If |topLevelSite| is an [=opaque origin=], then [=iteration/continue=].
+        1. If |topLevelSite|'s [=host=] does not equal |host|, then [=iteration/continue=].
         1. Delete all data stored in |storageShelf|.
         1. [=map/Remove=] |storageKey| from |shed|.
+
+Note: This algorithm is written assuming the implementation of the
+    [work-in-progress update](https://github.com/whatwg/storage/pull/144) to
+    the [Storage Standard](https://storage.spec.whatwg.org/) to
+    <a spec=storage lt="storage key">key</a> storage on both an
+    <a spec=storage for="storage key">origin</a> and a top-level site.
 
 </div>
 
