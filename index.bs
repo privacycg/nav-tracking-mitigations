@@ -50,9 +50,14 @@ spec: RFC6265; urlPrefix: https://tools.ietf.org/html/rfc6265/
     type: dfn
         text: cookie store; url: section-5.3
         text: domain-match; url: section-5.1.3
+        text: domain attribute; url: section-5.2.3
 spec: RFC7234; urlPrefix: https://tools.ietf.org/html/rfc7234/
     type: dfn
         text: network cache; url: section-2
+spec: PARTITIONED-COOKIES; urlPrefix: https://datatracker.ietf.org/doc/html/draft-cutler-httpbis-partitioned-cookies#
+    type: dfn
+        text: partitioned cookie; url: section-2.1
+        text: partition key; url: section-2.2
 </pre>
 
 <section class="non-normative">
@@ -755,8 +760,15 @@ spec.  It would be nice to unify these in the future.</p>
 To <dfn>clear cookies for host</dfn> given a [=host=] |host|, perform the
 following steps:
 
-1. Let |cookieList| be the set of cookies from the [=cookie store=] whose
-    domain attribute is a [=domain-match=] with |host|.
+1. [=Assert=]: |host|'s [=host/registrable domain=] is |host| or null.
+1. Let |cookieList| be a set of cookies, initially empty.
+1. [=list/For each=] cookie |cookie| in the [=cookie store=]:
+    1. If |cookie| is not [=partitioned cookie|partitioned=]:
+        1. If |cookie|'s [=domain attribute=] is a [=domain-match=] with |host|, add |cookie| to |cookieList|; otherwise, [=iteration/continue=].
+    1. If |cookie| is [=partitioned cookie|partitioned=]:
+        1. If the top-level [=site=] in |cookie|'s [=partition key=] is [=same site=] with the [=site=] ("http", |host|), add |cookie| to |cookieList|.
+        1. If the top-level [=site=] in |cookie|'s [=partition key=] is [=same site=] with the [=site=] ("https", |host|), add |cookie| to |cookieList|.
+        1. Otherwise, [=iteration/continue=].
 1. [=list/For each=] |cookie| in |cookieList|:
     1. Remove |cookie| from the [=cookie store=].
 
@@ -772,12 +784,17 @@ the following steps:
 1. For each <a spec=storage>storage shed</a> |shed| held by the user agent or a
     [=traversable navigable=]:
     1. [=map/For each=] |storageKey| -> |storageShelf| of |shed|:
-        1. If |storageKey|'s <a spec=storage for="storage key">origin</a> is an
-            [=opaque origin=], then [=iteration/continue=].
-        1. If |storageKey|'s <a spec=storage for="storage key">origin</a>'s
-            [=origin/host=] does not equal |host|, then [=iteration/continue=].
+        1. Let |topLevelSite| be |storageKey|'s top-level site.
+        1. If |topLevelSite| is an [=opaque origin=], then [=iteration/continue=].
+        1. If |topLevelSite|'s [=host=] does not equal |host|, then [=iteration/continue=].
         1. Delete all data stored in |storageShelf|.
         1. [=map/Remove=] |storageKey| from |shed|.
+
+Note: This algorithm is written assuming the implementation of the
+    [work-in-progress update](https://github.com/whatwg/storage/pull/144) to
+    the [Storage Standard](https://storage.spec.whatwg.org/) to
+    <a spec=storage lt="storage key">key</a> storage on both an
+    <a spec=storage for="storage key">origin</a> and a top-level site.
 
 </div>
 
