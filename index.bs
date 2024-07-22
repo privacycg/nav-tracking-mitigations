@@ -784,7 +784,7 @@ the following steps:
 1. For each <a spec=storage>storage shed</a> |shed| held by the user agent or a
     [=traversable navigable=]:
     1. [=map/For each=] |storageKey| -> |storageShelf| of |shed|:
-        1. Let |topLevelSite| be |storageKey|'s <a spec=storage for="storage key">top-level site</a>.
+        1. Let |topLevelSite| be |storageKey|'s top-level site.
         1. If |topLevelSite| is an [=opaque origin=], then [=iteration/continue=].
         1. If |topLevelSite|'s [=host=] does not equal |host|, then [=iteration/continue=].
         1. Delete all data stored in |storageShelf|.
