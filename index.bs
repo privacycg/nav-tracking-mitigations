@@ -59,6 +59,11 @@ spec: PARTITIONED-COOKIES; urlPrefix: https://datatracker.ietf.org/doc/html/draf
         text: partitioned cookie; url: section-2.1
         text: partition key; url: section-2.2
 </pre>
+<pre class="link-defaults">
+spec:webdriver2
+    type:dfn
+        text:remote end steps
+</pre>
 
 <section class="non-normative">
 <h2 id="intro">Introduction</h2>
