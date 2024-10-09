@@ -724,9 +724,12 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
 </div>
 
 This algorithm is called when detecting the end of an [=extended navigation=]. This could happen
-if a user-initiated navigation is detected in [=process navigation start for bounce tracking=],
-or if the client bounce detection timer expires after [=process response received for bounce tracking=]
-without observing a client redirect.
+if:
+
+-  a user-initiated navigation is detected in [=process navigation start for bounce tracking=];
+-  the client bounce detection timer expires after [=process response received for bounce tracking=]
+     without observing a client redirect; or,
+-  the associated [=top-level traversable=]'s <a spec="html">is closing</a> is set to true.
 
 <div algorithm>
 
