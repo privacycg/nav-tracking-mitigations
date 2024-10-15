@@ -9,7 +9,7 @@ jobs:
     name: Build, Validate and Deploy
     steps:
       - uses: actions/checkout@v2
-      - uses: w3c/spec-prod@v2
+      - uses: jyasskin/spec-prod@patch-3
         with:
           TOOLCHAIN: bikeshed
           SOURCE: index.bs
