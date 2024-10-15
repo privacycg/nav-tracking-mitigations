@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # Work around https://github.com/w3c/spec-prod/issues/189
     name: Build, Validate and Deploy
     steps:
       - uses: actions/checkout@v2
