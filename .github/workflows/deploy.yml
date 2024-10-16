@@ -5,10 +5,10 @@ on:
     branches: [ main ]
 jobs:
   build:
-    runs-on: ubuntu-22.04  # Work around https://github.com/w3c/spec-prod/issues/189
+    runs-on: ubuntu-latest
     name: Build, Validate and Deploy
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: w3c/spec-prod@v2
         with:
           TOOLCHAIN: bikeshed
