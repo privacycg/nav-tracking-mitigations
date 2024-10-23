@@ -555,7 +555,7 @@ given a [=request=] |request|, perform the following steps:
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
 1. [=set/Append=] |site|'s [=host=] to |topLevelTraversable|'s
     [=top-level traversable/bounce tracking record=]'s
-    [=bounce tracking record/storage access set=].
+    [=bounce tracking record/user activation set=].
 
 </div>
 
