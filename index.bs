@@ -325,20 +325,20 @@ The user agent holds a <dfn>user activation map</dfn> which is a [=map=] of
 [=wall clock=] time at which the user activated a top-level document on the
 associated [=site=] [=host=].
 
-The user agent holds a <dfn>stateful bounce tracking map</dfn> which is a
+The user agent holds a <dfn>bounce tracking map</dfn> which is a
 [=map=] of [=site=] [=hosts=] to [=moments=].  The [=moments=] represent the
 first [=wall clock=] time since the last execution of the
 [=bounce tracking timer=] at which a page on the given [=site=] [=host=] performed
-an action that could indicate stateful bounce tracking took place.  For example,
+an action that could indicate bounce tracking took place.  For example,
 if [=bounce tracking timer=] ran at time X and bounces occurred at times X-1,
 X+1, and X+2, then the map value would be X+1.
 
 Note: Schemeless site is used as the data structure key because by default cookies
 are sent to both `http://` and `https://` pages on the same domain.
 
-Note: Hosts are eagerly removed from the [=stateful bounce tracking map=] when
+Note: Hosts are eagerly removed from the [=bounce tracking map=] when
 a user activation occurs.  This means that a given host can exist in either the
-[=user activation map=] or [=stateful bounce tracking map=], but not both at
+[=user activation map=] or [=bounce tracking map=], but not both at
 the same time.  The maps will have non-overlapping sets of keys.
 
 <h4 id="bounce-tracking-mitigations-data-model-per-tab">Per-Tab Data</h4>
@@ -361,8 +361,6 @@ A <dfn>bounce tracking record</dfn> is a [=struct=] whose items are:
 <dd>A [=site=]'s [=host=] or null. The destination of the current [=extended navigation=]. Updated after every document load.</dd>
 <dt><dfn>bounce set</dfn></dt>
 <dd>A [=set=] of [=sites=]' [=hosts=]. All server-side and client-side redirects hit during this [=extended navigation=].</dd>
-<dt><dfn>storage access set</dfn></dt>
-<dd>A [=set=] of [=sites=]' [=hosts=]. All sites which accessed storage during this [=extended navigation=].</dd>
 <dt><dfn>user activation set</dfn></dt>
 <dd>A [=set=] of [=sites=]' [=hosts=]. All sites which received a user activation during this [=extended navigation=].</dd>
 </dl>
@@ -413,13 +411,10 @@ the following steps:
 1. If |origin| is an [=opaque origin=] then abort these steps.
 1. Let |site| be the result of running [=obtain a site=] given |origin|.
 1. Let |host| be |site|'s [=host=].
-1. [=map/Remove=] |host| from the [=stateful bounce tracking map=].
+1. [=map/Remove=] |host| from the [=bounce tracking map=].
 1. Set [=user activation map=][|host|] to |topDocument|'s
     [=relevant settings object=]'s
     [=environment settings object/current wall time=].
-1. If |navigable|'s [=top-level traversable/bounce tracking record=] is not null:
-    1. [=set/Append=] |host| to |navigable|'s [=top-level traversable/bounce tracking record=]'s
-        [=bounce tracking record/storage access set=].
 
 </div>
 
@@ -466,8 +461,7 @@ Note: It's also reasonable to treat signin to a browser-integrated account as a 
     bounce-tracking purposes. Such an interaction could be stored in the [=user activation map=]
     for the host of the identity provider and/or the host domain of the account.
 
-<h4 id="bounce-tracking-mitigation-stateful-bounce-detection">Stateful Bounce
-Detection</h4>
+<h4 id="bounce-tracking-mitigation-bounce-detection">Bounce Detection</h4>
 
 <h5 id="bounce-tracking-mitigations-nav-start-monkey-patch">Start Navigation
 Monkey Patch</h5>
@@ -487,7 +481,7 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 |navigable|, [=Document=] |sourceDocument|, and <a spec="html">source snapshot params</a> |sourceSnapshotParams|, perform the following steps:
 
 1. If |navigable| is not a [=top-level traversable=], then abort these steps.
-1. Remove any queued global tasks to [=record stateful bounces for bounce tracking=] from the [=networking task source=].
+1. Remove any queued global tasks to [=record bounces for bounce tracking=] from the [=networking task source=].
 1. Let |origin| be |sourceDocument|'s [=Document/origin=].
 1. If |origin| is an [=opaque origin=], set |initialHost| to [=empty host=].
 1. Otherwise,
@@ -505,7 +499,7 @@ To <dfn>process navigation start for bounce tracking</dfn> given a [=navigable=]
 
 1. Otherwise,
     1. If |sourceSnapshotParams|'s <a spec="html">has transient activation</a> is true:
-        1. Run [=record stateful bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
+        1. Run [=record bounces for bounce tracking=] given |navigable|'s [=navigable/active document=]'s [=relevant global object=].
         1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to a new [=bounce tracking record=] with
             [=bounce tracking record/initial host=] set to |initialHost|.
     1. Otherwise, add |initialHost| to |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/bounce set=].
@@ -559,11 +553,6 @@ given a [=request=] |request|, perform the following steps:
 
 </div>
 
-Note: We currently don't treat cookie reads as stateful, but this would be a
-reasonable future change. We could run [=process a fetch storage access for bounce tracking mitigations=]
-in the <a spec="fetch">HTTP-network-or-cache fetch</a> algorithm after step 8.21.1.2,
-"... [=append=] (`Cookie`, cookies) to httpRequest’s [=header list=]. ..."
-
 <h5 id="bounce-tracking-mitigations-service-worker-activation-monkey-patch">Service Worker Activation Monkey Patch</h5>
 
 Each [=top-level traversable=] maintains a record of which sites have activated service workers in the current [=extended navigation=].
@@ -572,58 +561,6 @@ Insert the following steps in the [=Handle Fetch=] algorithm after step 23,
 "If the result of running the Run Service Worker algorithm...":
 
 1. Run [=process a fetch storage access for bounce tracking mitigations=] given <var ignore>request</var>.
-
-<h5 id="bounce-tracking-mitigations-storage-access-monkey-patch">Storage Access Monkey Patch</h5>
-
-Each [=top-level traversable=] maintains a record of which sites have accessed storage in the current [=extended navigation=].
-
-Insert the following steps in the <a spec="storage">obtain a storage bottle map</a> algorithm before step 10, "Return <var ignore>proxyMap</var>":
-
-1. Run [=process a general storage access for bounce tracking mitigations=] given <var ignore>environment</var>.
-
-Issue(whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
-<a spec="storage">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
-So this patch is not comprehensive.
-
-<div algorithm>
-
-To <dfn>process a general storage access for bounce tracking mitigations</dfn>
-given an [=environment=] |environment|, perform the following steps:
-
-1. If |environment| is not an [=environment settings object=], then abort these steps.
-
-Note: At time of writing, <a spec="storage">obtain a storage bottle map</a> can only accept an [=environment settings object=] |environment|,
-but this will be refactored to support [=service workers=] which attempt to access storage on every navigation, and thus is not considered
-when updating the [=bounce tracking record/storage access set=].
-
-2. Let |origin| be |environment|'s [=environment/top-level origin=].
-3. If |origin| is null or an [=opaque origin=], then abort these steps.
-4. Let |global| be |environment|'s [=environment settings object/realm execution context=]'s [=global object=].
-5. Let |navigables| be an [=set/empty=] [=set=] of [=navigables=].
-6. If |global| is a [=Window=] object, [=set/append=] |global|'s [=associated document=]'s [=node navigable=] onto |navigables|.
-7. Otherwise, if |global| is a {{WorkerGlobalScope}} object,
-    1. Let |ownerQueue| be an [=queue/empty=] [=queue=] of [=document=] or {{WorkerGlobalScope}} objects.
-    1. [=queue/Enqueue=] |global| onto |ownerQueue|.
-    1. [=iteration/While=] |ownerQueue| is not [=queue/empty=],
-        1. [=queue/Dequeue=] |owner| from |ownerQueue|.
-        1. If |owner| is a [=document=] object, [=set/append=] |owner|'s [=node navigable=] onto |navigables|.
-        1. If |owner| is a {{WorkerGlobalScope}} object, then [=set/For each=] |owner| in |global|'s [=WorkerGlobalScope/owner set=],
-            [=queue/enqueue=] |owner| onto |ownerQueue|.
-
-Note: Handling {{WorkerGlobalScope}} covers all storage access from a dedicated worker ({{DedicatedWorkerGlobalScope}}) or a shared worker
-({{SharedWorkerGlobalScope}}). This doesn't apply to service workers, which rely on [=process a fetch storage access for bounce tracking mitigations=]
-during Fetch events and [=process a general storage access for bounce tracking mitigations=] with a [=Window=] object when a service worker is
-accessed using navigator.serviceWorker.getRegistration().
-
-8. [=set/For each=] |navigable| in |navigables|:
-    1. If |navigable| is not a [=top-level traversable=], then abort these steps.
-    1. If |navigable|'s [=top-level traversable/bounce tracking record=] is null, then abort these steps.
-    1. Let |site| be the result of running [=obtain a site=] given |origin|.
-    1. [=set/Append=] |site|'s [=host=] to |navigable|'s
-            [=top-level traversable/bounce tracking record=]'s
-            [=bounce tracking record/storage access set=].
-
-</div>
 
 <h5 id="bounce-tracking-mitigations-response-received-monkey-patch">Response Received Monkey
 Patch</h5>
@@ -651,7 +588,7 @@ To <dfn>process response received for bounce tracking</dfn> given a [=navigable=
         <dt><var ignore>milliseconds</var></dt>
         <dd>[=client bounce detection timer period=]</dd>
         <dt><var ignore>completionSteps</var></dt>
-        <dd>[=queue a global task=] on the [=networking task source=] with |global| to [=record stateful bounces for bounce tracking=] given |global|</dd>
+        <dd>[=queue a global task=] on the [=networking task source=] with |global| to [=record bounces for bounce tracking=] given |global|</dd>
     </dl>
 1. [=list/For each=] |URL| in |URLs|:
     1. Let |site| be the result of running [=obtain a site=] given |URL|.
@@ -667,7 +604,7 @@ When the document is loaded at the end of a navigation, update the [=bounce trac
 
 Note: The [=bounce tracking record/final host=] is updated later than [=process response received for bounce tracking=]
 to ensure that the [=bounce tracking record/final host=] is a valid user destination. This is the one that has to be
-compared against when deciding to exempt a [=host=] in the [=record stateful bounces for bounce tracking=] algorithm.
+compared against when deciding to exempt a [=host=] in the [=record bounces for bounce tracking=] algorithm.
 
 Insert the following steps in the <a spec="html">load a document</a> algorithm,
 before Step 5, "Return null", which is the point that the [=document=] is loaded.
@@ -699,7 +636,7 @@ Every [=bounce tracking timer period=] the user agent should run the
 [=wall clock/unsafe current time=].
 
 Note: Running the deletion algorithm on a global timer has the effect of adding fuzz to the
-    delay between stateful bounce and data deletion. This mitigates adversarial leaks of
+    delay between bounce and data deletion. This mitigates adversarial leaks of
     interaction and bounce times. (See "Privacy and Security Considerations", below.)
 
 <div algorithm>
@@ -708,11 +645,11 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
 [=wall clock=] |now|, perform the following steps:
 
 1. [=map/For each=] |host| -> |activationTime| of [=user activation map=]:
-    1. [=Assert=] that [=stateful bounce tracking map=] does not
+    1. [=Assert=] that [=bounce tracking map=] does not
         [=map/contain=] |host|.
     1. If |activationTime| + [=bounce tracking activation lifetime=] is before
         |now|, then [=map/remove=] |host| from [=user activation map=].
-1. [=map/For each=] |host| -> |bounceTime| of [=stateful bounce tracking map=]:
+1. [=map/For each=] |host| -> |bounceTime| of [=bounce tracking map=]:
     1. [=Assert=] that [=user activation map=] does not [=map/contain=] |host|.
     1. If |bounceTime| + [=bounce tracking grace period=] is after |now|, then
         [=iteration/continue=].
@@ -720,7 +657,7 @@ To run the <dfn>bounce tracking timer</dfn> algorithm given a [=moment=] on the
         [=navigable/active document=]'s [=Document/origin=]'s
         [=obtain a site|site=]'s [=host=] equals |host|,
         then [=iteration/continue=].
-    1. [=map/Remove=] |host| from [=stateful bounce tracking map=].
+    1. [=map/Remove=] |host| from [=bounce tracking map=].
     1. [=Clear cookies for host=] given |host|.
     1. [=Clear non-cookie storage for host=] given |host|.
     1. [=Clear cache for host=] given |host|.
@@ -740,7 +677,7 @@ if:
 
 <div algorithm>
 
-To run the <dfn>record stateful bounces for bounce tracking</dfn> algorithm
+To run the <dfn>record bounces for bounce tracking</dfn> algorithm
 given a [=global object=] |global|, perform the following steps:
 
 1. Let |navigable| be |global|'s [=associated document=]'s [=node navigable=].
@@ -753,12 +690,10 @@ given a [=global object=] |global|, perform the following steps:
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/initial host=], [=iteration/continue=].
     1. If |host| [=host/equals=] |navigable|'s [=top-level traversable/bounce tracking record=]'s [=bounce tracking record/final host=], [=iteration/continue=].
     1. If [=user activation map=] [=map/contains=] |host|, [=iteration/continue=].
-    1. If [=stateful bounce tracking map=] [=map/contains=] |host|, [=iteration/continue=]. (Only the first bounce time since the
+    1. If [=bounce tracking map=] [=map/contains=] |host|, [=iteration/continue=]. (Only the first bounce time since the
         last execution of the [=bounce tracking timer=] is tracked in the map.)
-    1. If |navigable|'s [=top-level traversable/bounce tracking record=]'s
-        [=bounce tracking record/storage access set=] does not [=set/contain=] |host|, [=iteration/continue=].
     1. Let |topDocument| be |navigable|'s [=navigable/active document=].
-    1. Set [=stateful bounce tracking map=][|host|] to |topDocument|'s
+    1. Set [=bounce tracking map=][|host|] to |topDocument|'s
         [=relevant settings object=]'s [=environment settings object/current wall time=].
 1. Set |navigable|'s [=top-level traversable/bounce tracking record=] to null.
 
@@ -854,10 +789,10 @@ The [=remote end steps=] are:
 1. If no Bounce Tracking Mitigation Service is currently running, return a [=error|WebDriver error=] with
     [=error code=] [=unsupported operation=].
 
-1. If the [=stateful bounce tracking map=] contains a malformed host, return a [=error|WebDriver error=] with
+1. If the [=bounce tracking map=] contains a malformed host, return a [=error|WebDriver error=] with
     [=error code=] [=unknown error=].
 
-1. Let |list| be a new list of the [=site=] [=hosts=] in the [=stateful bounce tracking map=].
+1. Let |list| be a new list of the [=site=] [=hosts=] in the [=bounce tracking map=].
 
 1. Let |temp| be [=bounce tracking grace period=].
 
