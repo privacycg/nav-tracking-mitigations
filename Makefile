@@ -16,27 +16,29 @@ SHELL=/bin/bash -o pipefail
 all: publish update-explainer-toc
 
 clean:
-	rm -rf build *~
+	rm -rf index.html *~
 
-publish: build/index.html
+publish: index.html
 
 update-explainer-toc: README.md Makefile
 	doctoc $< --title "## Table of Contents" > /dev/null
 
-build/index.html: index.bs Makefile
-	mkdir -p build
+index.html: index.bs Makefile
 	bikeshed --die-on=warning spec $< $@
 
+# Build the spec using a remote version of bikeshed.
+#
+# Note that the remote bikeshed tool does not support uploading images and will
+# give a warning. Hence it will fail unless the warnings are allowed.
 remote: index.bs
-	mkdir -p build
 	@ (HTTP_STATUS=$$(curl https://api.csswg.org/bikeshed/ \
-	                       --output build/index.html \
+	                       --output index.html \
 	                       --write-out "%{http_code}" \
 	                       --header "Accept: text/plain, text/html" \
-	                       -F die-on=warning \
+	                       -F die-on=fatal \
 	                       -F file=@index.bs) && \
 	[[ "$$HTTP_STATUS" -eq "200" ]]) || ( \
-		echo ""; cat build/index.html; echo ""; \
-		rm -f build/index.html; \
+		echo ""; cat index.html; echo ""; \
+		rm -f index.html; \
 		exit 22 \
 	);

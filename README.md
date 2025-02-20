@@ -1,5 +1,13 @@
 # Navigation-based Tracking Mitigations
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of Contents
+
+- [Stakeholder Feedback / Opposition](#stakeholder-feedback--opposition)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 Work in this repository analyzes the problem of navigation-based cross-site
 tracking and seeks to change browser behavior in order to prevent it. See the
 **[Navigational-Tracking Mitigations
