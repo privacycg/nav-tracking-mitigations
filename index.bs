@@ -186,7 +186,7 @@ specification's mitigations. It will define a few classes of actors with the
 ability to modify websites in particular ways. Then it will define what
 cross-site information each of these actors can or cannot learn.
 
-<h3 id="threat-actors">Threat actors</h2>
+<h3 id="threat-actors">Threat actors</h3>
 
 TODO
 
@@ -583,7 +583,7 @@ Insert the following steps in the <a spec="storage">obtain a storage bottle map<
 
 Issue(whatwg/storage#165): This patch has to be run whenever a site accesses non-cookie storage.
 <a spec="storage">Obtain a storage bottle map</a> is the intended hook for this, but it does not currently have full coverage across specs that use storage.
-So this patch is not comprehensive.</p>
+So this patch is not comprehensive.
 
 <div algorithm>
 
