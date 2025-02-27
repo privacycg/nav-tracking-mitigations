@@ -4,7 +4,8 @@ Shortname: nav-tracking-mitigations
 Repository: privacycg/nav-tracking-mitigations
 URL: https://privacycg.github.io/nav-tracking-mitigations/
 Editor: Pete Snyder, w3cid 109401, Brave https://brave.com/, psnyder@brave.com
-Editor: Jeffrey Yasskin, w3cid 72192, Google https://google.com/, jyasskin@google.com
+Editor: Ari Chivukula, w3cid 132484, Google https://google.com/, arichiv@google.com
+Editor: Andrew Liu, w3cid 163583, Google https://google.com/, liuandrew@google.com
 Abstract: This specification defines navigational tracking and when and how browsers are required to prevent it from happening.
 Status Text: This specification is intended to be migrated to the W3C standards track. It is not a W3C standard.
 Text Macro: LICENSE <a href=http://www.w3.org/Consortium/Legal/2015/copyright-software-and-document>W3C Software and Document License</a>
