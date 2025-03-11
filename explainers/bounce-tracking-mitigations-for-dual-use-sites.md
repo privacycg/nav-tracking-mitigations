@@ -157,7 +157,7 @@ Another option is to allow sites to publicly attest (e.g., via a `.well-known` f
 
 ## Open questions
 
-_**TODO:** Create GitHub issues for each question after publicaiton and add links below_
+_**TODO:** Create GitHub issues for each question after publication and add links below_
 
 -  Are there any indicators of user trust not enumerated in this explainer that should be included?
    -  More specifically, are there any indicators of user trust that:
