@@ -20,14 +20,14 @@ broadly on all navigation-based tracking mechanisms.
 
 The spec is written in [Bikeshed](https://speced.github.io/bikeshed/) and is
 found in [`index.bs`](index.bs). You will need to install Bikeshed to build the
-spec.
+spec:
 
 ```sh
 pipx install bikeshed
 ```
 
 To build the spec, use the default Makefile target, and it will generate an
-`index.html` containing the spec.
+`index.html` containing the spec:
 
 ```sh
 Make
