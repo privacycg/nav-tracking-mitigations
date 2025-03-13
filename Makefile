@@ -1,13 +1,13 @@
 # This Makefile assumes you have a local install of bikeshed. Like any
 # other Python tool, you install it with pip:
 #
-#     python3 -m pip install bikeshed && bikeshed update
+#     pipx install bikeshed && bikeshed update
 
 SHELL=/bin/bash -o pipefail
 .PHONY: all publish clean remote
 .SUFFIXES: .bs .html
 
-all: publish update-explainer-toc
+all: publish
 
 clean:
 	rm -rf index.html *~

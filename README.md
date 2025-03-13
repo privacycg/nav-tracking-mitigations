@@ -16,8 +16,19 @@ of [proposal 6](https://github.com/privacycg/proposals/issues/6) of the [Privacy
 Community Group](https://privacycg.github.io/), but this work focuses more
 broadly on all navigation-based tracking mechanisms.
 
-## Stakeholder Feedback / Opposition
+## Local development
 
-- [Implementor A] : Positive
-- [Stakeholder B] : No signals
-- [Implementor C] : Negative
+The spec is written in [Bikeshed](https://speced.github.io/bikeshed/) and is
+found in [`index.bs`](index.bs). You will need to install Bikeshed to build the
+spec:
+
+```sh
+pipx install bikeshed
+```
+
+To build the spec, use the default Makefile target, and it will generate an
+`index.html` containing the spec:
+
+```sh
+Make
+```
