@@ -197,10 +197,10 @@ Many thanks for valuable feedback and advice from:
 - Giovanni Ortuño Urquidi, Google
 - Ryan Tarpine, Google
 
-[1]: https://github.com/privacycg/nav-tracking-mitigations/blob/main/bounce-tracking-explainer.md
+[1]: https://github.com/privacycg/nav-tracking-mitigations/blob/main/explainers/bounce-tracking-mitigations.md
 [2]: https://developer.mozilla.org/en-US/docs/Web/Security/User_activation
 [3]: https://github.com/disconnectme/disconnect-tracking-protection
 [4]: https://github.com/WICG/first-party-sets/
-[5]: https://github.com/privacycg/nav-tracking-mitigations/blob/main/bounce-tracking-explainer.md#key-scenarios
+[5]: https://github.com/privacycg/nav-tracking-mitigations/blob/main/explainers/bounce-tracking-mitigations.md#key-scenarios
 [6]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
 [7]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
