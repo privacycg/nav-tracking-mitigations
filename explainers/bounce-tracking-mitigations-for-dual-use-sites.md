@@ -157,16 +157,14 @@ Another option is to allow sites to publicly attest (e.g., via a `.well-known` f
 
 ## Open questions
 
-_**TODO:** Create GitHub issues for each question after publication and add links below_
-
--  Are there any indicators of user trust not enumerated in this explainer that should be included?
+-  [Are there any indicators of user trust not enumerated in this explainer that should be included?](https://github.com/privacycg/nav-tracking-mitigations/issues/102)
    -  More specifically, are there any indicators of user trust that:
       -  have a high true-positive rate for supported bounce use cases;
       -  cover supported bounce use cases that the enumerated indicators do not cover; and,
       -  don't create an easily exploitable evasion mechanism for bounce trackers?
--  Should classification of suspected bounce tracker URLs be done per client, in aggregate, or both?
+-  [Should classification of suspected bounce tracker URLs be done per client, in aggregate, or both?](https://github.com/privacycg/nav-tracking-mitigations/issues/103)
    -  If aggregated classification of suspected bounce tracker URLs should be done, what thresholds should be used for classification?
--  What URL-level mitigation should be applied to suspected bounce tracker URLs?
+-  [What URL-level mitigation should be applied to suspected bounce tracker URLs?](https://github.com/privacycg/nav-tracking-mitigations/issues/104)
 
 ## Security & privacy considerations
 
