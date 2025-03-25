@@ -8,7 +8,7 @@ Alternatively: URL-Level Bounce Tracking Mitigations
 
 ## Participate
 
-- [Issue tracker / discussion forum](https://github.com/privacycg/nav-tracking-mitigations/issues)
+- [Issue tracker / discussion forum](https://github.com/privacycg/nav-tracking-mitigations/issues/106)
 
 ## Introduction
 
